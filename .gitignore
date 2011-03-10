@@ -1,0 +1,13 @@
+target
+bin
+.classpath
+.project
+.settings
+.springBeans
+.ant-targets-build.xml
+src/ant/.ant-targets-upload-dist.xml
+*.swp
+erl_crash.dump
+nohup.out
+.idea
+*.iml
