@@ -7,6 +7,8 @@ bin
 .ant-targets-build.xml
 src/ant/.ant-targets-upload-dist.xml
 *.swp
+*/src/main/java/META-INF
+*/src/main/webapp/META-INF
 erl_crash.dump
 nohup.out
 .idea

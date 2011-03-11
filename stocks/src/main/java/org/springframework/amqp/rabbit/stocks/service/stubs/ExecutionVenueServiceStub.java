@@ -39,10 +39,12 @@ public class ExecutionVenueServiceStub implements ExecutionVenueService {
 	
 	public TradeResponse executeTradeRequest(TradeRequest request) {
 		TradeResponse response = new TradeResponse();
+		response.setAccountName(request.getAccountName());
 		response.setOrderType(request.getOrderType());
 		response.setPrice(calculatePrice(request.getTicker(), request.getQuantity(), request.getOrderType(), request.getPrice(), request.getUserName()));
 		response.setQuantity(request.getQuantity());
 		response.setTicker(request.getTicker());
+		response.setRequestId(request.getId());
 		response.setConfirmationNumber(UUID.randomUUID().toString());
 		
 		

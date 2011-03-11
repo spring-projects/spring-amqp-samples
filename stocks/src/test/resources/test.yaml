@@ -1,0 +1,17 @@
+---
+# Process this file with mustache (gem install mustache)
+"headers" : {
+	timestamp : 1292408628296,
+	"id": "f301e4cc-6246-4aab-bcf3-a44263c0946b",
+	ages: bar
+}
+more : {
+	names: [ {name: chris}, {name: mark}, {name: scott} ]
+}
+---
+{{#more}}
+{{#names}}
+  Hi {{name}}!
+{{/names}}
+{{/more}}
+

@@ -82,8 +82,7 @@ public class RabbitMarketDataGateway extends RabbitGatewaySupport implements Mar
 		private final DecimalFormat twoPlacesFormat = new DecimalFormat("0.00");
 
 		private MockStock(String ticker, StockExchange stockExchange, int basePrice) {
-			this.setTicker(ticker);
-			this.setStockExchange(stockExchange);
+			super(stockExchange, ticker);
 			this.basePrice = basePrice;
 		}
 

@@ -1,42 +1,54 @@
 /*
  * Copyright 2002-2010 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
  */
 package org.springframework.amqp.rabbit.stocks.domain;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
- * Simple trade request 'data' object.  No functionality in this 'domain' class.
+ * Simple trade request 'data' object. No functionality in this 'domain' class.
  * @author Mark Pollack
- *
+ * 
  */
 public class TradeResponse {
 
-    private String ticker;
+	private String ticker;
 
-    private long quantity;
+	private long quantity;
 
-    private BigDecimal price;
+	private BigDecimal price;
 
-    private String orderType;
+	private String orderType;
 
-    private String confirmationNumber;
+	private String confirmationNumber;
 
-    private boolean error;
+	private boolean error;
 
-    private String errorMessage;
+	private String errorMessage;
+
+	private String accountName;
+	
+	private long timestamp = new Date().getTime();
+	
+	private String requestId;
+
+	public String getRequestId() {
+		return requestId;
+	}
+
+	public void setRequestId(String requestId) {
+		this.requestId = requestId;
+	}
 
 	public String getTicker() {
 		return ticker;
@@ -78,6 +90,14 @@ public class TradeResponse {
 		this.confirmationNumber = confirmationNumber;
 	}
 
+	public String getAccountName() {
+		return accountName;
+	}
+
+	public void setAccountName(String accountName) {
+		this.accountName = accountName;
+	}
+
 	public boolean isError() {
 		return error;
 	}
@@ -94,14 +114,19 @@ public class TradeResponse {
 		this.errorMessage = errorMessage;
 	}
 
+	public long getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(long timestamp) {
+		this.timestamp = timestamp;
+	}
+
 	@Override
 	public String toString() {
-		return "TradeResponse [confirmationNumber=" + confirmationNumber
-				+ ", error=" + error + ", errorMessage=" + errorMessage
-				+ ", orderType=" + orderType + ", price=" + price
+		return "TradeResponse [accountName=" + accountName + ", confirmationNumber=" + confirmationNumber + ", error="
+				+ error + ", errorMessage=" + errorMessage + ", orderType=" + orderType + ", price=" + price
 				+ ", quantity=" + quantity + ", ticker=" + ticker + "]";
 	}
-    
-	
-	
+
 }

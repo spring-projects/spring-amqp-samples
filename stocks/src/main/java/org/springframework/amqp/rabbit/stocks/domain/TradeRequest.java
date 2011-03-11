@@ -16,6 +16,7 @@
 package org.springframework.amqp.rabbit.stocks.domain;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 /**
  * Simple trade request 'data' object.  No functionality in this 'domain' class.
@@ -39,6 +40,8 @@ public class TradeRequest {
     private String userName;
 
     private String requestId;
+    
+    private String id = UUID.randomUUID().toString();
 
 	public String getTicker() {
 		return ticker;
@@ -104,6 +107,13 @@ public class TradeRequest {
 		this.requestId = requestId;
 	}
 
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
     
     
 }

@@ -71,13 +71,13 @@ public class StockController {
 	}
 
     public void displayQuote(Quote quote) {
-    	//TODO race condition with message delivery and initalization... use @Configurable?
+    	//TODO race condition with message delivery and initialization... use @Configurable?
     	if (stockPanel != null) {
     		stockPanel.displayQuote(quote);
     	}
     }
 
-    public void UpdateTrade(TradeResponse tradeResponse) {
+    public void updateTrade(TradeResponse tradeResponse) {
     	stockPanel.update(tradeResponse);
     }
 

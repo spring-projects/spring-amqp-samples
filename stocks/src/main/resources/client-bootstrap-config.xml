@@ -8,12 +8,10 @@
 	<!--  pick up rabbit broker configuration -->
 	<context:component-scan base-package="org.springframework.amqp.rabbit.stocks.config.client"/>
 
-	<context:property-placeholder location="client.properties"/>
+	<context:property-placeholder location="classpath:/client.properties"/>
 
 	<import resource="classpath:client-handlers.xml" />
 
-	<!-- 
 	<import resource="classpath:client-messaging.xml" />
-	-->
 
 </beans>

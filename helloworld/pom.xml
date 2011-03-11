@@ -17,7 +17,7 @@
 	<properties>
 		<maven.test.failure.ignore>true</maven.test.failure.ignore>
 		<spring.framework.version>3.0.3.RELEASE</spring.framework.version>
-		<spring.amqp.version>1.0.0.M3</spring.amqp.version>
+		<spring.amqp.version>1.0.0.BUILD-SNAPSHOT</spring.amqp.version>
 	</properties>
 	<profiles>
 		<profile>

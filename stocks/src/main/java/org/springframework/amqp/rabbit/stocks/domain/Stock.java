@@ -18,6 +18,7 @@ package org.springframework.amqp.rabbit.stocks.domain;
 
 /**
  * @author Mark Fisher
+ * @author Dave Syer
  */
 public class Stock {
 
@@ -25,20 +26,34 @@ public class Stock {
 
 	private StockExchange stockExchange;
 
-	public String getTicker() {
-		return ticker;
+	// For de-seialization:
+	public Stock() {
+	}
+	
+	public Stock(StockExchange stockExchange, String ticker) {
+		this.stockExchange = stockExchange;
+		this.ticker = ticker;
 	}
 
-	public void setTicker(String ticker) {
-		this.ticker = ticker;
+	public String getTicker() {
+		return ticker;
 	}
 
 	public StockExchange getStockExchange() {
 		return stockExchange;
 	}
 
+	public void setTicker(String ticker) {
+		this.ticker = ticker;
+	}
+
 	public void setStockExchange(StockExchange stockExchange) {
 		this.stockExchange = stockExchange;
+	}
+
+	@Override
+	public String toString() {
+		return "Stock [ticker=" + ticker + ", stockExchange=" + stockExchange + "]";
 	}
 
 }

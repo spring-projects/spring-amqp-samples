@@ -39,6 +39,8 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.amqp.rabbit.stocks.domain.Quote;
 import org.springframework.amqp.rabbit.stocks.domain.Stock;
 import org.springframework.amqp.rabbit.stocks.domain.TradeResponse;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
@@ -115,11 +117,14 @@ public class StockPanel extends JPanel {
 	}
 
 	public static void main(String[] a) {
+		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("client-bootstrap-config.xml");
+		StockController controller = context.getBean(StockController.class);
 		JFrame f = new JFrame("Rabbit Stock Demo");
-		f.setDefaultCloseOperation(2);
-		f.add(new StockPanel(new StockController()));
-		f.pack();
-		f.setVisible(true);
+	    f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    //TODO consider @Configurable
+	    f.add(new StockPanel(controller));
+	    f.pack();
+	    f.setVisible(true);	    	
 	}
 
 	public void displayQuote(final Quote quote) {

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.springframework.samples.spring</groupId>
 	<artifactId>spring-rabbit-stocks</artifactId>
 	<version>1.0.0.BUILD-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 	<name>Spring Rabbit Stocks</name>
 	<url>http://www.springframework.org</url>
 	<description>
@@ -16,8 +15,8 @@
 	</description>
 	<properties>
 		<maven.test.failure.ignore>true</maven.test.failure.ignore>
-		<spring.framework.version>3.0.3.RELEASE</spring.framework.version>
-		<spring.amqp.version>1.0.0.M3</spring.amqp.version>
+		<spring.framework.version>3.0.5.RELEASE</spring.framework.version>
+		<spring.amqp.version>1.0.0.BUILD-SNAPSHOT</spring.amqp.version>
 	</properties>
 	<profiles>
 		<profile>
@@ -29,18 +28,18 @@
 	</profiles>
 
 	<dependencies>
-	
+
 		<dependency>
-  			<groupId>org.springframework.amqp</groupId>
-  			<artifactId>spring-amqp</artifactId>
-  			<version>${spring.amqp.version}</version>
+			<groupId>org.springframework.amqp</groupId>
+			<artifactId>spring-amqp</artifactId>
+			<version>${spring.amqp.version}</version>
 		</dependency>
 		<dependency>
-  			<groupId>org.springframework.amqp</groupId>
-  			<artifactId>spring-rabbit</artifactId>
-  			<version>${spring.amqp.version}</version>
+			<groupId>org.springframework.amqp</groupId>
+			<artifactId>spring-rabbit</artifactId>
+			<version>${spring.amqp.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
@@ -64,6 +63,30 @@
 			<version>${spring.framework.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${spring.framework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.1.2</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<artifactId>standard</artifactId>
+			<groupId>taglibs</groupId>
+			<version>1.1.2</version>
+			<type>jar</type>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
 			<groupId>cglib</groupId>
 			<artifactId>cglib-nodep</artifactId>
 			<version>2.2</version>
@@ -78,28 +101,28 @@
 			<artifactId>aspectjweaver</artifactId>
 			<version>1.5.4</version>
 		</dependency>
-		
-		
+
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.8.1</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.14</version>
 			<scope>runtime</scope>
 		</dependency>
-		
+
 		<dependency>
-		  <groupId>com.jgoodies</groupId>
-		  <artifactId>forms</artifactId>
-		  <version>1.2.1</version>
+			<groupId>com.jgoodies</groupId>
+			<artifactId>forms</artifactId>
+			<version>1.2.1</version>
 		</dependency>
-		
+
 	</dependencies>
 
 	<build>
@@ -123,6 +146,10 @@
 		</pluginManagement>
 		<plugins>
 			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>maven-jetty-plugin</artifactId>
+			</plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
@@ -134,7 +161,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
-					<!--forkMode>pertest</forkMode-->
+					<!--forkMode>pertest</forkMode -->
 					<includes>
 						<include>**/*Tests.java</include>
 					</includes>

@@ -52,7 +52,7 @@ public class ClientHandler {
 
 	public void handleMessage(TradeResponse tradeResponse) {
 		log.info("Received trade repsonse. [" + tradeResponse + "]");
-		stockController.UpdateTrade(tradeResponse);
+		stockController.updateTrade(tradeResponse);
 	}
 
 }
