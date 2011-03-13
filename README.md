@@ -23,6 +23,18 @@ In the example above we backgrounded the server process, or you could
 run it in a different window to make things clearer in the console
 logs.
 
+## Web UI
+
+The Stocks sample is also a web application.  You should be able to run it in your IDE, e.g. if you imported the project into STS (or Eclipse with Maven support) you can drag it onto a server, or use `Run As...->On Server`.  From the command line you can use
+
+    $ mvn jetty:run
+    
+The web UI is designed like the swing client - it has a ticker table
+that updates every second (if there is any new data), and an order
+entry form. The `QuoteController` manages the interaction between the
+browser and the application and between the application and the AMQP
+broker.
+
 # Contributing to Spring AMQP Samples
 
 Here are some ways for you to get involved in the community:
