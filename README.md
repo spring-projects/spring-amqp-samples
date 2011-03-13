@@ -10,6 +10,12 @@ Install the [RabbitMQ](http://www.rabbitmq.com) broker first (version
 
 SpringSource ToolSuite users (or Eclipse users with the latest
 m2eclipse plugin) can import the projects as existing Maven projects.
+
+The basic HelloWorld sample has two versions (with synchronous and
+asynchronous consumers).  Both have two Java classes called `Producer`
+and `Consumer` with main methods to launch.  Run the producer first
+and ensure that the broker is already running.
+
 The Stocks sample has a UI that can be launched as a Java main, and a
 daemon server process with the same properties.  You can run them from
 an IDE easily.  Run the `Server` and then the `Client` and you should
