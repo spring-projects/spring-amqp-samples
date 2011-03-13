@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.springframework.amqp</groupId>
+	<artifactId>spring-amqp-samples</artifactId>
+	<name>Spring AMQP Distribution</name>
+	<version>1.0.0.BUILD-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<modules> 
+		<module>helloworld</module>
+		<module>stocks</module>
+	</modules>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<profiles>
+		<profile>
+			<id>staging</id>
+			<properties>
+			  <dist.staging>/${java.io.tmpdir}/spring-amqp/dist</dist.staging>
+			</properties>
+			<distributionManagement>
+				<site>
+					<id>spring-site-staging</id>
+					<url>file:///${java.io.tmpdir}/spring-amqp/docs/${project.version}</url>
+				</site>
+				<repository>
+					<id>spring-milestone-staging</id>
+					<url>file:///${java.io.tmpdir}/spring-amqp/milestone</url>
+				</repository>
+				<snapshotRepository>
+					<id>spring-snapshot-staging</id>
+					<url>file:///${java.io.tmpdir}/spring-amqp/snapshot</url>
+				</snapshotRepository>
+			</distributionManagement>
+		</profile>
+	</profiles>
+	<scm>
+		<url>http://github.com/SpringSource/spring-amqp-samples</url>
+		<connection>scm:git:git://github.com/SpringSource/spring-amqp-samples.git</connection>
+		<developerConnection>scm:git:git://github.com/SpringSource/spring-amqp-samples.git</developerConnection>
+	</scm>
+	<distributionManagement>
+		<!-- see 'staging' profile for dry-run deployment settings -->
+		<downloadUrl>http://github.com/SpringSource/spring-amqp-samples</downloadUrl>
+		<site>
+			<id>spring-site</id>
+			<url>scp://static.springframework.org/var/www/domains/springframework.org/static/htdocs/spring-amqp/docs/${project.version}</url>
+		</site>
+		<repository>
+			<id>spring-milestone</id>
+			<name>Spring Milestone Repository</name>
+			<url>s3://maven.springframework.org/milestone</url>
+		</repository>
+		<snapshotRepository>
+			<id>spring-snapshot</id>
+			<name>Spring Snapshot Repository</name>
+			<url>s3://maven.springframework.org/snapshot</url>
+		</snapshotRepository>
+	</distributionManagement>
+	<build>
+		<extensions>
+			<extension>
+				<!-- available only in the springframework maven repository. see <repositories> section below -->
+				<groupId>org.springframework.build.aws</groupId>
+				<artifactId>org.springframework.build.aws.maven</artifactId>
+				<version>3.0.0.RELEASE</version>
+			</extension>
+		</extensions>
+	</build>
+	<repositories>
+		<repository>
+			<id>repository.springframework.maven.release</id>
+			<name>Spring Framework Maven Release Repository</name>
+			<url>http://maven.springframework.org/release</url>
+		</repository>
+		<repository>
+			<id>repository.springframework.maven.milestone</id>
+			<name>Spring Framework Maven Milestone Repository</name>
+			<url>http://maven.springframework.org/milestone</url>
+		</repository>
+		<repository>
+			<!-- necessary for org.springframework.build.aws.maven dependency -->
+			<id>repository.source.maven.release</id>
+			<name>SpringSource Maven Release Repository</name>
+			<url>http://repository.springsource.com/maven/bundles/release</url>
+		</repository>
+	</repositories>
+</project>

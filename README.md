@@ -10,13 +10,18 @@ Install the [RabbitMQ](http://www.rabbitmq.com) broker first (version
 
 SpringSource ToolSuite users (or Eclipse users with the latest
 m2eclipse plugin) can import the projects as existing Maven projects.
-The Stocks sample has a UI that can be launched either as a unit test
-or as a Java main, and a daemon server process with the same
-properties.  They don't run from the Maven command line because their
-classnames don't match the pattern configured in the project for unit
-tests, but you can run them from an IDE easily.  Run the `Server` and
-then the `Client` and you should see a swing client pop up and stock
-tickers appearing.
+The Stocks sample has a UI that can be launched as a Java main, and a
+daemon server process with the same properties.  You can run them from
+an IDE easily.  Run the `Server` and then the `Client` and you should
+see a swing client pop up and stock tickers appearing.  To run from
+the command line you can use the Maven exec plugin:
+
+    $ mvn exec:java -Dexec.classpathScope=test -Dexec.mainClass=org.springframework.amqp.rabbit.stocks.Server &
+    $ mvn exec:java -Dexec.classpathScope=test -Dexec.mainClass=org.springframework.amqp.rabbit.stocks.Client
+    
+In the example above we backgrounded the server process, or you could
+run it in a different window to make things clearer in the console
+logs.
 
 # Contributing to Spring AMQP Samples
 
