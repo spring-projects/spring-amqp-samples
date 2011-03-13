@@ -3,8 +3,8 @@ package org.springframework.amqp.helloworld.async;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.springframework.amqp.rabbit.config.AbstractRabbitConfiguration;
+import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.amqp.rabbit.connection.SingleConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
@@ -27,7 +27,7 @@ public class ProducerConfiguration extends AbstractRabbitConfiguration {
 
 	@Bean
 	public ConnectionFactory connectionFactory() {
-		SingleConnectionFactory connectionFactory = new SingleConnectionFactory("localhost");
+		CachingConnectionFactory connectionFactory = new CachingConnectionFactory("localhost");
 		connectionFactory.setUsername("guest");
 		connectionFactory.setPassword("guest");
 		return connectionFactory;

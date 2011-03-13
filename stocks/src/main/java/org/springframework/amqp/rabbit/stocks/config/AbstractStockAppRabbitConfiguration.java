@@ -19,7 +19,7 @@ package org.springframework.amqp.rabbit.stocks.config;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.config.AbstractRabbitConfiguration;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.amqp.rabbit.connection.SingleConnectionFactory;
+import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
@@ -58,7 +58,7 @@ public abstract class AbstractStockAppRabbitConfiguration extends AbstractRabbit
 	@Bean
 	public ConnectionFactory connectionFactory() {
 		//TODO make it possible to customize in subclasses.
-		SingleConnectionFactory connectionFactory = new SingleConnectionFactory("localhost");
+		CachingConnectionFactory connectionFactory = new CachingConnectionFactory("localhost");
 		connectionFactory.setUsername("guest");
 		connectionFactory.setPassword("guest");
 		return connectionFactory;
