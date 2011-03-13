@@ -1,23 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context" xmlns:mvc="http://www.springframework.org/schema/mvc"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+		http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-	<!--  pick up rabbit broker configuration -->
-	<context:component-scan base-package="org.springframework.amqp.rabbit.stocks.config.servlet"/>
-
-	<context:property-placeholder location="classpath:/client.properties"/>
-
-	<bean class="org.springframework.amqp.rabbit.stocks.web.QuoteController">
-		<property name="stockServiceGateway" ref="stockServiceGateway"/>
+	<bean id="stockServiceGateway"
+		class="org.springframework.amqp.rabbit.stocks.gateway.RabbitStockServiceGateway">
+		<property name="rabbitTemplate">
+			<bean class="org.springframework.amqp.rabbit.core.RabbitTemplate">
+				<property name="connectionFactory" ref="connectionFactory" />
+				<property name="routingKey" value="app.stock.request" />
+				<property name="messageConverter" ref="jsonMessageConverter"/>
+			</bean>
+		</property>
+		<property name="defaultReplyToQueue" ref="tradeQueue" />
 	</bean>
 
-	<mvc:resources location="file:./src/main/resources/static/,classpath:/static/" mapping="static/**" />
+	<rabbit:queue name="tradeQueue" />
 
-	<mvc:default-servlet-handler/>
-	
-	<mvc:annotation-driven/>
+	<rabbit:queue name="marketDataQueue" />
+
+	<rabbit:fanout-exchange name="broadcast.responses">
+		<rabbit:bindings>
+			<rabbit:binding queue="tradeQueue" />
+		</rabbit:bindings>
+	</rabbit:fanout-exchange>
+
+	<rabbit:topic-exchange name="app.stock.marketdata">
+		<rabbit:bindings>
+			<rabbit:binding queue="marketDataQueue" pattern="${stocks.quote.pattern}" />
+		</rabbit:bindings>
+	</rabbit:topic-exchange>
+
+	<rabbit:listener-container
+		connection-factory="connectionFactory" message-converter="jsonMessageConverter">
+		<rabbit:listener ref="quoteController" method="handleMessage"
+			queue-names="marketDataQueue,tradeQueue" />
+	</rabbit:listener-container>
+
+	<bean class="org.springframework.amqp.rabbit.core.RabbitAdmin">
+		<constructor-arg ref="connectionFactory" />
+	</bean>
+
+	<bean id="connectionFactory"
+		class="org.springframework.amqp.rabbit.connection.CachingConnectionFactory" />
+
+	<context:property-placeholder location="classpath:/client.properties" />
+
+	<bean id="quoteController"
+		class="org.springframework.amqp.rabbit.stocks.web.QuoteController">
+		<property name="stockServiceGateway" ref="stockServiceGateway" />
+	</bean>
+
+	<mvc:resources location="file:./src/main/resources/static/,classpath:/static/"
+		mapping="static/**" />
+
+	<mvc:default-servlet-handler />
+
+	<mvc:annotation-driven />
 
 </beans>
