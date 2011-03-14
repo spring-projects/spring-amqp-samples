@@ -72,7 +72,7 @@ public class QuoteController {
 		}
 	}
 
-	public void handleMessage(Quote message) {
+	public void handleQuote(Quote message) {
 		logger.info("Client received: " + message);
 		long timestamp = System.currentTimeMillis() - timeout;
 		for (Iterator<Quote> iterator = quotes.iterator(); iterator.hasNext();) {
