@@ -37,8 +37,8 @@
 
 	<listener-container
 		connection-factory="connectionFactory" message-converter="jsonMessageConverter" xmlns="http://www.springframework.org/schema/rabbit">
-		<listener ref="quoteController" method="handleMessage"
-			queue-names="marketDataQueue,tradeQueue" />
+		<listener ref="quoteController" method="handleQuote" queue-names="marketDataQueue" />
+		<listener ref="quoteController" method="handleTrade" queue-names="tradeQueue" />
 	</listener-container>
 	
 	<rabbit:admin connection-factory="connectionFactory"/>
