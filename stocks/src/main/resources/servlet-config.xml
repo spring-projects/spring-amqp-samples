@@ -23,23 +23,23 @@
 
 	<rabbit:queue name="marketDataQueue" />
 
-	<rabbit:fanout-exchange name="broadcast.responses">
-		<rabbit:bindings>
-			<rabbit:binding queue="tradeQueue" />
-		</rabbit:bindings>
-	</rabbit:fanout-exchange>
+	<fanout-exchange name="broadcast.responses" xmlns="http://www.springframework.org/schema/rabbit">
+		<bindings>
+			<binding queue="tradeQueue" />
+		</bindings>
+	</fanout-exchange>
 
-	<rabbit:topic-exchange name="app.stock.marketdata">
-		<rabbit:bindings>
-			<rabbit:binding queue="marketDataQueue" pattern="${stocks.quote.pattern}" />
-		</rabbit:bindings>
-	</rabbit:topic-exchange>
+	<topic-exchange name="app.stock.marketdata" xmlns="http://www.springframework.org/schema/rabbit">
+		<bindings>
+			<binding queue="marketDataQueue" pattern="${stocks.quote.pattern}" />
+		</bindings>
+	</topic-exchange>
 
-	<rabbit:listener-container
-		connection-factory="connectionFactory" message-converter="jsonMessageConverter">
-		<rabbit:listener ref="quoteController" method="handleMessage"
+	<listener-container
+		connection-factory="connectionFactory" message-converter="jsonMessageConverter" xmlns="http://www.springframework.org/schema/rabbit">
+		<listener ref="quoteController" method="handleMessage"
 			queue-names="marketDataQueue,tradeQueue" />
-	</rabbit:listener-container>
+	</listener-container>
 	
 	<rabbit:admin connection-factory="connectionFactory"/>
 
