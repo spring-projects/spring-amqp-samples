@@ -40,10 +40,8 @@
 		<rabbit:listener ref="quoteController" method="handleMessage"
 			queue-names="marketDataQueue,tradeQueue" />
 	</rabbit:listener-container>
-
-	<bean class="org.springframework.amqp.rabbit.core.RabbitAdmin">
-		<constructor-arg ref="connectionFactory" />
-	</bean>
+	
+	<rabbit:admin connection-factory="connectionFactory"/>
 
 	<bean id="connectionFactory"
 		class="org.springframework.amqp.rabbit.connection.CachingConnectionFactory" />
