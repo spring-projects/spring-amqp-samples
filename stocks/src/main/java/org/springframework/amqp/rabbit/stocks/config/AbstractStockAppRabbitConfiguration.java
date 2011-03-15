@@ -23,6 +23,7 @@ import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -52,6 +53,9 @@ public abstract class AbstractStockAppRabbitConfiguration extends AbstractRabbit
 	 */
 	protected static String STOCK_REQUEST_ROUTING_KEY = STOCK_REQUEST_QUEUE_NAME;
 	
+	@Value("${amqp.port:5672}") 
+	private int port = 5672;
+	
 
 	protected abstract void configureRabbitTemplate(RabbitTemplate template);
 
@@ -61,6 +65,7 @@ public abstract class AbstractStockAppRabbitConfiguration extends AbstractRabbit
 		CachingConnectionFactory connectionFactory = new CachingConnectionFactory("localhost");
 		connectionFactory.setUsername("guest");
 		connectionFactory.setPassword("guest");
+		connectionFactory.setPort(port);
 		return connectionFactory;
 	}
 

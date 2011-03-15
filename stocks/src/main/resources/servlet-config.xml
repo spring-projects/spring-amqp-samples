@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:rabbit="http://www.springframework.org/schema/rabbit"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
 		http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.0.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-	<bean id="stockServiceGateway"
-		class="org.springframework.amqp.rabbit.stocks.gateway.RabbitStockServiceGateway">
+	<bean id="stockServiceGateway" class="org.springframework.amqp.rabbit.stocks.gateway.RabbitStockServiceGateway">
 		<property name="rabbitTemplate">
 			<bean class="org.springframework.amqp.rabbit.core.RabbitTemplate">
 				<property name="connectionFactory" ref="connectionFactory" />
 				<property name="routingKey" value="app.stock.request" />
-				<property name="messageConverter" ref="jsonMessageConverter"/>
+				<property name="messageConverter" ref="jsonMessageConverter" />
 			</bean>
 		</property>
 		<property name="defaultReplyToQueue" ref="tradeQueue" />
@@ -35,26 +34,23 @@
 		</bindings>
 	</topic-exchange>
 
-	<listener-container
-		connection-factory="connectionFactory" message-converter="jsonMessageConverter" xmlns="http://www.springframework.org/schema/rabbit">
+	<listener-container connection-factory="connectionFactory" message-converter="jsonMessageConverter"
+		xmlns="http://www.springframework.org/schema/rabbit">
 		<listener ref="quoteController" method="handleQuote" queue-names="marketDataQueue" />
 		<listener ref="quoteController" method="handleTrade" queue-names="tradeQueue" />
 	</listener-container>
-	
-	<rabbit:admin connection-factory="connectionFactory"/>
 
-	<bean id="connectionFactory"
-		class="org.springframework.amqp.rabbit.connection.CachingConnectionFactory" />
+	<rabbit:admin connection-factory="connectionFactory" />
+
+	<bean id="connectionFactory" class="org.springframework.amqp.rabbit.connection.CachingConnectionFactory" />
 
 	<context:property-placeholder location="classpath:/client.properties" />
 
-	<bean id="quoteController"
-		class="org.springframework.amqp.rabbit.stocks.web.QuoteController">
+	<bean id="quoteController" class="org.springframework.amqp.rabbit.stocks.web.QuoteController">
 		<property name="stockServiceGateway" ref="stockServiceGateway" />
 	</bean>
 
-	<mvc:resources location="file:./src/main/resources/static/,classpath:/static/"
-		mapping="static/**" />
+	<mvc:resources location="file:./src/main/resources/static/,classpath:/static/" mapping="static/**" />
 
 	<mvc:default-servlet-handler />
 

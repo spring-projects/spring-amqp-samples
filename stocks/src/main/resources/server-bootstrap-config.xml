@@ -7,6 +7,8 @@
 		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
+	<context:property-placeholder system-properties-mode="OVERRIDE"/>
+
 	<!--  pick up rabbit broker configuration -->
 	<context:component-scan base-package="org.springframework.amqp.rabbit.stocks.config.server"/>
 	
