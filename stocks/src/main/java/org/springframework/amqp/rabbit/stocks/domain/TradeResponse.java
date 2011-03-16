@@ -124,8 +124,10 @@ public class TradeResponse {
 
 	@Override
 	public String toString() {
-		return "TradeResponse [accountName=" + accountName + ", confirmationNumber=" + confirmationNumber + ", error="
-				+ error + ", errorMessage=" + errorMessage + ", orderType=" + orderType + ", price=" + price
+		return "TradeResponse [accountName=" + accountName + ", requestId="
+				+ requestId + ", confirmationNumber=" + confirmationNumber
+				+ ", error=" + error + ", errorMessage=" + errorMessage
+				+ ", orderType=" + orderType + ", price=" + price
 				+ ", quantity=" + quantity + ", ticker=" + ticker + "]";
 	}
 

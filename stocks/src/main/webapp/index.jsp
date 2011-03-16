@@ -81,7 +81,8 @@
 	}
 	function confirm(id) {
 		if (lasttrades.id) {
-			clearTimeout(lasttrades.id)
+			clearTimeout(lasttrades.id);
+			delete lasttrades.id;
 		}
 		$.get("trade?requestId=" + id, function(response) {
 			if (response && response.requestId) {
@@ -90,11 +91,12 @@
 				}));
 				delete lasttrades.id;
 			} else {
-				lasttrades.id = setTimeout("confirm('" + id + "')", 1000);
+				lasttrades.id = setTimeout("confirm('" + id + "')", 2000);
 			}
 		});
 	}
 	$(function() {
+		$.ajaxSetup({cache:false});
 		$('#start').click(start);
 		$('#stop').click(stop);
 		$('#clear').click(clear);
@@ -109,7 +111,7 @@
 											function(request) {
 												var message = "Processing...";
 												if (request && request.ticker) {
-													confirm(request.id)
+													confirm(request.id);
 												} else {
 													message = "The trade request was invalid.  Please provide a quantity and a stock ticker.";
 												}
