@@ -138,6 +138,11 @@
 		<!-- /header -->
 		<div id="container">
 			<div id="content" class="no-side-nav">
+				This application is a the "stocks" sample from <a
+					href="http://github.com/SpringSource/spring-amqp">Spring AMQP</a>.
+				You can get the source code from the <a
+					href="http://github.com/SpringSource/spring-amqp-samples">Spring
+					AMQP Samples</a> project on Github.
 				<h1>Deal</h1>
 				<c:choose>
 					<c:when test="trade!=null">
