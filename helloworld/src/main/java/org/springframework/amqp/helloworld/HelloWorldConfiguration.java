@@ -32,12 +32,12 @@ public class HelloWorldConfiguration extends AbstractRabbitConfiguration {
 	}
 
 	@Bean
+	// Every queue is bound to the default direct exchange
 	public Queue helloWorldQueue() {
 		return new Queue(this.helloWorldQueueName);
 	}
 
 	/*
-	//Each queue is bound to the default direct exchange
 	@Bean 
 	public Binding binding() {
 		return declare(new Binding(helloWorldQueue(), defaultDirectExchange()));
