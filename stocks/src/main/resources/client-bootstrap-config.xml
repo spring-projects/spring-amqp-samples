@@ -12,6 +12,7 @@
 
 	<import resource="classpath:client-handlers.xml" />
 
-	<import resource="classpath:client-messaging.xml" />
+	<!-- XML version of RabbitClientConfiguration -->
+	<!-- import resource="classpath:client-messaging.xml" /-->
 
 </beans>

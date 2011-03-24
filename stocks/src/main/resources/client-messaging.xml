@@ -6,7 +6,7 @@
 
 	<bean id="stockServiceGateway" class="org.springframework.amqp.rabbit.stocks.gateway.RabbitStockServiceGateway">
 		<property name="rabbitTemplate" ref="rabbitTemplate" />
-	    <property name="defaultReplyToQueue" value="#{traderJoeQueue.name}" />
+	    <property name="defaultReplyTo" value="#{traderJoeQueue.name}" />
 	</bean>
 
 	<listener-container concurrency="5" connection-factory="connectionFactory" message-converter="jsonMessageConverter"

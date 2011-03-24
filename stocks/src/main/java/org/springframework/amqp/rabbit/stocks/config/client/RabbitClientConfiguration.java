@@ -70,7 +70,7 @@ public class RabbitClientConfiguration extends AbstractStockAppRabbitConfigurati
 	public StockServiceGateway stockServiceGateway() {
 		RabbitStockServiceGateway gateway = new RabbitStockServiceGateway();
 		gateway.setRabbitTemplate(rabbitTemplate());
-		gateway.setDefaultReplyToQueue(traderJoeQueue());
+		gateway.setDefaultReplyTo(traderJoeQueue().getName());
 		return gateway;
 	}
 

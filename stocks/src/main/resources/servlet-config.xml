@@ -15,7 +15,7 @@
 				<property name="messageConverter" ref="jsonMessageConverter" />
 			</bean>
 		</property>
-		<property name="defaultReplyToQueue" ref="tradeQueue" />
+		<property name="defaultReplyTo" value="fanout://broadcast.responses/" />
 	</bean>
 
 	<rabbit:queue id="tradeQueue" />

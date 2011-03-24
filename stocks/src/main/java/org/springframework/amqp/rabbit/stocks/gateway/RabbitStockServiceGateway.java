@@ -23,7 +23,6 @@ import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.core.Address;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessagePostProcessor;
-import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.support.RabbitGatewaySupport;
 import org.springframework.amqp.rabbit.stocks.domain.TradeRequest;
 
@@ -34,20 +33,16 @@ import org.springframework.amqp.rabbit.stocks.domain.TradeRequest;
  */
 public class RabbitStockServiceGateway extends RabbitGatewaySupport implements StockServiceGateway {
 
-	private String defaultReplyToQueue;
+	private String defaultReplyTo;
 	
-	public void setDefaultReplyToQueue(String defaultReplyToQueue) {
-		this.defaultReplyToQueue = defaultReplyToQueue;
+	public void setDefaultReplyTo(String defaultReplyTo) {
+		this.defaultReplyTo = defaultReplyTo;
 	}
 	
-	public void setDefaultReplyToQueue(Queue defaultReplyToQueue) {
-		this.defaultReplyToQueue = defaultReplyToQueue.getName();
-	}
-
 	public void send(TradeRequest tradeRequest) {
 		getRabbitTemplate().convertAndSend(tradeRequest, new MessagePostProcessor() {
 			public Message postProcessMessage(Message message) throws AmqpException {
-				message.getMessageProperties().setReplyTo(new Address(defaultReplyToQueue));
+				message.getMessageProperties().setReplyTo(new Address(defaultReplyTo));
 				try {
 					message.getMessageProperties().setCorrelationId(UUID.randomUUID().toString().getBytes("UTF-8"));
 				}
