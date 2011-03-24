@@ -16,6 +16,7 @@
 
 package org.springframework.amqp.rabbit.stocks;
 
+import org.junit.After;
 import org.junit.Test;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -27,13 +28,22 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class Server {
 
+	private ClassPathXmlApplicationContext context;
+
 	public static void main(String[] args) {
 		new Server().run();
 	}
 
+	@After
+	public void close() {
+		if (context != null) {
+			context.close();
+		}
+	}
+
 	@Test
 	public void run() {
-		new ClassPathXmlApplicationContext("server-bootstrap-config.xml");
+		context = new ClassPathXmlApplicationContext("server-bootstrap-config.xml");
 	}
 
 }

@@ -23,12 +23,21 @@ public class ServletConfigurationTests {
 
 	@Test
 	public void testContext() throws Exception {
+
 		ClassPathXmlApplicationContext parent = new ClassPathXmlApplicationContext(
 				"classpath:/server-bootstrap-config.xml");
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
-				new String[] { "classpath:/servlet-config.xml" }, parent);
-		context.close();
-		parent.close();
+
+		try {
+
+			ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+					new String[] { "classpath:/servlet-config.xml" }, parent);
+			context.close();
+
+		} finally {
+
+			parent.close();
+
+		}
 
 	}
 }

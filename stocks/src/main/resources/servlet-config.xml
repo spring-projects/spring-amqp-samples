@@ -18,31 +18,31 @@
 		<property name="defaultReplyToQueue" ref="tradeQueue" />
 	</bean>
 
-	<rabbit:queue name="tradeQueue" />
+	<rabbit:queue id="tradeQueue" />
 
-	<rabbit:queue name="marketDataQueue" />
+	<rabbit:queue id="marketDataQueue" />
 
 	<fanout-exchange name="broadcast.responses" xmlns="http://www.springframework.org/schema/rabbit">
 		<bindings>
+			<!-- Bind a fanout to an anonymous queue unique for this node, then all nodes in a cluster get the same response -->
 			<binding queue="tradeQueue" />
 		</bindings>
 	</fanout-exchange>
 
 	<topic-exchange name="app.stock.marketdata" xmlns="http://www.springframework.org/schema/rabbit">
 		<bindings>
+			<!-- Bind to anonymous queue for market data so all nodes configured this way get all quotes -->
 			<binding queue="marketDataQueue" pattern="${stocks.quote.pattern}" />
 		</bindings>
 	</topic-exchange>
 
 	<listener-container connection-factory="connectionFactory" message-converter="jsonMessageConverter"
 		xmlns="http://www.springframework.org/schema/rabbit">
-		<listener ref="quoteController" method="handleQuote" queue-names="marketDataQueue" />
-		<listener ref="quoteController" method="handleTrade" queue-names="tradeQueue" />
+		<listener ref="quoteController" method="handleQuote" queues="marketDataQueue" />
+		<listener ref="quoteController" method="handleTrade" queues="tradeQueue" />
 	</listener-container>
 
-	<rabbit:admin connection-factory="connectionFactory" />
-
-	<bean id="connectionFactory" class="org.springframework.amqp.rabbit.connection.CachingConnectionFactory" />
+	<rabbit:admin connection-factory="connectionFactory" auto-startup="true" />
 
 	<context:property-placeholder location="classpath:/client.properties" />
 
