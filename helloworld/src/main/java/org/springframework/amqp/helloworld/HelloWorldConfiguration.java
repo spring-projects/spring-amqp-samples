@@ -1,7 +1,6 @@
 package org.springframework.amqp.helloworld;
 
 import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.rabbit.config.AbstractRabbitConfiguration;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -9,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class HelloWorldConfiguration extends AbstractRabbitConfiguration {
+public class HelloWorldConfiguration {
 
 	protected final String helloWorldQueueName = "hello.world.queue";
 
@@ -21,7 +20,6 @@ public class HelloWorldConfiguration extends AbstractRabbitConfiguration {
 		return connectionFactory;
 	}
 
-	@Override
 	public RabbitTemplate rabbitTemplate() {
 		RabbitTemplate template = new RabbitTemplate(connectionFactory());
 		//The routing key is set to the name of the queue by the broker for the default exchange.

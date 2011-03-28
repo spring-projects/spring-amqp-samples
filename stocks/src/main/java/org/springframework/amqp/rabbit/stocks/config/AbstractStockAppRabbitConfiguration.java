@@ -16,10 +16,11 @@
 
 package org.springframework.amqp.rabbit.stocks.config;
 
+import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.core.TopicExchange;
-import org.springframework.amqp.rabbit.config.AbstractRabbitConfiguration;
-import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
@@ -36,7 +37,7 @@ import org.springframework.context.annotation.Configuration;
  * @author Mark Fisher
  */
 @Configuration
-public abstract class AbstractStockAppRabbitConfiguration extends AbstractRabbitConfiguration {
+public abstract class AbstractStockAppRabbitConfiguration {
 
 	/**
 	 * Shared topic exchange used for publishing any market data (e.g. stock quotes) 
@@ -85,6 +86,15 @@ public abstract class AbstractStockAppRabbitConfiguration extends AbstractRabbit
 	@Bean
 	public TopicExchange marketDataExchange() {
 		return new TopicExchange(MARKET_DATA_EXCHANGE_NAME);
+	}
+
+	/**
+	 * @return the admin bean that can declare queues etc.
+	 */
+	@Bean
+	public AmqpAdmin amqpAdmin() {
+		RabbitAdmin rabbitAdmin = new RabbitAdmin(connectionFactory());
+		return rabbitAdmin ;
 	}
 
 }

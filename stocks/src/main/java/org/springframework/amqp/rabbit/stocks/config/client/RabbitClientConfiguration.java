@@ -47,13 +47,6 @@ public class RabbitClientConfiguration extends AbstractStockAppRabbitConfigurati
 	@Autowired
 	private ClientHandler clientHandler;
 	
-	
-	// Create the Queue definitions that write up the Message listener container
-	
-	//private Queue marketDataQueue = new UniquelyNamedQueue("mktdata");
-	
-	//private Queue traderJoeQueue = new UniquelyNamedQueue("joe");
-	
 	/**
 	 * The client's template will by default send to the exchange defined 
 	 * in {@link org.springframework.amqp.rabbit.config.AbstractRabbitConfiguration#rabbitTemplate()}
