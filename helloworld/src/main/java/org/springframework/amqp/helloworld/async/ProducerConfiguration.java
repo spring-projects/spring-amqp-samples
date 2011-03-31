@@ -17,6 +17,7 @@ public class ProducerConfiguration {
 
 	protected final String helloWorldQueueName = "hello.world.queue";
 
+	@Bean
 	public RabbitTemplate rabbitTemplate() {
 		RabbitTemplate template = new RabbitTemplate(connectionFactory());
 		template.setRoutingKey(this.helloWorldQueueName);
