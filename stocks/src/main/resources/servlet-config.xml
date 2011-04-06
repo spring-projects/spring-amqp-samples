@@ -9,11 +9,8 @@
 
 	<bean id="stockServiceGateway" class="org.springframework.amqp.rabbit.stocks.gateway.RabbitStockServiceGateway">
 		<property name="rabbitTemplate">
-			<bean class="org.springframework.amqp.rabbit.core.RabbitTemplate">
-				<property name="connectionFactory" ref="connectionFactory" />
-				<property name="routingKey" value="app.stock.request" />
-				<property name="messageConverter" ref="jsonMessageConverter" />
-			</bean>
+			<rabbit:template connection-factory="connectionFactory" routing-key="app.stock.request"
+				message-converter="jsonMessageConverter" />
 		</property>
 		<property name="defaultReplyTo" value="fanout://broadcast.responses/" />
 	</bean>
