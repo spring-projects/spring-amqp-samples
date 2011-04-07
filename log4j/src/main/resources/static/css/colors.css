@@ -1,0 +1,203 @@
+/* colors.css 2008/04/22 nicolekonicki */
+
+/*
+ * COLORS CSS
+ *
+ * Only css that affects the colors and text decoration of elements 
+ * should be included here.
+ *
+ */
+ 
+
+/*
+ * COMMON STYLES
+ */
+
+  body
+  {
+    background-color: #dfdfdf;
+  }
+
+  #page
+  {
+    color: #333;
+  }
+
+
+/*
+ * HEADER STYLES
+ */
+
+  #site-name a, #site-name a:hover
+  {
+    color: #fff;
+  }
+
+  #company-name a
+  {
+    color:#fff;
+  }
+
+
+/*
+ * TEXT FORMATTING STYLES
+ */
+
+h1 {
+	color: #007c00;
+	border-bottom: 1px solid #007c00;
+}
+
+h2 {
+	color: #333;
+}
+
+h3 {
+	color: #333;
+}
+
+h4 {
+	color: #333;
+}
+
+
+/*
+ * LINK STYLES
+ */
+ 
+  a:link,
+  a:visited
+  {
+    color: #333;
+    text-decoration: underline;
+  }
+
+  a:hover,
+  a:focus
+  {
+    color: #60aa00;
+    text-decoration: underline;
+  }
+
+  a:active,
+  a.active
+  {
+    color: #60aa00;
+  }
+
+/*
+ * MENU STYLES
+ */
+ 
+  #primary-left
+  {
+    color: #edf2ce;
+  }
+
+  #primary-left a, #primary-right a
+  {
+    color: #edf2ce;
+    text-decoration:none;
+  }
+
+  #primary-left a:hover, #primary-right a:hover
+  {
+    color:#fff;
+    text-decoration: none;
+  }
+
+
+  #secondary-navigation
+  {
+    background: #fff;
+  }
+
+  #secondary-navigation li a
+  {
+    color:#595959;
+    border-bottom:1px solid #e4e3e3;
+  }
+
+  #secondary-navigation a:hover
+  {
+    color: #60aa00;
+    text-decoration: underline;
+  }
+
+  #secondary-navigation a.active
+  {
+    font-weight: bold;
+  }
+  
+  
+/*
+ * CONTAINER STYLES
+ */  
+ 
+  #container
+  {
+    background:#fff;
+  }
+  
+  
+/*
+ * TABLE STYLES
+ */    
+ 
+ table 
+ {
+ 	color:#666;
+ }
+ 
+ .bordered-table
+ {
+ 	border:1px solid #b8c885;
+ }
+ 
+ th 
+ {
+ 	color:#333;
+ }
+ 
+ .bordered-table th
+ {
+ 	border-bottom: 1px solid #b8c885;
+ }
+ 
+ .sublevel1-odd {
+ 	background:#f8faf0;
+ }
+ 
+ .sublevel1-even {
+ 	background:#fff;
+ }
+ 
+ .name-sublevel1-odd {
+ 	background:#f8faf0;
+ }
+ 
+ .name-sublevel1-even {
+ 	background:#fff;
+ } 
+   
+
+/*
+ * FOOTER STYLES
+ */
+
+
+  #footer-left, #footer-right
+  {
+    color: #999;
+  }
+
+  #footer-left a, #footer-right a
+  {
+    color: #999;
+    text-decoration:none;
+  }
+
+
+
+
+

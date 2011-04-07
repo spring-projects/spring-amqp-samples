@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+		http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<context:component-scan
+		base-package="org.springframework.amqp.rabbit.log4j.web.controller">
+		<context:exclude-filter type="regex"
+			expression="org.springframework.amqp.rabbit.log4j.web.controller.LogsController" />
+	</context:component-scan>
+
+	<mvc:resources location="file:./src/main/resources/static/,classpath:/static/"
+		mapping="static/**" />
+
+	<rabbit:queue id="componentA-Info-queue" name="org.springframework.amqp.rabbit.log4j.web.controller.Log4JSampleControllerA.INFO" />
+	<rabbit:queue id="componentA-Debug-queue" name="org.springframework.amqp.rabbit.log4j.web.controller.Log4JSampleControllerA.DEBUG" />
+	<rabbit:queue id="componentA-Warn-queue" name="org.springframework.amqp.rabbit.log4j.web.controller.Log4JSampleControllerA.WARN" />
+	<rabbit:queue id="componentA-Error-queue" name="org.springframework.amqp.rabbit.log4j.web.controller.Log4JSampleControllerA.ERROR" />
+	
+	<rabbit:queue id="componentB-Info-queue" name="org.springframework.amqp.rabbit.log4j.web.controller.Log4JSampleControllerB.INFO" />
+	<rabbit:queue id="componentB-Debug-queue" name="org.springframework.amqp.rabbit.log4j.web.controller.Log4JSampleControllerB.DEBUG" />
+	<rabbit:queue id="componentB-Warn-queue" name="org.springframework.amqp.rabbit.log4j.web.controller.Log4JSampleControllerB.WARN" />
+	<rabbit:queue id="componentB-Error-queue" name="org.springframework.amqp.rabbit.log4j.web.controller.Log4JSampleControllerB.ERROR" />
+
+	<listener-container connection-factory="connectionFactory"
+		message-converter="amqpLogMessageConverter" xmlns="http://www.springframework.org/schema/rabbit">
+		<listener ref="logsControlled" method="handleLog" queues="componentA-Info-queue" />
+		<listener ref="logsControlled" method="handleLog" queues="componentA-Debug-queue" />
+		<listener ref="logsControlled" method="handleLog" queues="componentA-Warn-queue" />
+		<listener ref="logsControlled" method="handleLog" queues="componentA-Error-queue" />
+		<listener ref="logsControlled" method="handleLog" queues="componentB-Info-queue" />
+		<listener ref="logsControlled" method="handleLog" queues="componentB-Debug-queue" />
+		<listener ref="logsControlled" method="handleLog" queues="componentB-Warn-queue" />
+		<listener ref="logsControlled" method="handleLog" queues="componentB-Error-queue" />
+	</listener-container>
+	
+	<bean id="logsControlled" class="org.springframework.amqp.rabbit.log4j.web.controller.LogsController" />
+
+	<mvc:default-servlet-handler />
+
+	<mvc:annotation-driven />
+
+</beans>

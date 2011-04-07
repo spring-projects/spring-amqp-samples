@@ -9,6 +9,7 @@
 	<modules> 
 		<module>helloworld</module>
 		<module>stocks</module>
+		<module>log4j</module>
 	</modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
