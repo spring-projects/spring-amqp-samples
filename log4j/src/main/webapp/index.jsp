@@ -77,7 +77,7 @@
 		if (timer != null) {
 			clearTimeout(timer);
 		}
-		return setTimeout(load, 5000);
+		return setTimeout(load, 2000);
 	}
 	$(function() {
 		$.ajaxSetup({cache:false});
