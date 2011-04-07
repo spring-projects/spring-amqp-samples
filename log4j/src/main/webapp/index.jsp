@@ -22,7 +22,7 @@
 		<td>{{message}}</td>\
 	</tr>{{/logs}}";
 	var confirmation = "{{#response}}Log Confirmation: <ul>\
-		<li>Component: {{component}}</li>\
+		<li>Logger: {{component}}</li>\
 		<li>Log type: {{type}}</li>\
 		<li>Message: {{message}}</li>\
 	</ul>{{/response}}";
@@ -98,7 +98,7 @@
 														response : response
 													}));
 												} else {
-													$('#messages').text("The log request for component 'A' was invalid. Please provide a log level and not empty log message.");
+													$('#messages').text("The log request for logger 'A' was invalid. Please provide a log level and not empty log message.");
 												}
 											});
 							return false;
@@ -116,7 +116,7 @@
 														response : response
 													}));
 												} else {
-													$('#messages').text("The log request for component 'B' was invalid. Please provide a log level and not empty log message.");
+													$('#messages').text("The log request for logger 'B' was invalid. Please provide a log level and not empty log message.");
 												}
 											});
 							return false;
@@ -171,8 +171,8 @@
 				<table class="bordered-table">
 					<thead>
 						<tr>
-							<th>Create a log for component 'A'</th>
-							<th>Create a log for component 'B'</th>
+							<th>Logs from logger 'A'</th>
+							<th>Logs from logger 'B'</th>
 						</tr>
 					</thead>
 					<tbody>
