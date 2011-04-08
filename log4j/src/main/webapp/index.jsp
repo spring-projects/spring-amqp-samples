@@ -244,8 +244,8 @@
 				<table class="bordered-table">
 					<thead>
 						<tr>
-							<th>Logs from logger 'A'</th>
-							<th>Logs from logger 'B'</th>
+							<th>Logs from application 'log4j-sample-A'</th>
+							<th>Logs from application 'log4j-sample-B'</th>
 						</tr>
 					</thead>
 					<tbody>
