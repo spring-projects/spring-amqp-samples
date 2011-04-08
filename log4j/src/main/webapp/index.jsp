@@ -22,12 +22,14 @@
 		<td>{{logger}}</td>\
 		<td>{{level}}</td>\
 		<td>{{message}}</td>\
+		<td>{{applicationId}}</td>\
 	</tr>{{/logs}}";
 	var errortemplate = "{{#errorlogs}}<tr>\
 		<td>{{timeString}}</td>\
 		<td>{{logger}}</td>\
 		<td>{{level}}</td>\
 		<td>{{message}}</td>\
+		<td>{{applicationId}}</td>\
 	</tr>{{/errorlogs}}";
 	var confirmation = "{{#response}}Log Confirmation: <ul>\
 		<li>Logger: {{component}}</li>\
@@ -307,6 +309,7 @@
 							<th>Logger</th>
 							<th>Level</th>
 							<th>Message</th>
+							<th>Application</th>
 						</tr>
 					</thead>
 					<tbody id="lastlog">
@@ -326,6 +329,7 @@
 							<th>Logger</th>
 							<th>Level</th>
 							<th>Message</th>
+							<th>Application</th>
 						</tr>
 					</thead>
 					<tbody id="lasterrorlog">
