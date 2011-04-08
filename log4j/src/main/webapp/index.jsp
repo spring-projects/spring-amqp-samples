@@ -11,47 +11,59 @@
 <script type="text/javascript" src="static/js/jquery.mustache.js"></script>
 <script type="text/javascript">
 	var running = false;
+	var errorrunning = false;
 	var timer;
+	var errortimer;
 	var debug = false;
-	var lastquote = 0;
-	var lasttrades = {};
+	var lastlog = 0;
+	var lasterrorlog = 0;
 	var template = "{{#logs}}<tr>\
 		<td>{{timeString}}</td>\
 		<td>{{logger}}</td>\
 		<td>{{level}}</td>\
 		<td>{{message}}</td>\
 	</tr>{{/logs}}";
+	var errortemplate = "{{#errorlogs}}<tr>\
+		<td>{{timeString}}</td>\
+		<td>{{logger}}</td>\
+		<td>{{level}}</td>\
+		<td>{{message}}</td>\
+	</tr>{{/errorlogs}}";
 	var confirmation = "{{#response}}Log Confirmation: <ul>\
 		<li>Logger: {{component}}</li>\
 		<li>Log type: {{type}}</li>\
 		<li>Message: {{message}}</li>\
 	</ul>{{/response}}";
 	function load() {
+		errorlogsload();
+		logsload();
+	}
+	function logsload() {
 		if (running) {
-			$('#status').text("Waiting...")
+			$('#status').text("Waiting...");
 			$.ajax({
-				url : "logs?timestamp=" + lastquote,
+				url : "logs?timestamp=" + lastlog,
 				success : function(message) {
-					$('#status').text("Updating")
+					$('#status').text("Updating");
 					if (debug) {
-						$('#debug').text(JSON.stringify(message))
+						$('#debug').text(JSON.stringify(message));
 					}
 					if (message && message.length) {
-						lastquote = message[0].timestamp;
-						$('#lastquote').prepend($.mustache(template, {
+						lastlog = message[0].timestamp;
+						$('#lastlog').prepend($.mustache(template, {
 							logs : message
 						}));
 					}
 					timer = poll();
 				},
 				error : function() {
-					$('#status').text("Failed")
+					$('#status').text("Failed");
 					timer = poll();
 				},
 				cache : false
-			})
+			});
 		} else {
-			$('#status').text("Stopped")
+			$('#status').text("Stopped");
 		}
 	}
 	function start() {
@@ -64,10 +76,10 @@
 		}
 	}
 	function clear() {
-		$('#lastquote').html('')
+		$('#lastlog').html('');
 	}
 	function stop() {
-		$('#status').text("Stopped")
+		$('#status').text("Stopped");
 		if (running && timer != null) {
 			clearTimeout(timer);
 		}
@@ -77,14 +89,73 @@
 		if (timer != null) {
 			clearTimeout(timer);
 		}
-		return setTimeout(load, 2000);
+		return setTimeout(logsload, 2000);
 	}
+	// Functions for errorlogs table
+	function errorlogsload() {
+		if (errorrunning) {
+			$('#errorstatus').text("Waiting...");
+			$.ajax({
+				url : "errorLogs?timestamp=" + lasterrorlog,
+				success : function(message) {
+					$('#errorstatus').text("Updating");
+					if (debug) {
+						$('#debug').text(JSON.stringify(message));
+					}
+					if (message && message.length) {
+						lasterrorlog = message[0].timestamp;
+						$('#lasterrorlog').prepend($.mustache(errortemplate, {
+							errorlogs : message
+						}));
+					}
+					errortimer = errorpoll();
+				},
+				error : function() {
+					$('#errorstatus').text("Failed");
+					errortimer = errorpoll();
+				},
+				cache : false
+			});
+		} else {
+			$('#errorstatus').text("Stopped");
+		}
+	}
+	function errorstart() {
+		if (!errorrunning) {
+			errorrunning = true;
+			if (errortimer != null) {
+				clearTimeout(errortimer);
+			}
+			errortimer = errorpoll();
+		}
+	}
+	function errorclear() {
+		$('#lasterrorlog').html('');
+	}
+	function errorstop() {
+		$('#errorstatus').text("Stopped");
+		if (errorrunning && errortimer != null) {
+			clearTimeout(errortimer);
+		}
+		errorrunning = false;
+	}
+	function errorpoll() {
+		if (errortimer != null) {
+			clearTimeout(errortimer);
+		}
+		return setTimeout(errorlogsload, 2000);
+	}
+	
 	$(function() {
 		$.ajaxSetup({cache:false});
 		$('#start').click(start);
 		$('#stop').click(stop);
 		$('#clear').click(clear);
+		$('#errorstart').click(errorstart);
+		$('#errorstop').click(errorstop);
+		$('#errorclear').click(errorclear);
 		start();
+		errorstart();
 		$('#logAForm')
 				.submit(
 						function() {
@@ -222,7 +293,7 @@
 				<div id="messages">
 					<form:errors path="*" cssClass="errors" />
 				</div>
-				<h1>Logs</h1>
+				<h1>Logs from separate logger queues</h1>
 				<div id="status">Stopped</div>
 				<br />
 				<button id="start">Start</button>
@@ -238,7 +309,26 @@
 							<th>Message</th>
 						</tr>
 					</thead>
-					<tbody id="lastquote">
+					<tbody id="lastlog">
+					</tbody>
+				</table>
+				<h1>Logs from common logger error queue</h1>
+				<div id="errorstatus">Stopped</div>
+				<br />
+				<button id="errorstart">Start</button>
+				<button id="errorstop">Stop</button>
+				<button id="errorclear">Clear</button>
+				<br /> <br />
+				<table id="errorlogs" class="bordered-table">
+					<thead>
+						<tr>
+							<th>Time</th>
+							<th>Logger</th>
+							<th>Level</th>
+							<th>Message</th>
+						</tr>
+					</thead>
+					<tbody id="lasterrorlog">
 					</tbody>
 				</table>
 				<div id="debug"></div>
