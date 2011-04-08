@@ -22,16 +22,20 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Level;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.amqp.core.AcknowledgeMode;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageListener;
+import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.amqp.rabbit.log4j.web.AbstractLog4JSampleController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -53,13 +57,37 @@ public class IntegrationTest {
 
 	@Autowired
 	private ConnectionFactory connectionFactory;
+	
+	@Autowired
+	private RabbitAdmin admin;
 
-	private String infoQueueNameA = Log4JSampleControllerA.class.getCanonicalName() + "." + Level.INFO.toString();
-	private String debugQueueNameA = Log4JSampleControllerA.class.getCanonicalName() + "." + Level.DEBUG.toString();
-	private String warnQueueNameA = Log4JSampleControllerA.class.getCanonicalName() + "." + Level.WARN.toString();
-	private String errorQueueNameA = Log4JSampleControllerA.class.getCanonicalName() + "." + Level.ERROR.toString();
-	private Log4JSampleControllerA underTest = new Log4JSampleControllerA();
+	@Autowired
+	@Qualifier("infoQueueA")
+	private Queue infoQueue;
+	@Autowired
+	@Qualifier("debugQueueA")
+	private Queue debugQueue;
+	@Autowired
+	@Qualifier("warnQueueA")
+	private Queue warnQueue;
+	@Autowired
+	@Qualifier("errorQueueA")
+	private Queue errorQueue;
+	@Autowired
+	@Qualifier("errorQueue")
+	private Queue commonErrorQueue;
 
+	private Log4JSampleControllerA logProducer = new Log4JSampleControllerA();
+
+	@Before
+	public void setUp() {
+		admin.purgeQueue(infoQueue.getName(), true);
+		admin.purgeQueue(debugQueue.getName(), true);
+		admin.purgeQueue(warnQueue.getName(), true);
+		admin.purgeQueue(errorQueue.getName(), true);
+		admin.purgeQueue(commonErrorQueue.getName(), true);
+	}
+	
 	@After
 	public void clear() throws Exception {
 		// Wait for broker communication to finish before trying to stop container
@@ -71,42 +99,42 @@ public class IntegrationTest {
 
 	@Test
 	public void logInfo() throws InterruptedException {
-		doTest(Level.INFO_INT, infoQueueNameA);
+		doTest(Level.INFO_INT, infoQueue.getName());
 	}
 
 	@Test
 	public void logDebug() throws InterruptedException {
-		doTest(Level.DEBUG_INT, debugQueueNameA);
+		doTest(Level.DEBUG_INT, debugQueue.getName());
 	}
 
 	@Test
 	public void logWarn() throws InterruptedException {
-		doTest(Level.WARN_INT, warnQueueNameA);
+		doTest(Level.WARN_INT, warnQueue.getName());
 	}
 
 	@Test
 	public void logError() throws InterruptedException {
-		doTest(Level.ERROR_INT, errorQueueNameA);
+		doTest(Level.ERROR_INT, errorQueue.getName(), commonErrorQueue.getName());
 	}
 
-	private void doTest(int logLevel, String queueName) throws InterruptedException {
-		CountDownLatch latch = new CountDownLatch(1);
+	private void doTest(int logLevel, String... queueNames) throws InterruptedException {
+		CountDownLatch latch = new CountDownLatch(queueNames.length);
 		LastMessageListener listener = new LastMessageListener(latch);
-		container = createContainer(queueName, listener, connectionFactory);
+		container = createContainer(listener, connectionFactory, queueNames);
 
 		String logMessage = "msg [" + logLevel + "] " + new Date(System.currentTimeMillis());
 		switch (logLevel) {
 		case Level.INFO_INT:
-			underTest.logInfo(logMessage);
+			logProducer.logInfo(logMessage);
 			break;
 		case Level.DEBUG_INT:
-			underTest.logDebug(logMessage);
+			logProducer.logDebug(logMessage);
 			break;
 		case Level.WARN_INT:
-			underTest.logWarn(logMessage);
+			logProducer.logWarn(logMessage);
 			break;
 		case Level.ERROR_INT:
-			underTest.logError(logMessage);
+			logProducer.logError(logMessage);
 			break;
 
 		}
@@ -126,11 +154,11 @@ public class IntegrationTest {
 		}
 	}
 
-	private SimpleMessageListenerContainer createContainer(String queueName, Object listener,
-			ConnectionFactory connectionFactory) {
+	private SimpleMessageListenerContainer createContainer(Object listener, ConnectionFactory connectionFactory,
+			String... queueNames) {
 		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer(connectionFactory);
 		container.setMessageListener(new MessageListenerAdapter(listener));
-		container.setQueueNames(queueName);
+		container.setQueueNames(queueNames);
 		container.setTxSize(txSize);
 		container.setPrefetchCount(txSize);
 		container.setConcurrentConsumers(concurrentConsumers);

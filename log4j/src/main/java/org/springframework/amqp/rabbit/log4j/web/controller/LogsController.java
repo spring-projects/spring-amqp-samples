@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class LogsController {
 	private Queue<AmqpLogMessage> logs = new PriorityBlockingQueue<AmqpLogMessage>(100, new QuoteComparator());
+	private Queue<AmqpLogMessage> errorLogs = new PriorityBlockingQueue<AmqpLogMessage>(100, new QuoteComparator());
 	private long timeout = 30000; // 30 seconds of data
 	
 	public void handleLog(AmqpLogMessage message) {
@@ -46,20 +47,41 @@ public class LogsController {
 		logs.add(message);
 	}
 	
-	@RequestMapping("/logs")
-	@ResponseBody
-	public List<AmqpLogMessage> quotes(@RequestParam(required = false) Long timestamp) {
+	public void handleErrorLog(AmqpLogMessage message) {
+		long timestamp = System.currentTimeMillis() - timeout;
+		for (Iterator<AmqpLogMessage> iterator = errorLogs.iterator(); iterator.hasNext();) {
+			AmqpLogMessage quote = iterator.next();
+			if (quote.getTimestamp() < timestamp) {
+				iterator.remove();
+			}
+		}
+		errorLogs.add(message);
+	}
+	
+	protected List<AmqpLogMessage> handle(Long timestamp, Queue<AmqpLogMessage> logsQueue) {
 		if (timestamp == null) {
 			timestamp = 0L;
 		}
 		ArrayList<AmqpLogMessage> list = new ArrayList<AmqpLogMessage>();
-		for (AmqpLogMessage log : logs) {
+		for (AmqpLogMessage log : logsQueue) {
 			if (log.getTimestamp() > timestamp) {
 				list.add(log);
 			}
 		}
 		Collections.reverse(list);
 		return list;
+	}
+	
+	@RequestMapping("/logs")
+	@ResponseBody
+	public List<AmqpLogMessage> logs(@RequestParam(required = false) Long timestamp) {
+		return handle(timestamp, logs);
+	}
+	
+	@RequestMapping("/errorLogs")
+	@ResponseBody
+	public List<AmqpLogMessage> errorLogs(@RequestParam(required = false) Long timestamp) {
+		return handle(timestamp, errorLogs);
 	}
 	
 	private static class QuoteComparator implements Comparator<AmqpLogMessage> {

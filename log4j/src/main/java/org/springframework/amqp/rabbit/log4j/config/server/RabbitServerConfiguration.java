@@ -13,9 +13,6 @@
 
 package org.springframework.amqp.rabbit.log4j.config.server;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.log4j.Level;
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.core.Binding;
@@ -29,28 +26,23 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.log4j.converter.AmqpLogMessageConverter;
 import org.springframework.amqp.rabbit.log4j.web.controller.Log4JSampleControllerA;
 import org.springframework.amqp.rabbit.log4j.web.controller.Log4JSampleControllerB;
-import org.springframework.amqp.support.converter.JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Provides shared configuration between Client and Server.
- * <p>
- * The abstract method configureRabbitTemplate lets the Client and Server further customize the rabbit template to their
- * specific needs.
+ * Configuration for Server.
  * 
  * @author Tomas Lukosius
  */
 @Configuration
 public class RabbitServerConfiguration {
 
-	private static Class<?>[] controllerClasses = new Class<?>[] { Log4JSampleControllerA.class, Log4JSampleControllerB.class };
-
 	/**
 	 * Shared topic exchange used for publishing log4j messages (e.g. debug statements)
 	 */
 	protected static String LOG_EXCHANGE_NAME = "app.log4j.log";
+	protected static String LOG_ERROR_QUEUE_NAME = "Log4JSample.ERROR";
 
 	private int port = 5672;
 
@@ -86,38 +78,130 @@ public class RabbitServerConfiguration {
 	@Bean
 	public AmqpAdmin amqpAdmin() {
 		RabbitAdmin rabbitAdmin = new RabbitAdmin(connectionFactory());
+		rabbitAdmin.setAutoStartup(true);
 		return rabbitAdmin;
 	}
 
-	public Queue logQueue(String queueName) {
-		Queue q = new Queue(queueName);
-		amqpAdmin().declareQueue(q);
-		return q;
+	// Queues for component A
+	@Bean
+	public Queue infoQueueA() {
+		return new Queue(Log4JSampleControllerA.class.getSimpleName() + "." + Level.INFO.toString());
+	}
+
+	@Bean
+	public Queue debugQueueA() {
+		return new Queue(Log4JSampleControllerA.class.getSimpleName() + "." + Level.DEBUG.toString());
+	}
+
+	@Bean
+	public Queue warnQueueA() {
+		return new Queue(Log4JSampleControllerA.class.getSimpleName() + "." + Level.WARN.toString());
+	}
+
+	@Bean
+	public Queue errorQueueA() {
+		return new Queue(Log4JSampleControllerA.class.getSimpleName() + "." + Level.ERROR.toString());
+	}
+
+	// Queues for component B
+	@Bean
+	public Queue infoQueueB() {
+		return new Queue(Log4JSampleControllerB.class.getSimpleName() + "." + Level.INFO.toString());
+	}
+
+	@Bean
+	public Queue debugQueueB() {
+		return new Queue(Log4JSampleControllerB.class.getSimpleName() + "." + Level.DEBUG.toString());
+	}
+
+	@Bean
+	public Queue warnQueueB() {
+		return new Queue(Log4JSampleControllerB.class.getSimpleName() + "." + Level.WARN.toString());
+	}
+
+	@Bean
+	public Queue errorQueueB() {
+		return new Queue(Log4JSampleControllerB.class.getSimpleName() + "." + Level.ERROR.toString());
+	}
+
+	// Common error queue
+	@Bean
+	public Queue errorQueue() {
+		return new Queue(LOG_ERROR_QUEUE_NAME);
+	}
+
+	// Bindings for component A
+	@Bean
+	public Binding infoBindingA() {
+		return BindingBuilder.from(infoQueueA()).to(logExchange())
+				.with(Log4JSampleControllerA.class.getCanonicalName() + "." + Level.INFO.toString());
+	}
+
+	@Bean
+	public Binding debugBindingA() {
+		return BindingBuilder.from(debugQueueA()).to(logExchange())
+				.with(Log4JSampleControllerA.class.getCanonicalName() + "." + Level.DEBUG.toString());
+	}
+
+	@Bean
+	public Binding warnBindingA() {
+		return BindingBuilder.from(warnQueueA()).to(logExchange())
+				.with(Log4JSampleControllerA.class.getCanonicalName() + "." + Level.WARN.toString());
+	}
+
+	@Bean
+	public Binding errorBindingA() {
+		return BindingBuilder.from(errorQueueA()).to(logExchange())
+				.with(Log4JSampleControllerA.class.getCanonicalName() + "." + Level.ERROR.toString());
+	}
+
+	@Bean
+	public Binding commonErrorBindingA() {
+		return BindingBuilder.from(errorQueue()).to(logExchange())
+				.with(getErrorQueueRoutingKey(Log4JSampleControllerA.class));
+	}
+
+	// Bindings for component B
+	@Bean
+	public Binding infoBindingB() {
+		return BindingBuilder.from(infoQueueB()).to(logExchange())
+				.with(Log4JSampleControllerB.class.getCanonicalName() + "." + Level.INFO.toString());
+	}
+
+	@Bean
+	public Binding debugBindingB() {
+		return BindingBuilder.from(debugQueueB()).to(logExchange())
+				.with(Log4JSampleControllerB.class.getCanonicalName() + "." + Level.DEBUG.toString());
+	}
+
+	@Bean
+	public Binding warnBindingB() {
+		return BindingBuilder.from(warnQueueB()).to(logExchange())
+				.with(Log4JSampleControllerB.class.getCanonicalName() + "." + Level.WARN.toString());
+	}
+
+
+	@Bean
+	public Binding errorBindingB() {
+		return BindingBuilder.from(errorQueueB()).to(logExchange())
+				.with(Log4JSampleControllerB.class.getCanonicalName() + "." + Level.ERROR.toString());
+	}
+	
+	@Bean
+	public Binding commonErrorBindingB() {
+		return BindingBuilder.from(errorQueue()).to(logExchange())
+				.with(getErrorQueueRoutingKey(Log4JSampleControllerB.class));
 	}
 
 	/**
-	 * Binds to the logs exchange. 
+	 * Creates ERROR routing key with '*' instead of class name. If class is 'org.s2.MyClass' - routing key will be
+	 * 'org.s2.*.ERROR'. This routing key should be used to bind topic exchange with error queue.
+	 * @param clazz
+	 * @return
 	 */
-	@Bean
-	public List<Binding> queueBindings() {
-		List<Binding> list = new ArrayList<Binding>(2);
-		String queueName;
-		for (Class<?> c : controllerClasses) {
-			queueName = c.getCanonicalName() + "." + Level.INFO.toString();
-			list.add(BindingBuilder.from(logQueue(queueName)).to(logExchange()).with(queueName));
-			queueName = c.getCanonicalName() + "." + Level.DEBUG.toString();
-			list.add(BindingBuilder.from(logQueue(queueName)).to(logExchange()).with(queueName));
-			queueName = c.getCanonicalName() + "." + Level.WARN.toString();
-			list.add(BindingBuilder.from(logQueue(queueName)).to(logExchange()).with(queueName));
-			queueName = c.getCanonicalName() + "." + Level.ERROR.toString();
-			list.add(BindingBuilder.from(logQueue(queueName)).to(logExchange()).with(queueName));
-		}
+	private String getErrorQueueRoutingKey(Class<?> clazz) {
+		String routingKey = clazz.getCanonicalName().replace(clazz.getSimpleName(), "*");
 
-		// Declare bindings on exchange
-		for (Binding binding : list) {
-			amqpAdmin().declareBinding(binding);
-		}
-
-		return list;
+		return routingKey + "." + Level.ERROR.toString();
 	}
 }
