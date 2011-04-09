@@ -14,56 +14,66 @@ package org.springframework.amqp.rabbit.log4j.web.controller;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Queue;
-import java.util.concurrent.PriorityBlockingQueue;
 
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.TopicExchange;
+import org.springframework.amqp.rabbit.core.RabbitAdmin;
+import org.springframework.amqp.rabbit.log4j.config.server.RabbitServerConfiguration;
+import org.springframework.amqp.rabbit.log4j.listener.AmqpLogMessageListener;
 import org.springframework.amqp.rabbit.log4j.web.domain.AmqpLogMessage;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * @author tomas.lukosius@opencredo.com
- *
+ * 
  */
 @Controller
-public class LogsController {
-	private Queue<AmqpLogMessage> logs = new PriorityBlockingQueue<AmqpLogMessage>(100, new QuoteComparator());
-	private Queue<AmqpLogMessage> errorLogs = new PriorityBlockingQueue<AmqpLogMessage>(100, new QuoteComparator());
-	private long timeout = 30000; // 30 seconds of data
+public class LogsController implements DisposableBean {
+	protected Log logger = LogFactory.getLog(this.getClass());
+
+	private static final String CURRENT_LOG_QUEUE = "CURRENT_LOG_QUEUE";
+	private static final String CURRENT_ROUTINGKEY = "CURRENT_ROUTINGKEY";
+
+
+	@Autowired
+	private TopicExchange exchange;
+
+	@Autowired
+	private Queue logQueue;
+
+	@Autowired
+	private RabbitAdmin admin;
+
+	@Autowired
+	private Binding binding;
 	
-	public void handleLog(AmqpLogMessage message) {
-		long timestamp = System.currentTimeMillis() - timeout;
-		for (Iterator<AmqpLogMessage> iterator = logs.iterator(); iterator.hasNext();) {
-			AmqpLogMessage quote = iterator.next();
-			if (quote.getTimestamp() < timestamp) {
-				iterator.remove();
-			}
-		}
-		logs.add(message);
-	}
-	
-	public void handleErrorLog(AmqpLogMessage message) {
-		long timestamp = System.currentTimeMillis() - timeout;
-		for (Iterator<AmqpLogMessage> iterator = errorLogs.iterator(); iterator.hasNext();) {
-			AmqpLogMessage quote = iterator.next();
-			if (quote.getTimestamp() < timestamp) {
-				iterator.remove();
-			}
-		}
-		errorLogs.add(message);
-	}
-	
-	protected List<AmqpLogMessage> handle(Long timestamp, Queue<AmqpLogMessage> logsQueue) {
+	@Autowired
+	private AmqpLogMessageListener messageListener;
+
+	@RequestMapping("/logs")
+	@ResponseBody
+	public List<AmqpLogMessage> logs(@RequestParam(required = false) Long timestamp, HttpSession session) {
+		session.setAttribute(CURRENT_LOG_QUEUE, RabbitServerConfiguration.LOG_QUEUE_NAME);
+		session.setAttribute(CURRENT_ROUTINGKEY, binding.getRoutingKey());
+
 		if (timestamp == null) {
 			timestamp = 0L;
 		}
 		ArrayList<AmqpLogMessage> list = new ArrayList<AmqpLogMessage>();
-		for (AmqpLogMessage log : logsQueue) {
+		for (AmqpLogMessage log : messageListener.getLogs()) {
 			if (log.getTimestamp() > timestamp) {
 				list.add(log);
 			}
@@ -71,24 +81,30 @@ public class LogsController {
 		Collections.reverse(list);
 		return list;
 	}
-	
-	@RequestMapping("/logs")
+
+	@RequestMapping("/bindQueue")
 	@ResponseBody
-	public List<AmqpLogMessage> logs(@RequestParam(required = false) Long timestamp) {
-		return handle(timestamp, logs);
-	}
-	
-	@RequestMapping("/errorLogs")
-	@ResponseBody
-	public List<AmqpLogMessage> errorLogs(@RequestParam(required = false) Long timestamp) {
-		return handle(timestamp, errorLogs);
-	}
-	
-	private static class QuoteComparator implements Comparator<AmqpLogMessage> {
-		public int compare(AmqpLogMessage o1, AmqpLogMessage o2) {
-			return new Long(o1.getTimestamp() - o2.getTimestamp()).intValue();
+	public String addQueue(@RequestParam(required = true, value = "routingkey") String routingKey, HttpSession session) {
+		if (!StringUtils.hasText(routingKey)) {
+			return "Routing key expected";
 		}
 
+		try {
+			admin.removeBinding(binding);
+			binding = BindingBuilder.from(logQueue).to(exchange).with(routingKey);
+			admin.declareBinding(binding);
+		} catch (RuntimeException e) {
+			logger.error("Failed to declare queue or bind it with exchage", e);
+			return e.getMessage();
+		}
+
+		session.setAttribute(CURRENT_LOG_QUEUE, RabbitServerConfiguration.LOG_QUEUE_NAME);
+		session.setAttribute(CURRENT_ROUTINGKEY, binding.getRoutingKey());
+
+		return "Queue '" + logQueue.getName() + "' was binded with routing key '" + routingKey + "'";
 	}
 
+	public void destroy() throws Exception {
+		admin.removeBinding(binding);
+	}
 }

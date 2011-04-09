@@ -60,4 +60,9 @@ public class AmqpLogMessage {
 	public String getTimeString() {
 		return format.format(new Date(timestamp));
 	}
+
+	@Override
+	public String toString() {
+		return "Amqp log: " + logger + ":" + level + " " + message;
+	}
 }

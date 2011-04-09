@@ -10,35 +10,33 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-package org.springframework.amqp.rabbit.log4j.web.domain;
+package org.springframework.amqp.rabbit.log4j.service;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * @author tomas.lukosius@opencredo.com
- * 
+ *
  */
-public class MessageLoggedResponse {
-
-	private String component;
-	private String level;
-	private String message;
-
-	public MessageLoggedResponse(String component, String level, String message) {
-		super();
-		this.component = component;
-		this.level = level;
-		this.message = message;
-	}
-
-	public String getComponent() {
-		return component;
+public class AbstractService {
+	protected Log logger = LogFactory.getLog(this.getClass());
+	
+	public static String ERROR_MESSAGE = "Simulating failure";
+	
+	public void logInfo(String message) {
+		logger.info(message);
 	}
 	
-	public String getType() {
-		return level;
+	public void logDebug(String message) {
+		logger.debug(message);
 	}
-
-	public String getMessage() {
-		return message;
+	
+	public void logWarn(String message) {
+		logger.warn(message);
 	}
-
+	
+	public void logError(String message) {
+		logger.error(message, new RuntimeException(ERROR_MESSAGE));
+	}
 }

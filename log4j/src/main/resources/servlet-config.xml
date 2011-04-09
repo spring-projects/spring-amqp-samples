@@ -8,31 +8,11 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
 	<context:component-scan
-		base-package="org.springframework.amqp.rabbit.log4j.web.controller">
-		<context:exclude-filter type="regex"
-			expression="org.springframework.amqp.rabbit.log4j.web.controller.LogsController" />
-	</context:component-scan>
+		base-package="org.springframework.amqp.rabbit.log4j.web.controller" />
 
 	<mvc:resources location="file:./src/main/resources/static/,classpath:/static/"
 		mapping="static/**" />
 
-	<listener-container connection-factory="connectionFactory"
-		message-converter="amqpLogMessageConverter" xmlns="http://www.springframework.org/schema/rabbit">
-		<listener ref="logsControlled" method="handleLog" queues="infoQueueA" />
-		<listener ref="logsControlled" method="handleLog" queues="debugQueueA" />
-		<listener ref="logsControlled" method="handleLog" queues="warnQueueA" />
-		<listener ref="logsControlled" method="handleLog" queues="errorQueueA" />
-		
-		<listener ref="logsControlled" method="handleLog" queues="infoQueueB" />
-		<listener ref="logsControlled" method="handleLog" queues="debugQueueB" />
-		<listener ref="logsControlled" method="handleLog" queues="warnQueueB" />
-		<listener ref="logsControlled" method="handleLog" queues="errorQueueB" />
-		
-		<listener ref="logsControlled" method="handleErrorLog" queues="errorQueue" />
-	</listener-container>
-	
-	<bean id="logsControlled" class="org.springframework.amqp.rabbit.log4j.web.controller.LogsController" />
-	
 	<mvc:default-servlet-handler />
 
 	<mvc:annotation-driven />

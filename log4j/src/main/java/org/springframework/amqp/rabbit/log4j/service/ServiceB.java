@@ -10,33 +10,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-package org.springframework.amqp.rabbit.log4j.web;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+package org.springframework.amqp.rabbit.log4j.service;
 
 /**
  * @author tomas.lukosius@opencredo.com
  *
  */
-public class AbstractLog4JSampleController {
-	protected Log logger = LogFactory.getLog(this.getClass());
-	
-	public static String errorMessage = "Simulating failure";
-	
-	public void logInfo(String message) {
-		logger.info(message);
-	}
-	
-	public void logDebug(String message) {
-		logger.debug(message);
-	}
-	
-	public void logWarn(String message) {
-		logger.warn(message);
-	}
-	
-	public void logError(String message) {
-		logger.error(message, new RuntimeException(errorMessage));
-	}
+public class ServiceB extends AbstractService {
+
 }

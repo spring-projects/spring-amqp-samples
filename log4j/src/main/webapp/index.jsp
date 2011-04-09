@@ -11,12 +11,9 @@
 <script type="text/javascript" src="static/js/jquery.mustache.js"></script>
 <script type="text/javascript">
 	var running = false;
-	var errorrunning = false;
 	var timer;
-	var errortimer;
 	var debug = false;
 	var lastlog = 0;
-	var lasterrorlog = 0;
 	var template = "{{#logs}}<tr>\
 		<td>{{timeString}}</td>\
 		<td>{{logger}}</td>\
@@ -24,23 +21,7 @@
 		<td>{{message}}</td>\
 		<td>{{applicationId}}</td>\
 	</tr>{{/logs}}";
-	var errortemplate = "{{#errorlogs}}<tr>\
-		<td>{{timeString}}</td>\
-		<td>{{logger}}</td>\
-		<td>{{level}}</td>\
-		<td>{{message}}</td>\
-		<td>{{applicationId}}</td>\
-	</tr>{{/errorlogs}}";
-	var confirmation = "{{#response}}Log Confirmation: <ul>\
-		<li>Logger: {{component}}</li>\
-		<li>Log type: {{type}}</li>\
-		<li>Message: {{message}}</li>\
-	</ul>{{/response}}";
 	function load() {
-		errorlogsload();
-		logsload();
-	}
-	function logsload() {
 		if (running) {
 			$('#status').text("Waiting...");
 			$.ajax({
@@ -91,73 +72,17 @@
 		if (timer != null) {
 			clearTimeout(timer);
 		}
-		return setTimeout(logsload, 2000);
+		return setTimeout(load, 2000);
 	}
-	// Functions for errorlogs table
-	function errorlogsload() {
-		if (errorrunning) {
-			$('#errorstatus').text("Waiting...");
-			$.ajax({
-				url : "errorLogs?timestamp=" + lasterrorlog,
-				success : function(message) {
-					$('#errorstatus').text("Updating");
-					if (debug) {
-						$('#debug').text(JSON.stringify(message));
-					}
-					if (message && message.length) {
-						lasterrorlog = message[0].timestamp;
-						$('#lasterrorlog').prepend($.mustache(errortemplate, {
-							errorlogs : message
-						}));
-					}
-					errortimer = errorpoll();
-				},
-				error : function() {
-					$('#errorstatus').text("Failed");
-					errortimer = errorpoll();
-				},
-				cache : false
-			});
-		} else {
-			$('#errorstatus').text("Stopped");
-		}
-	}
-	function errorstart() {
-		if (!errorrunning) {
-			errorrunning = true;
-			if (errortimer != null) {
-				clearTimeout(errortimer);
-			}
-			errortimer = errorpoll();
-		}
-	}
-	function errorclear() {
-		$('#lasterrorlog').html('');
-	}
-	function errorstop() {
-		$('#errorstatus').text("Stopped");
-		if (errorrunning && errortimer != null) {
-			clearTimeout(errortimer);
-		}
-		errorrunning = false;
-	}
-	function errorpoll() {
-		if (errortimer != null) {
-			clearTimeout(errortimer);
-		}
-		return setTimeout(errorlogsload, 2000);
-	}
-	
+
 	$(function() {
-		$.ajaxSetup({cache:false});
+		$.ajaxSetup({
+			cache : false
+		});
 		$('#start').click(start);
 		$('#stop').click(stop);
 		$('#clear').click(clear);
-		$('#errorstart').click(errorstart);
-		$('#errorstop').click(errorstop);
-		$('#errorclear').click(errorclear);
 		start();
-		errorstart();
 		$('#logAForm')
 				.submit(
 						function() {
@@ -166,12 +91,13 @@
 											$('#logAForm').attr("action"),
 											$('#logAForm').serialize(),
 											function(response) {
-												if (response && response.message) {
-													$('#messages').html($.mustache(confirmation, {
-														response : response
-													}));
+												if (response) {
+													$('#messages')
+															.text(response);
 												} else {
-													$('#messages').text("The log request for logger 'A' was invalid. Please provide a log level and not empty log message.");
+													$('#messages')
+															.text(
+																	"The log request for 'ServiceA' was invalid. Please provide a log level and not empty log message.");
 												}
 											});
 							return false;
@@ -184,16 +110,55 @@
 											$('#logBForm').attr("action"),
 											$('#logBForm').serialize(),
 											function(response) {
-												if (response && response.message) {
-													$('#messages').html($.mustache(confirmation, {
-														response : response
-													}));
+												if (response) {
+													$('#messages')
+														.text(response);
 												} else {
-													$('#messages').text("The log request for logger 'B' was invalid. Please provide a log level and not empty log message.");
+													$('#messages')
+															.text(
+																	"The log request for 'ServiceB' was invalid. Please provide a log level and not empty log message.");
 												}
 											});
 							return false;
 						});
+		$('#randomLogForm')
+				.submit(
+						function() {
+							$
+									.post(
+											$('#randomLogForm').attr("action"),
+											$('#randomLogForm').serialize(),
+											function(response) {
+												if (response) {
+													$('#messages')
+														.text(response);
+												} else {
+													$('#messages')
+															.text(
+																	"The random log request failed.");
+												}
+											});
+							return false;
+						});
+		$('#bindQueueForm')
+		.submit(
+				function() {
+					$
+							.post(
+									$('#bindQueueForm').attr("action"),
+									$('#bindQueueForm').serialize(),
+									function(response) {
+										if (response) {
+											$('#messages')
+													.text(response);
+										} else {
+											$('#messages')
+													.text(
+															"The bind queue request was invalid. Please provide a not empty queue and routing key.");
+										}
+									});
+					return false;
+				});
 	});
 </script>
 </head>
@@ -202,8 +167,7 @@
 		<div id="header">
 			<div id="name-and-company">
 				<div id='site-name'>
-					<a href="" title="Site Name" rel="home"> Spring AMQP Log4J
-						Demo</a>
+					<a href="" title="Site Name" rel="home"> Spring AMQP Log4J Demo</a>
 				</div>
 				<div id='company-name'>
 					<a href="http://www.springsource.org/spring-amqp"
@@ -219,33 +183,58 @@
 					<c:set var="messageA" value="${messageA}" />
 				</c:when>
 				<c:otherwise>
-					<c:set var="messageA" value="Manual log message" />
+					<c:set var="messageA" value="Manual log message [A]" />
 				</c:otherwise>
 			</c:choose>
-			
+
 			<c:choose>
 				<c:when test="messageB!=null">
 					<c:set var="messageB" value="${messageB}" />
 				</c:when>
 				<c:otherwise>
-					<c:set var="messageB" value="Manual log message" />
+					<c:set var="messageB" value="Manual log message [B]" />
 				</c:otherwise>
 			</c:choose>
-		
+			
+			<c:choose>
+				<c:when test="randomLogCount!=null">
+					<c:set var="randomLogCount" value="${randomLogCount}" />
+				</c:when>
+				<c:otherwise>
+					<c:set var="randomLogCount" value="10" />
+				</c:otherwise>
+			</c:choose>
+			
+			<c:set var="routingKey" value="${CURRENT_ROUTINGKEY}" />
+			
+
 			<div id="content" class="no-side-nav">
 				This application is a the "log4j" sample from <a
 					href="http://github.com/SpringSource/spring-amqp">Spring AMQP</a>.
 				You can get the source code from the <a
 					href="http://github.com/SpringSource/spring-amqp-samples">Spring
-					AMQP Samples</a> project on Github.
-					
+					AMQP Samples</a> project on Github. 
+
+				<h1>
+					Routing key for queue '
+					<c:out value="${CURRENT_LOG_QUEUE}" />
+					'
+				</h1>
+				<form id="bindQueueForm" method="post" action="bindQueue">
+					<ol>
+						<li><label for="bindQueue">Routing key</label><input
+							id="routingkey" type="text" name="routingkey" value="${routingKey}"/>
+						</li>
+						<li><label for="bindQueue">Submit new routing key</label><input
+							type="submit" name="bindQueue" value="Submit" /></li>
+					</ol>
+				</form>
 				<br /> <br />
-					
 				<table class="bordered-table">
 					<thead>
 						<tr>
-							<th>Logs from application 'log4j-sample-A'</th>
-							<th>Logs from application 'log4j-sample-B'</th>
+							<th>Logs from 'ServiceA'</th>
+							<th>Logs from 'ServiceB'</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -253,49 +242,64 @@
 							<td>
 								<form id="logAForm" method="post" action="logA">
 									<ol>
-										<li><label for="messageA">Log level</label>
-											<select name="level">
+										<li><label for="messageA">Log level</label> <select
+											name="level">
 												<option value="info">info</option>
 												<option value="debug">debug</option>
 												<option value="warn">warn</option>
 												<option value="error">error</option>
-											</select>
+										</select></li>
+										<li><label for="messageA">Log message</label><input
+											id="messageA" type="text" name="message" value="${messageA}" />
 										</li>
-										<li><label for="messageA">Log message</label><input id="messageA"
-											type="text" name="message" value="${messageA}" />
-										</li>
-										<li><label for="messageA">Submit log message</label><input type="submit" name="logA" value="Submit" />
-										</li>
+										<li><label for="messageA">Submit log message</label><input
+											type="submit" name="logA" value="Submit" /></li>
 									</ol>
-								</form>
-							</td>
+								</form></td>
 							<td>
 								<form id="logBForm" method="post" action="logB">
 									<ol>
-										<li><label for="messageB">Log level</label>
-											<select name="level">
+										<li><label for="messageB">Log level</label> <select
+											name="level">
 												<option value="info">info</option>
 												<option value="debug">debug</option>
 												<option value="warn">warn</option>
 												<option value="error">error</option>
-											</select>
+										</select></li>
+										<li><label for="messageB">Log message</label><input
+											id="messageB" type="text" name="message" value="${messageB}" />
 										</li>
-										<li><label for="messageB">Log message</label><input id="messageB"
-											type="text" name="message" value="${messageB}" />
+										<li><label for="messageB">Submit log message</label><input
+											type="submit" name="logB" value="Submit" /></li>
+									</ol>
+								</form></td>
+						</tr>
+						<tr>
+							<td colspan="2">
+							<h1>Random log generation</h1>
+								<form id="randomLogForm" method="post" action="randomLog">
+									<ol>
+										<li><label for="randomLog">Log count</label><input
+											id="randomLog" type="text" name="count" value="${randomLogCount}" />
 										</li>
-										<li><label for="messageB">Submit log message</label><input type="submit" name="logB" value="Submit" />
-										</li>
+										<li><label for="randomLog">Submit to generate logs</label><input
+											type="submit" name="randomLog" value="Submit" /></li>
 									</ol>
 								</form>
 							</td>
 						</tr>
 					</tbody>
 				</table>
-					
+
+				<br />
 				<div id="messages">
 					<form:errors path="*" cssClass="errors" />
 				</div>
-				<h1>Logs from separate logger queues</h1>
+				<h1>
+					Logs from queue '
+					<c:out value="${CURRENT_LOG_QUEUE}" />
+					'
+				</h1>
 				<div id="status">Stopped</div>
 				<br />
 				<button id="start">Start</button>
@@ -313,26 +317,6 @@
 						</tr>
 					</thead>
 					<tbody id="lastlog">
-					</tbody>
-				</table>
-				<h1>Logs from common logger error queue</h1>
-				<div id="errorstatus">Stopped</div>
-				<br />
-				<button id="errorstart">Start</button>
-				<button id="errorstop">Stop</button>
-				<button id="errorclear">Clear</button>
-				<br /> <br />
-				<table id="errorlogs" class="bordered-table">
-					<thead>
-						<tr>
-							<th>Time</th>
-							<th>Logger</th>
-							<th>Level</th>
-							<th>Message</th>
-							<th>Application</th>
-						</tr>
-					</thead>
-					<tbody id="lasterrorlog">
 					</tbody>
 				</table>
 				<div id="debug"></div>
