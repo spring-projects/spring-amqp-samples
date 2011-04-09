@@ -162,7 +162,7 @@ public class AppServiceController {
 				break;
 			}
 		}
-		return String.format("%d random [%d for %s, %d for %s]: INFO - %d, DEBUG - %d, WARN - %d, ERROR - %d", count,
+		return String.format("%d random logs [%d for %s, %d for %s]: INFO - %d, DEBUG - %d, WARN - %d, ERROR - %d", count,
 				countServiceA, serviceA.getClass().getSimpleName(), countServiceB, serviceB.getClass().getSimpleName(),
 				countInfo, countDebug, countWarn, countError);
 	}
