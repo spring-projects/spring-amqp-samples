@@ -11,5 +11,6 @@ src/ant/.ant-targets-upload-dist.xml
 */src/main/webapp/META-INF
 erl_crash.dump
 nohup.out
+jredis.log
 .idea
 *.iml

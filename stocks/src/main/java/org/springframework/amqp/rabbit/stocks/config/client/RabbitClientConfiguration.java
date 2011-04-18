@@ -105,7 +105,7 @@ public class RabbitClientConfiguration extends AbstractStockAppRabbitConfigurati
 	 */	
 	@Bean
 	public Binding marketDataBinding() {		
-		return BindingBuilder.from(marketDataQueue()).to(marketDataExchange()).with(marketDataRoutingKey);
+		return BindingBuilder.bind(marketDataQueue()).to(marketDataExchange()).with(marketDataRoutingKey);
 	}
 
 	/**
