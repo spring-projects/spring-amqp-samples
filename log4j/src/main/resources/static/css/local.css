@@ -1,0 +1,198 @@
+
+.note {
+	border: 1px solid #FFDDBB;
+	color: inherit;
+	background-color: #FFF5EE;
+}
+
+div.note {
+	padding: 0.5em;
+	margin-top: 1.5em;
+}
+
+fieldset {
+	border-width: 0;
+	margin: 0;
+	padding: 0;
+}
+
+.inline-labeles label {
+	margin-left: 0.5em;
+}
+
+#secondary-navigation ul {
+	padding-top: 6px;
+}
+
+#exports #export-fragment {
+	width: 50%;
+	float: right;
+	padding-bottom: 22px;
+}
+
+.loading_indicator_parent {
+	position: relative;
+}
+
+#loading_indicator {
+	position: absolute;
+	bottom: 5px;
+	right: 0;
+	opacity: 0;
+}
+
+textarea {
+	display: inline;
+	width: 40%;
+	height: 2em;
+}
+
+fieldset > div {
+	margin-top: 0.5em;
+}
+
+.error {
+	color: red;
+	backround-color: inherit;
+	font-weight: bold;
+}
+
+hr {
+	height: 1px;
+	border: 0;
+	background-color: #007C00;
+	color: #007C00;
+}
+
+#secondary-navigation {
+	margin-top: 15px;
+}
+
+#secondary-navigation ul li {
+	margin-bottom: 5px;
+}
+
+#secondary-navigation ul li li {
+	margin-bottom: 0;
+}
+
+.scroll {
+	overflow: auto;
+	border: 1px solid green;
+	padding: 3px;
+	height: 200px;
+	white-space: pre;
+}
+
+.clear {
+	clear: both;
+}
+
+input#cancel {
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
+
+
+
+
+
+
+form > fieldset { 
+	border: 0 
+	padding: 4px; 
+	padding-bottom: 8px;
+	margin: 0 0 10px; 
+}
+
+legend {
+	margin-bottom: 0.25em;
+	margin-left: 0.25em;
+}
+
+form, legend { 
+	border: 0; 
+	padding: 0; 
+	margin: 0; 
+}
+
+form ol, form ul { 
+	list-style: none; 
+	margin: 0;
+	padding: 0;
+}
+
+form li { 
+	clear: both;
+	margin: 0 0 .75em;
+	padding: 0; 
+} 
+
+.confirm { 
+	margin-bottom: 0.75em; 
+}
+
+label { 
+	display: block;
+	float: left;
+	margin-right: 10px;
+	text-align: right;
+	width: 120px;
+}
+
+label:after {
+	content: ':';
+}
+
+.radio label:after, 
+.confirm label:after {
+	content: ''; 
+}
+
+.confirm label { 
+	display: block; 
+	float: none;
+	margin-left: 130px; 
+	text-align: left;
+	width: inherit; 
+}
+
+fieldset.smalltab .confirm label { 
+	margin-left: 35px;
+}
+
+form .control {
+	float: left;
+	margin-bottom: 8px;
+}
+
+input[type="text"], 
+input[type="password"]
+{ 
+	width: 250px;
+}
+
+fieldset .buttonGroup { 
+	clear: both;
+	margin-left: 130px; 
+	margin-right: 5px;
+	cursor: pointer;
+	position: relative;
+}
+
+fieldset.notab .buttonGroup {
+	margin-left: 0;
+}
+
+fieldset.smalltab .buttonGroup {
+	margin-left: 35px;
+}
+
+.buttonGroup button,
+.buttonGroup input[type="button"],
+.buttonGroup input[type="submit"],
+.buttonGroup input[type="reset"] {
+	margin-right: 5px;
+}
