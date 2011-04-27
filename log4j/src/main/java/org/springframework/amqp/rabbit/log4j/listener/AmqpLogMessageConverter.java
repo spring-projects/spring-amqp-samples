@@ -10,7 +10,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-package org.springframework.amqp.rabbit.log4j.converter;
+package org.springframework.amqp.rabbit.log4j.listener;
 
 import java.util.Date;
 import java.util.Map;
@@ -20,7 +20,6 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.log4j.AmqpAppender;
-import org.springframework.amqp.rabbit.log4j.web.domain.AmqpLogMessage;
 import org.springframework.amqp.support.converter.AbstractMessageConverter;
 import org.springframework.amqp.support.converter.MessageConversionException;
 import org.springframework.util.CollectionUtils;

@@ -16,8 +16,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.amqp.core.Binding;
@@ -25,28 +23,26 @@ import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
-import org.springframework.amqp.rabbit.log4j.config.server.RabbitServerConfiguration;
+import org.springframework.amqp.rabbit.log4j.listener.AmqpLogMessage;
 import org.springframework.amqp.rabbit.log4j.listener.AmqpLogMessageListener;
-import org.springframework.amqp.rabbit.log4j.web.domain.AmqpLogMessage;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * @author tomas.lukosius@opencredo.com
+ * @author Tomas Lukosius
+ * @author Dave Syer
  * 
  */
 @Controller
 public class LogsController implements DisposableBean {
+
 	protected Log logger = LogFactory.getLog(this.getClass());
-
-	private static final String CURRENT_LOG_QUEUE = "CURRENT_LOG_QUEUE";
-	private static final String CURRENT_ROUTINGKEY = "CURRENT_ROUTINGKEY";
-
 
 	@Autowired
 	private TopicExchange exchange;
@@ -63,12 +59,9 @@ public class LogsController implements DisposableBean {
 	@Autowired
 	private AmqpLogMessageListener messageListener;
 
-	@RequestMapping("/logs")
+	@RequestMapping(value="/logs", method=RequestMethod.GET)
 	@ResponseBody
-	public List<AmqpLogMessage> logs(@RequestParam(required = false) Long timestamp, HttpSession session) {
-		session.setAttribute(CURRENT_LOG_QUEUE, RabbitServerConfiguration.LOG_QUEUE_NAME);
-		session.setAttribute(CURRENT_ROUTINGKEY, binding.getRoutingKey());
-
+	public List<AmqpLogMessage> logs(@RequestParam(required = false) Long timestamp) {
 		if (timestamp == null) {
 			timestamp = 0L;
 		}
@@ -82,26 +75,26 @@ public class LogsController implements DisposableBean {
 		return list;
 	}
 
-	@RequestMapping("/bindQueue")
+	@RequestMapping(value="/binding", method=RequestMethod.POST)
 	@ResponseBody
-	public String addQueue(@RequestParam(required = true, value = "routingkey") String routingKey, HttpSession session) {
-		if (!StringUtils.hasText(routingKey)) {
-			return "Routing key expected";
-		}
-
+	public Binding addBinding(@RequestParam String routingKey) {
 		try {
 			admin.removeBinding(binding);
-			binding = BindingBuilder.from(logQueue).to(exchange).with(routingKey);
+			Binding binding = BindingBuilder.bind(logQueue).to(exchange).with(routingKey);
 			admin.declareBinding(binding);
+			this.binding = binding;
 		} catch (RuntimeException e) {
+			// TODO: create a new BindingResult object to carry back error message
 			logger.error("Failed to declare queue or bind it with exchage", e);
-			return e.getMessage();
 		}
 
-		session.setAttribute(CURRENT_LOG_QUEUE, RabbitServerConfiguration.LOG_QUEUE_NAME);
-		session.setAttribute(CURRENT_ROUTINGKEY, binding.getRoutingKey());
+		return this.binding;
+	}
 
-		return "Queue '" + logQueue.getName() + "' was binded with routing key '" + routingKey + "'";
+	@RequestMapping(value="/binding", method=RequestMethod.GET)
+	@ResponseBody
+	public Binding getBinding() {
+		return binding;
 	}
 
 	public void destroy() throws Exception {

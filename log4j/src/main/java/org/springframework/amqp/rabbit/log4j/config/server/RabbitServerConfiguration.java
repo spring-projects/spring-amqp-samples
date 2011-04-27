@@ -24,18 +24,22 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
-import org.springframework.amqp.rabbit.log4j.converter.AmqpLogMessageConverter;
+import org.springframework.amqp.rabbit.log4j.listener.AmqpLogMessageConverter;
 import org.springframework.amqp.rabbit.log4j.listener.AmqpLogMessageListener;
-import org.springframework.amqp.support.converter.MessageConverter;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 /**
  * Configuration for Server.
  * 
  * @author Tomas Lukosius
+ * @author Dave Syer
  */
 @Configuration
+@Import(PropertyPlaceholderConfiguration.class)
 public class RabbitServerConfiguration {
 
 	/**
@@ -45,20 +49,29 @@ public class RabbitServerConfiguration {
 	public static String LOG_QUEUE_NAME = "app.log4j.demo";
 	public static String LOG_ALL_INFO_ROUTING_KEY = "#." + Level.INFO.toString();
 
+	@Value("${amqp.port:5672}")
 	private int port = 5672;
+
+	@Value("${amqp.username:guest}")
+	private String username = "guest";
+
+	@Value("${amqp.password:guest}")
+	private String password = "guest";
+
+	@Value("${amqp.vhost:/}")
+	private String virtualHost = "/";
+
+	@Value("${amqp.host:localhost}")
+	private String host = "localhost";
 
 	@Bean
 	public ConnectionFactory connectionFactory() {
-		CachingConnectionFactory connectionFactory = new CachingConnectionFactory("localhost");
-		connectionFactory.setUsername("guest");
-		connectionFactory.setPassword("guest");
+		CachingConnectionFactory connectionFactory = new CachingConnectionFactory(host);
+		connectionFactory.setUsername(username);
+		connectionFactory.setPassword(password);
+		connectionFactory.setVirtualHost(virtualHost);
 		connectionFactory.setPort(port);
 		return connectionFactory;
-	}
-
-	@Bean
-	public MessageConverter amqpLogMessageConverter() {
-		return new AmqpLogMessageConverter();
 	}
 
 	@Bean
@@ -83,7 +96,7 @@ public class RabbitServerConfiguration {
 
 	@Bean
 	public Binding binding() {
-		return BindingBuilder.from(queue()).to(logExchange()).with(LOG_ALL_INFO_ROUTING_KEY);
+		return BindingBuilder.bind(queue()).to(logExchange()).with(LOG_ALL_INFO_ROUTING_KEY);
 	}
 
 	@Bean
@@ -103,5 +116,17 @@ public class RabbitServerConfiguration {
 
 		container.setMessageListener(listenerAdapter);
 		return container;
+	}
+}
+
+/**
+ * Configuration for property placeholders (enables system and OS placeholders with <code>&#64;Value(${...})</code>).
+ * @author Dave Syer
+ */
+@Configuration
+class PropertyPlaceholderConfiguration {
+	@Bean
+	public PropertyPlaceholderConfigurer propertyPlaceholderConfigurer() {
+		return new PropertyPlaceholderConfigurer();
 	}
 }

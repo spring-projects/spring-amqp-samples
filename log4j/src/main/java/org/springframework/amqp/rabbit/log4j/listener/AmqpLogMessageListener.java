@@ -17,7 +17,6 @@ import java.util.Iterator;
 import java.util.Queue;
 import java.util.concurrent.PriorityBlockingQueue;
 
-import org.springframework.amqp.rabbit.log4j.web.domain.AmqpLogMessage;
 
 /**
  * @author tomas.lukosius@opencredo.com

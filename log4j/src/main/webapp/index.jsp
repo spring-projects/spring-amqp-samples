@@ -83,6 +83,16 @@
 		$('#stop').click(stop);
 		$('#clear').click(clear);
 		start();
+		$.get($('#bindQueueForm').attr("action"), null, function(response) {
+			if (response) {
+				$('#queueName').text(response.destination);
+				$('#bindingMessages').text("Queue '"+response.destination+"' is bound with routing key '"+response.routingKey+"'");
+				$('#routingKey').val(response.routingKey);
+			} else {
+				$('#bindingMessages').text(
+						"The binding properties could not be determined at this time.");
+			}
+		});
 		$('#logAForm')
 				.submit(
 						function() {
@@ -92,8 +102,8 @@
 											$('#logAForm').serialize(),
 											function(response) {
 												if (response) {
-													$('#messages')
-															.text(response);
+													$('#messages').text(
+															response);
 												} else {
 													$('#messages')
 															.text(
@@ -111,8 +121,8 @@
 											$('#logBForm').serialize(),
 											function(response) {
 												if (response) {
-													$('#messages')
-														.text(response);
+													$('#messages').text(
+															response);
 												} else {
 													$('#messages')
 															.text(
@@ -121,44 +131,37 @@
 											});
 							return false;
 						});
-		$('#randomLogForm')
+		$('#randomLogForm').submit(
+				function() {
+					$.post($('#randomLogForm').attr("action"), $(
+							'#randomLogForm').serialize(), function(response) {
+						if (response) {
+							$('#messages').text(response);
+						} else {
+							$('#messages').text(
+									"The random log request failed.");
+						}
+					});
+					return false;
+				});
+		$('#bindQueueForm')
 				.submit(
 						function() {
 							$
 									.post(
-											$('#randomLogForm').attr("action"),
-											$('#randomLogForm').serialize(),
+											$('#bindQueueForm').attr("action"),
+											$('#bindQueueForm').serialize(),
 											function(response) {
 												if (response) {
-													$('#messages')
-														.text(response);
+													$('#bindingMessages').text("Queue '"+response.destination+"' is bound with routing key '"+response.routingKey+"'");
 												} else {
-													$('#messages')
+													$('#bindingMessages')
 															.text(
-																	"The random log request failed.");
+																	"The bind queue request was invalid. Please provide a not empty queue and routing key.");
 												}
 											});
 							return false;
 						});
-		$('#bindQueueForm')
-		.submit(
-				function() {
-					$
-							.post(
-									$('#bindQueueForm').attr("action"),
-									$('#bindQueueForm').serialize(),
-									function(response) {
-										if (response) {
-											$('#messages')
-													.text(response);
-										} else {
-											$('#messages')
-													.text(
-															"The bind queue request was invalid. Please provide a not empty queue and routing key.");
-										}
-									});
-					return false;
-				});
 	});
 </script>
 </head>
@@ -195,7 +198,7 @@
 					<c:set var="messageB" value="Manual log message [B]" />
 				</c:otherwise>
 			</c:choose>
-			
+
 			<c:choose>
 				<c:when test="randomLogCount!=null">
 					<c:set var="randomLogCount" value="${randomLogCount}" />
@@ -204,31 +207,25 @@
 					<c:set var="randomLogCount" value="10" />
 				</c:otherwise>
 			</c:choose>
-			
-			<c:set var="routingKey" value="${CURRENT_ROUTINGKEY}" />
-			
 
 			<div id="content" class="no-side-nav">
 				This application is a the "log4j" sample from <a
 					href="http://github.com/SpringSource/spring-amqp">Spring AMQP</a>.
 				You can get the source code from the <a
 					href="http://github.com/SpringSource/spring-amqp-samples">Spring
-					AMQP Samples</a> project on Github. 
+					AMQP Samples</a> project on Github.
 
-				<h1>
-					Routing key for queue '
-					<c:out value="${CURRENT_LOG_QUEUE}" />
-					'
-				</h1>
-				<form id="bindQueueForm" method="post" action="bindQueue">
+				<h1 id="routingHeader">Routing Key</h1>
+				<form id="bindQueueForm" method="post" action="binding">
 					<ol>
-						<li><label for="bindQueue">Routing key</label><input
-							id="routingkey" type="text" name="routingkey" value="${routingKey}"/>
-						</li>
+						<li><label for="routingKey">Routing key</label><input
+							id="routingKey" type="text" name="routingKey" value="" /></li>
 						<li><label for="bindQueue">Submit new routing key</label><input
-							type="submit" name="bindQueue" value="Submit" /></li>
+							id="bindQueue" type="submit" name="bindQueue" value="Submit" />
+						</li>
 					</ol>
 				</form>
+				<div id="bindingMessages"></div>
 				<br /> <br />
 				<table class="bordered-table">
 					<thead>
@@ -248,14 +245,17 @@
 												<option value="debug">debug</option>
 												<option value="warn">warn</option>
 												<option value="error">error</option>
-										</select></li>
+										</select>
+										</li>
 										<li><label for="messageA">Log message</label><input
 											id="messageA" type="text" name="message" value="${messageA}" />
 										</li>
 										<li><label for="messageA">Submit log message</label><input
-											type="submit" name="logA" value="Submit" /></li>
+											type="submit" name="logA" value="Submit" />
+										</li>
 									</ol>
-								</form></td>
+								</form>
+							</td>
 							<td>
 								<form id="logBForm" method="post" action="logB">
 									<ol>
@@ -265,28 +265,31 @@
 												<option value="debug">debug</option>
 												<option value="warn">warn</option>
 												<option value="error">error</option>
-										</select></li>
+										</select>
+										</li>
 										<li><label for="messageB">Log message</label><input
 											id="messageB" type="text" name="message" value="${messageB}" />
 										</li>
 										<li><label for="messageB">Submit log message</label><input
-											type="submit" name="logB" value="Submit" /></li>
-									</ol>
-								</form></td>
-						</tr>
-						<tr>
-							<td colspan="2">
-							<h1>Random log generation</h1>
-								<form id="randomLogForm" method="post" action="randomLog">
-									<ol>
-										<li><label for="randomLog">Log count</label><input
-											id="randomLog" type="text" name="count" value="${randomLogCount}" />
+											type="submit" name="logB" value="Submit" />
 										</li>
-										<li><label for="randomLog">Submit to generate logs</label><input
-											type="submit" name="randomLog" value="Submit" /></li>
 									</ol>
 								</form>
 							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<h1>Random log generation</h1>
+								<form id="randomLogForm" method="post" action="randomLog">
+									<ol>
+										<li><label for="randomLog">Log count</label><input
+											id="randomLog" type="text" name="count"
+											value="${randomLogCount}" /></li>
+										<li><label for="randomLog">Submit to generate
+												logs</label><input type="submit" name="randomLog" value="Submit" />
+										</li>
+									</ol>
+								</form></td>
 						</tr>
 					</tbody>
 				</table>
@@ -295,11 +298,7 @@
 				<div id="messages">
 					<form:errors path="*" cssClass="errors" />
 				</div>
-				<h1>
-					Logs from queue '
-					<c:out value="${CURRENT_LOG_QUEUE}" />
-					'
-				</h1>
+				<h1 id="logs-header">Logs from queue '<span id="queueName"></span>'</h1>
 				<div id="status">Stopped</div>
 				<br />
 				<button id="start">Start</button>
