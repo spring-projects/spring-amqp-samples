@@ -24,8 +24,6 @@ import org.springframework.amqp.support.converter.AbstractMessageConverter;
 import org.springframework.amqp.support.converter.MessageConversionException;
 import org.springframework.util.CollectionUtils;
 
-import com.rabbitmq.client.impl.LongString;
-
 /**
  * @author tomas.lukosius@opencredo.com
  * 
@@ -75,10 +73,8 @@ public class AmqpLogMessageConverter extends AbstractMessageConverter {
 				return null;
 			}
 
-			String logger = new String(
-					((LongString) headers.get(AmqpAppender.CATEGORY_NAME)).getBytes());
-			String level = new String(
-					((LongString) headers.get(AmqpAppender.CATEGORY_LEVEL)).getBytes());
+			String logger = (String) headers.get(AmqpAppender.CATEGORY_NAME);
+			String level = (String) headers.get(AmqpAppender.CATEGORY_LEVEL);
 
 			content = new AmqpLogMessage(logger, level, new String(message.getBody()), timestamp.getTime(),
 					applicationId);
