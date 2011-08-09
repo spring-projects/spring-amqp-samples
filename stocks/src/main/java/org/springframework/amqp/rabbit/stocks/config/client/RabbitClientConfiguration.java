@@ -17,9 +17,13 @@
 package org.springframework.amqp.rabbit.stocks.config.client;
 
 
+import org.springframework.amqp.core.AcknowledgeMode;
+import org.springframework.amqp.core.AmqpAdmin;
+import org.springframework.amqp.core.AnonymousQueue;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
@@ -72,6 +76,7 @@ public class RabbitClientConfiguration extends AbstractStockAppRabbitConfigurati
 		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer(connectionFactory());		
 		container.setQueues(marketDataQueue(), traderJoeQueue());
 		container.setMessageListener(messageListenerAdapter());
+		container.setAcknowledgeMode(AcknowledgeMode.AUTO);
 		return container;
 
 		//container(using(connectionFactory()).listenToQueues(marketDataQueue(), traderJoeQueue()).withListener(messageListenerAdapter()).
@@ -97,7 +102,7 @@ public class RabbitClientConfiguration extends AbstractStockAppRabbitConfigurati
 	
 	@Bean
 	public Queue marketDataQueue() {		
-		return amqpAdmin().declareQueue();
+		return new AnonymousQueue();
 	}
 	
 	/**
@@ -113,7 +118,12 @@ public class RabbitClientConfiguration extends AbstractStockAppRabbitConfigurati
 	 */	
 	@Bean
 	public Queue traderJoeQueue() {	
-		return amqpAdmin().declareQueue();		
+		return new AnonymousQueue();
+	}
+	
+	@Bean
+	public AmqpAdmin rabbitAdmin() {
+		return new RabbitAdmin(connectionFactory());
 	}
 
 }
