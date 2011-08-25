@@ -16,7 +16,7 @@
 	<properties>
 		<maven.test.failure.ignore>true</maven.test.failure.ignore>
 		<spring.framework.version>3.0.5.RELEASE</spring.framework.version>
-		<spring.amqp.version>1.0.0.BUILD-SNAPSHOT</spring.amqp.version>
+		<spring.amqp.version>1.0.0.RELEASE</spring.amqp.version>
 	</properties>
 	<profiles>
 		<profile>
@@ -205,16 +205,4 @@
 			<url>file:///${user.dir}/target/staging/snapshot</url>
 		</snapshotRepository>
 	</distributionManagement>
-	<repositories>
-		<repository>
-			<id>repository.springframework.maven.milestone</id>
-			<name>Spring Framework Maven Milestone Repository</name>
-			<url>http://maven.springframework.org/milestone</url>
-		</repository>
-		<repository>
-			<id>repository.springframework.maven.snapshot</id>
-			<name>Spring Framework Maven Snapshot Repository</name>
-			<url>http://maven.springframework.org/snapshot</url>
-		</repository>
-	</repositories>
 </project>
