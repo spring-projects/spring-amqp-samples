@@ -18,6 +18,7 @@
 		<maven.test.failure.ignore>true</maven.test.failure.ignore>
 		<spring.framework.version>3.0.5.RELEASE</spring.framework.version>
 		<spring.amqp.version>1.0.0.RELEASE</spring.amqp.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<profiles>
 		<profile>
@@ -39,7 +40,7 @@
   			<groupId>org.springframework.amqp</groupId>
   			<artifactId>spring-rabbit</artifactId>
   			<version>${spring.amqp.version}</version>
-		</dependency>	
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -70,15 +71,15 @@
 			<version>2.2</version>
 			<scope>runtime</scope>
 		</dependency>
-		
-		
+
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.8.1</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -102,7 +103,7 @@
 			<version>1.2.14</version>
 			<scope>runtime</scope>
 		</dependency>
-		
+
 	</dependencies>
 
 	<build>
