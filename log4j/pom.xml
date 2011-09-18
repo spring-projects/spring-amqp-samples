@@ -194,7 +194,7 @@
 		<downloadUrl>http://www.springframework.org/download</downloadUrl>
 		<site>
 			<id>staging</id>
-			<url>file:///${user.dir}/target/staging/org.springframework.batch.archetype/${pom.artifactId}</url>
+			<url>file:///${user.dir}/target/staging/org.springframework.batch.archetype/${project.artifactId}</url>
 		</site>
 		<repository>
 			<id>spring-release</id>
