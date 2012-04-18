@@ -27,16 +27,16 @@ import org.springframework.amqp.rabbit.stocks.service.ExecutionVenueService;
 
 /**
  * Execute the trade, setting the execution price to changing value in line with what the market data feed is producing.
- * 
+ *
  * @author Mark Pollack
  *
  */
 public class ExecutionVenueServiceStub implements ExecutionVenueService {
 
 	private static Log log = LogFactory.getLog(ExecutionVenueServiceStub.class);
-	
+
 	private Random random = new Random();
-	
+
 	public TradeResponse executeTradeRequest(TradeRequest request) {
 		TradeResponse response = new TradeResponse();
 		response.setAccountName(request.getAccountName());
@@ -46,11 +46,11 @@ public class ExecutionVenueServiceStub implements ExecutionVenueService {
 		response.setTicker(request.getTicker());
 		response.setRequestId(request.getId());
 		response.setConfirmationNumber(UUID.randomUUID().toString());
-		
-		
+
+
 		try {
-			log.info("Sleeping 2 seconds to simulate processing..");
-			Thread.sleep(2000);
+			log.info("Sleeping 5 seconds to simulate processing..");
+			Thread.sleep(5000);
 		} catch (InterruptedException e) {
 			log.error("Didn't finish sleeping", e);
 		}
@@ -68,11 +68,11 @@ public class ExecutionVenueServiceStub implements ExecutionVenueService {
         {
         	//in line with market data implementation
             return new BigDecimal(22 + Math.abs(gaussian()));
-        }        
+        }
 	}
-	
+
 	private double gaussian() {
 		return random.nextGaussian();
-	}	
+	}
 
 }

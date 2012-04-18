@@ -14,25 +14,18 @@
 	var timer;
 	var debug = false;
 	var lastquote = 0;
-	var lasttrades = {};
 	var template = "{{#quotes}}<tr>\
 		<td>{{timeString}}</td>\
 		<td>{{#stock}}{{ticker}}{{/stock}}</td>\
 		<td>{{price}}</td>\
 	</tr>{{/quotes}}";
-	var confirmation = "{{#response}}Trade Confirmation: <ul>\
-		<li>Id: {{confirmationNumber}}</li>\
-		<li>Quantity: {{quantity}}</li>\
-		<li>Ticker: {{ticker}}</li>\
-		<li>Price: {{price}}</li>\
-	</ul>{{/response}}";
+	var confirmation = "{{#response}}Trade confirmation {{confirmationNumber}}, Quantity: {{quantity}}, Ticker: {{ticker}}, Price: {{price}}{{/response}}<br>";
 	function load() {
 		if (running) {
-			$('#status').text("Waiting...")
+			$('#status').text("Getting quotes...")
 			$.ajax({
 				url : "quotes?timestamp=" + lastquote,
 				success : function(message) {
-					$('#status').text("Updating")
 					if (debug) {
 						$('#debug').text(JSON.stringify(message))
 					}
@@ -79,46 +72,23 @@
 		}
 		return setTimeout(load, 1000);
 	}
-	function confirm(id) {
-		if (lasttrades.id) {
-			clearTimeout(lasttrades.id);
-			delete lasttrades.id;
-		}
-		$.get("trade?requestId=" + id, function(response) {
-			if (response && response.requestId) {
-				$('#messages').html($.mustache(confirmation, {
-					response : response
-				}));
-				delete lasttrades.id;
-			} else {
-				lasttrades.id = setTimeout("confirm('" + id + "')", 2000);
-			}
-		});
-	}
 	$(function() {
 		$.ajaxSetup({cache:false});
 		$('#start').click(start);
 		$('#stop').click(stop);
 		$('#clear').click(clear);
-		start();
-		$('#tradeForm')
-				.submit(
-						function() {
-							$
-									.post(
-											$('#tradeForm').attr("action"),
-											$('#tradeForm').serialize(),
-											function(request) {
-												var message = "Processing...";
-												if (request && request.ticker) {
-													confirm(request.id);
-												} else {
-													message = "The trade request was invalid.  Please provide a quantity and a stock ticker.";
-												}
-												$('#messages').text(message);
-											});
-							return false;
-						});
+		$('#tradeForm').submit(function() {
+			$('#messages').text('');
+			$.post($('#tradeForm').attr("action"), $('#tradeForm').serialize(),
+				function(response) {
+					if (response && response.requestId) {
+						$('#confirmations').append($.mustache(confirmation, {response : response}));
+					} else {
+						$('#messages').html("<p>The trade request was invalid.  Please provide a quantity and a stock ticker.</p>");
+					}
+			});
+			return false;
+		});
 	});
 </script>
 </head>
@@ -156,6 +126,7 @@
 						<c:set var="ticker" value="" />
 					</c:otherwise>
 				</c:choose>
+				<div id="messages"></div>
 				<form id="tradeForm" method="post" action="trade">
 					<ol>
 						<li><label for="ticker">Quantity</label><input id="quantity"
@@ -167,9 +138,7 @@
 						</li>
 					</ol>
 				</form>
-				<div id="messages">
-					<form:errors path="*" cssClass="errors" />
-				</div>
+				<div id="confirmations"></div>
 				<h1>Quotes</h1>
 				<div id="status">Stopped</div>
 				<br />

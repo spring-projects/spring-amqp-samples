@@ -1,11 +1,11 @@
 /*
  * Copyright 2002-2010 the original author or authors.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
@@ -18,6 +18,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -36,10 +38,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.async.DeferredResult;
 
 /**
  * @author Dave Syer
- * 
+ * @author Rossen Stoyanchev
  */
 @Controller
 public class QuoteController {
@@ -52,6 +55,10 @@ public class QuoteController {
 
 	private Queue<Quote> quotes = new PriorityBlockingQueue<Quote>(100, new QuoteComparator());
 
+	private Map<String, DeferredResult> suspendedTradeRequests = new ConcurrentHashMap<String, DeferredResult>();
+
+	private Map<DeferredResult, Long> suspendedQuoteRequests = new ConcurrentHashMap<DeferredResult, Long>();
+
 	private long timeout = 30000; // 30 seconds of data
 
 	public void setStockServiceGateway(StockServiceGateway stockServiceGateway) {
@@ -63,17 +70,34 @@ public class QuoteController {
 		String key = response.getRequestId();
 		responses.putIfAbsent(key, response);
 		Collection<TradeResponse> queue = new ArrayList<TradeResponse>(responses.values());
+
 		long timestamp = System.currentTimeMillis() - timeout;
 		for (Iterator<TradeResponse> iterator = queue.iterator(); iterator.hasNext();) {
 			TradeResponse tradeResponse = iterator.next();
+			String requestId = tradeResponse.getRequestId();
 			if (tradeResponse.getTimestamp() < timestamp) {
-				responses.remove(tradeResponse.getRequestId());
+				responses.remove(requestId);
+			}
+			if (suspendedTradeRequests.containsKey(requestId)) {
+				DeferredResult deferredResult = suspendedTradeRequests.remove(requestId);
+				deferredResult.trySet(tradeResponse);
 			}
 		}
 	}
 
 	public void handleQuote(Quote message) {
 		logger.info("Client received: " + message);
+		quotes.add(message);
+
+		for (Entry<DeferredResult, Long> entry : suspendedQuoteRequests.entrySet()) {
+			List<Quote> list = getLatestQuotes(entry.getValue());
+			if (!list.isEmpty()) {
+				DeferredResult deferredResult = entry.getKey();
+				deferredResult.trySet(list);
+				suspendedQuoteRequests.remove(entry.getKey());
+			}
+		}
+
 		long timestamp = System.currentTimeMillis() - timeout;
 		for (Iterator<Quote> iterator = quotes.iterator(); iterator.hasNext();) {
 			Quote quote = iterator.next();
@@ -81,12 +105,23 @@ public class QuoteController {
 				iterator.remove();
 			}
 		}
-		quotes.add(message);
 	}
 
 	@RequestMapping("/quotes")
 	@ResponseBody
-	public List<Quote> quotes(@RequestParam(required = false) Long timestamp) {
+	public Object quotes(@RequestParam(required = false) Long timestamp) {
+		List<Quote> list = getLatestQuotes(timestamp);
+		if (list.isEmpty()) {
+			DeferredResult deferredResult = new DeferredResult(Collections.emptyList());
+			suspendedQuoteRequests.put(deferredResult, timestamp);
+			return deferredResult;
+		}
+		else {
+			return list;
+		}
+	}
+
+	private List<Quote> getLatestQuotes(Long timestamp) {
 		if (timestamp == null) {
 			timestamp = 0L;
 		}
@@ -102,13 +137,16 @@ public class QuoteController {
 
 	@RequestMapping(value = "/trade", method = RequestMethod.POST)
 	@ResponseBody
-	public TradeRequest trade(@ModelAttribute TradeRequest tradeRequest) {
+	public Object trade(@ModelAttribute TradeRequest tradeRequest) {
 		String ticker = tradeRequest.getTicker();
 		Long quantity = tradeRequest.getQuantity();
 		if (quantity == null || quantity <= 0 || !StringUtils.hasText(ticker)) {
 			// error
-			return tradeRequest;
+			return null;
 		} else {
+			DeferredResult deferredResult = new DeferredResult();
+			suspendedTradeRequests.put(tradeRequest.getId(), deferredResult);
+
 			// Fake rest of request while UI is basic
 			tradeRequest.setAccountName("ACCT-123");
 			tradeRequest.setBuyRequest(true);
@@ -117,15 +155,9 @@ public class QuoteController {
 			tradeRequest.setUserName("Joe Trader");
 			tradeRequest.setUserName("Joe");
 			stockServiceGateway.send(tradeRequest);
-		}
-		return tradeRequest;
-	}
 
-	@RequestMapping(value = "/trade", method = RequestMethod.GET)
-	@ResponseBody
-	public TradeResponse response(@RequestParam String requestId) {
-		TradeResponse result = responses.get(requestId);
-		return result;
+			return deferredResult;
+		}
 	}
 
 	private static class QuoteComparator implements Comparator<Quote> {
