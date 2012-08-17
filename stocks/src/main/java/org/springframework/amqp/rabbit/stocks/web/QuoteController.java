@@ -55,9 +55,11 @@ public class QuoteController {
 
 	private Queue<Quote> quotes = new PriorityBlockingQueue<Quote>(100, new QuoteComparator());
 
-	private Map<String, DeferredResult> suspendedTradeRequests = new ConcurrentHashMap<String, DeferredResult>();
+	private Map<String, DeferredResult<TradeResponse>> suspendedTradeRequests =
+			new ConcurrentHashMap<String, DeferredResult<TradeResponse>>();
 
-	private Map<DeferredResult, Long> suspendedQuoteRequests = new ConcurrentHashMap<DeferredResult, Long>();
+	private Map<DeferredResult<List<Quote>>, Long> suspendedQuoteRequests =
+			new ConcurrentHashMap<DeferredResult<List<Quote>>, Long>();
 
 	private long timeout = 30000; // 30 seconds of data
 
@@ -79,8 +81,8 @@ public class QuoteController {
 				responses.remove(requestId);
 			}
 			if (suspendedTradeRequests.containsKey(requestId)) {
-				DeferredResult deferredResult = suspendedTradeRequests.remove(requestId);
-				deferredResult.trySet(tradeResponse);
+				DeferredResult<TradeResponse> deferredResult = suspendedTradeRequests.remove(requestId);
+				deferredResult.setResult(tradeResponse);
 			}
 		}
 	}
@@ -89,11 +91,11 @@ public class QuoteController {
 		logger.info("Client received: " + message);
 		quotes.add(message);
 
-		for (Entry<DeferredResult, Long> entry : suspendedQuoteRequests.entrySet()) {
+		for (Entry<DeferredResult<List<Quote>>, Long> entry : suspendedQuoteRequests.entrySet()) {
 			List<Quote> list = getLatestQuotes(entry.getValue());
 			if (!list.isEmpty()) {
-				DeferredResult deferredResult = entry.getKey();
-				deferredResult.trySet(list);
+				DeferredResult<List<Quote>> deferredResult = entry.getKey();
+				deferredResult.setResult(list);
 				suspendedQuoteRequests.remove(entry.getKey());
 			}
 		}
@@ -112,7 +114,7 @@ public class QuoteController {
 	public Object quotes(@RequestParam(required = false) Long timestamp) {
 		List<Quote> list = getLatestQuotes(timestamp);
 		if (list.isEmpty()) {
-			DeferredResult deferredResult = new DeferredResult(Collections.emptyList());
+			DeferredResult<List<Quote>> deferredResult = new DeferredResult<List<Quote>>(null, Collections.emptyList());
 			suspendedQuoteRequests.put(deferredResult, timestamp);
 			return deferredResult;
 		}
@@ -144,7 +146,7 @@ public class QuoteController {
 			// error
 			return null;
 		} else {
-			DeferredResult deferredResult = new DeferredResult();
+			DeferredResult<TradeResponse> deferredResult = new DeferredResult<TradeResponse>();
 			suspendedTradeRequests.put(tradeRequest.getId(), deferredResult);
 
 			// Fake rest of request while UI is basic

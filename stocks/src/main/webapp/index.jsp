@@ -84,7 +84,7 @@
 					if (response && response.requestId) {
 						$('#confirmations').append($.mustache(confirmation, {response : response}));
 					} else {
-						$('#messages').html("<p>The trade request was invalid.  Please provide a quantity and a stock ticker.</p>");
+						$('#messages').html("<p>Invalid response.</p>");
 					}
 			});
 			return false;
