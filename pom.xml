@@ -73,18 +73,18 @@
 		<repository>
 			<id>repository.springframework.maven.release</id>
 			<name>Spring Framework Maven Release Repository</name>
-			<url>http://maven.springframework.org/release</url>
+			<url>http://repo.spring.io/libs-release</url>
 		</repository>
 		<repository>
 			<id>repository.springframework.maven.milestone</id>
 			<name>Spring Framework Maven Milestone Repository</name>
-			<url>http://maven.springframework.org/milestone</url>
+			<url>http://repo.spring.io/libs-milestone</url>
 		</repository>
 		<repository>
 			<!-- necessary for org.springframework.build.aws.maven dependency -->
 			<id>repository.source.maven.release</id>
 			<name>SpringSource Maven Release Repository</name>
-			<url>http://repository.springsource.com/maven/bundles/release</url>
+			<url>http://repo.spring.io/maven/bundles/release</url>
 		</repository>
 	</repositories>
 </project>
