@@ -209,5 +209,16 @@
 			<url>file:///${user.dir}/target/staging/snapshot</url>
 		</snapshotRepository>
 	</distributionManagement>
+<repositories>
+  <repository>
+    <id>spring-milestones</id>
+    <name>Spring Milestones</name>
+    <url>http://repo.spring.io/milestone</url>
+    <snapshots>
+      <enabled>false</enabled>
+    </snapshots>
+  </repository> 
+</repositories>
+
 
 </project>
