@@ -4,9 +4,9 @@
 	<groupId>org.springframework.amqp</groupId>
 	<artifactId>spring-amqp-samples</artifactId>
 	<name>Spring AMQP Samples</name>
-	<version>1.4.3.RELEASE</version>
+	<version>1.4.4.RELEASE</version>
 	<packaging>pom</packaging>
-	<modules> 
+	<modules>
 		<module>helloworld</module>
 		<module>stocks</module>
 		<module>log4j</module>
