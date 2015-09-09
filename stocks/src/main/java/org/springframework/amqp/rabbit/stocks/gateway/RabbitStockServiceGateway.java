@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2010 the original author or authors.
+ * Copyright 2002-2015 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,22 +22,23 @@ import java.util.UUID;
 import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessagePostProcessor;
-import org.springframework.amqp.rabbit.core.support.RabbitGatewaySupport;
+import org.springframework.amqp.rabbit.core.RabbitGatewaySupport;
 import org.springframework.amqp.rabbit.stocks.domain.TradeRequest;
 
 /**
  * Rabbit implementation of {@link StockServiceGateway} to send trade requests to an external process.
- * 
+ *
  * @author Mark Pollack
+ * @author Gary Russell
  */
 public class RabbitStockServiceGateway extends RabbitGatewaySupport implements StockServiceGateway {
 
 	private String defaultReplyTo;
-	
+
 	public void setDefaultReplyTo(String defaultReplyTo) {
 		this.defaultReplyTo = defaultReplyTo;
 	}
-	
+
 	public void send(TradeRequest tradeRequest) {
 		getRabbitTemplate().convertAndSend(tradeRequest, new MessagePostProcessor() {
 			public Message postProcessMessage(Message message) throws AmqpException {
