@@ -13,22 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.amqp.tutorials.tut3;
+package org.springframework.amqp.tutorials.tut1;
 
-import org.springframework.amqp.core.FanoutExchange;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.apache.log4j.Logger;
+import org.springframework.amqp.rabbit.annotation.RabbitHandler;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 
 /**
- * @author Gary Russell
+ *
+ * @author Gary Russell, Scott Deeg
  *
  */
-@Configuration
-public class CommonConfig {
+@RabbitListener(queues="tut.hello")
+public class Tut1Receiver {
+	private static Logger logger = Logger.getLogger(Tut1Receiver.class);
 
-	@Bean
-	public FanoutExchange fanout() {
-		return new FanoutExchange("tut.fanout");
+	@RabbitHandler
+	public void receive(String in) {
+		logger.error(" [x] Received '" + in + "'");
 	}
-
 }

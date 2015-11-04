@@ -15,20 +15,38 @@
  */
 package org.springframework.amqp.tutorials.tut1;
 
+import org.apache.log4j.Logger;
 import org.springframework.amqp.core.Queue;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * @author Gary Russell
+ * @author Gary Russell, Scott Deeg
  *
  */
-@Configuration
-public class CommonConfig {
 
-	@Bean
-	public Queue hello() {
-		return new Queue("tut.hello");
+public class Tut1Sender implements Runnable {
+
+	private static Logger logger = Logger.getLogger(Tut1Sender.class);
+
+	@Autowired
+	private RabbitTemplate template;
+
+	@Autowired
+	private Queue queue;
+
+	@Override
+	public void run() {
+		while (true) {
+			String message = "Hello World!";
+			template.convertAndSend(queue.getName(), message);
+			logger.error(" [x] Sent '" + message + "'");
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+				break;
+			}
+		}
 	}
-
 }
