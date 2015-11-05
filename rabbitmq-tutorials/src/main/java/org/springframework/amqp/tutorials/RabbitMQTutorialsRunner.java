@@ -19,6 +19,4 @@ public class RabbitMQTutorialsRunner implements CommandLineRunner {
 		Thread.sleep(duration);
 		ctx.close();
 	}
-
-
 }

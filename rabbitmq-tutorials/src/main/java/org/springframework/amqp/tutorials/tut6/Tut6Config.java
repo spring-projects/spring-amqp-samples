@@ -29,12 +29,18 @@ import org.springframework.context.annotation.Profile;
  * @author Gary Russell
  *
  */
-@Profile("tut5")
+@Profile("tut6")
 @Configuration
 public class Tut6Config {
 
 	@Profile("client")
-	public static class ClientConfig {
+	private static class ClientConfig {
+
+		@Bean
+		public DirectExchange exchange() {
+			return new DirectExchange("tut.rpc");
+		}
+
 		@Bean
 		public Lifecycle wrappedSender(Tut6Client client) {
 			return new SpringAwareExecutorWrapper(client);
@@ -47,8 +53,7 @@ public class Tut6Config {
 	}
 
 	@Profile("server")
-	@Configuration
-	public static class ServerConfig
+	private static class ServerConfig
 	{
 		@Bean
 		public Queue queue() {

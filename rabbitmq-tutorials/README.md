@@ -16,8 +16,6 @@ The following tutorials are available:
 - tut5,{sender|receiver}   Topics
 - tut6,{client|server}     RPC
 
-(The order of the profiles is not relevant.)
-
 The app uses Spring Profiles to control what tutorial it's running, and if it's a
 Sender or Receiver.  Run the app however you like to run boot apps.  I frequently build
 the app with maven, and then run it like:
@@ -32,19 +30,17 @@ For tutorial 6, run the Server followed by the Client.
 
 ##Properties
 
-The `remote` profile causes Spring to load the properties in application-remote.yml that I use for testing.  (You always test
-with a non-local server don't you?? :-) )  Don't include it for default (localhost) settings.
+By default, Spring AMQP uses localhost to connect to RabbitMQ.  In the sample, the `remote` profile 
+causes Spring to load the properties in `application-remote.yml` that are used for testing with a 
+non-local server.  Set your own properties in the one in the project, or provide your own on the
+command line when you run it.
 
-
-Remote Hosts:
--------------
-
-To use to a remote RabbitMQ installation set the following properties as in this sample:
+To use to a remote RabbitMQ installation set the following properties:
 
 ```
-spring.rabbitmq.host=your-rabbit-server
-spring.rabbitmq.username=tutorial-user
-spring.rabbitmq.password=tutorial-password
+spring.rabbitmq.host=<your-rabbit-server>
+spring.rabbitmq.username=<tutorial-user>
+spring.rabbitmq.password=<tutorial-password>
 ```
 
 To use this at runtime create a file called `application-remote.yml` (or properties) and set the properties in there.  Then set the 

@@ -42,7 +42,7 @@ public class Tut3Config {
 
 
 	@Profile("receiver")
-	public static class ReceiverConfig {
+	private static class ReceiverConfig {
 		
 		@Bean
 		public Queue autoDeleteQueue1() {
@@ -74,8 +74,7 @@ public class Tut3Config {
 	}
 
 	@Profile("sender")
-	@Configuration
-	public static class SenderConfig
+	private static class SenderConfig
 	{
 		@Bean
 		public Lifecycle wrappedSender(Tut3Sender sender) {

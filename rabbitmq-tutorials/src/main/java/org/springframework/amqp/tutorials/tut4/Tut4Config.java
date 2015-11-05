@@ -20,7 +20,9 @@ import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.tutorials.util.SpringAwareExecutorWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.Lifecycle;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -39,7 +41,7 @@ public class Tut4Config {
 	}
 	
 	@Profile("receiver")
-	public static class ReceiverConfig {
+	private static class ReceiverConfig {
 		@Bean
 		public Queue autoDeleteQueue1() {
 			return new AnonymousQueue();
@@ -80,7 +82,15 @@ public class Tut4Config {
 	}
 
 	@Profile("sender")
-	public static class SenderConfig {
+	private static class SenderConfig {
+		@Bean
+		public Lifecycle wrappedSender(Tut4Sender sender) {
+			return new SpringAwareExecutorWrapper(sender);
+		}
 		
+		@Bean
+		public Tut4Sender sender() {
+			return new Tut4Sender();
+		}
 	}
 }

@@ -36,7 +36,7 @@ public class Tut2Config {
 	}
 
 	@Profile("receiver")
-	public static class ReceiverConfig {
+	private static class ReceiverConfig {
 		
 		@Bean
 		public Tut2Receiver receiver1() {
@@ -50,8 +50,7 @@ public class Tut2Config {
 	}
 
 	@Profile("sender")
-	@Configuration
-	public static class SenderConfig
+	private static class SenderConfig
 	{
 		@Bean
 		public Lifecycle wrappedSender(Tut2Sender sender) {

@@ -7,11 +7,6 @@ import org.springframework.context.annotation.Bean;
 
 public class Tut6Client implements Runnable {
 
-	@Bean
-	public DirectExchange exchange() {
-		return new DirectExchange("tut.rpc");
-	}
-
 	@Autowired
 	private RabbitTemplate template;
 

@@ -42,8 +42,7 @@ public class Tut1Config {
 	}
 
 	@Profile("sender")
-	@Configuration
-	public static class SenderConfig
+	private static class SenderConfig
 	{
 		@Bean
 		public Lifecycle wrappedSender(Tut1Sender sender) {
