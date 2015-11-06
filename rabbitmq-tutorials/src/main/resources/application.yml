@@ -1,4 +1,3 @@
-#Two profiles are needed for the app:  role (sender|receiver) and logic
 spring:
   profiles:
     active: usage_message

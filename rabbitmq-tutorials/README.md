@@ -5,35 +5,39 @@ This project implements each of the [6 RabbitMQ Tutorials][1] using Spring AMQP.
 It is a CLI app that uses Spring Profiles to control its behavior.  Each tutorial is a trio of classes:
 sender, receiver, and configuration.
 
+[1]: https://www.rabbitmq.com/getstarted.html
+
 ##Usage
 
-The following tutorials are available:
-
-- tut1|hello-world,{sender|receiver}
-- tut2|work-queues,{sender|receiver}
-- tut3|pub-sub|publish-subscribe,{sender|receiver}
-- tut4|routing,{sender|receiver}
-- tut5|topics,{sender|receiver}
-- tut6|rpc,{client|server}
-
 The app uses Spring Profiles to control what tutorial it's running, and if it's a
-Sender or Receiver.  Run the app however you like to run boot apps.  I frequently build
-the app with maven, and then run it like:
+Sender or Receiver.  Choose which tutorial to run by using these profiles:
 
+- {tut1|hello-world},{sender|receiver}
+- {tut2|work-queues},{sender|receiver}
+- {tut3|pub-sub|publish-subscribe},{sender|receiver}
+- {tut4|routing},{sender|receiver}
+- {tut5|topics},{sender|receiver}
+- {tut6|rpc},{client|server}
 
+After building with maven, run the app however you like to run boot apps.
+
+EG:
 ```
 java -jar rabbitmq-tutorials.jar --spring.profiles.active=work-queues,sender
-```
-or
-```
-java -jar rabbitmq-tutorials.jar --spring.profiles.active=tut2,receiver,remote
 ```
 
 For tutorials 1-5, run the Receiver followed by the Sender.
 
 For tutorial 6, run the Server followed by the Client.
 
-##Properties
+##Configuration
+
+When running receivers/servers it's useful to set the duration the app runs to a longer time.  Do this by setting
+the `tutorial.client.duration` property.
+
+```
+java -jar rabbitmq-tutorials.jar --spring.profiles.active=tut2,receiver,remote --tutorial.client.duration=60000
+```
 
 By default, Spring AMQP uses localhost to connect to RabbitMQ.  In the sample, the `remote` profile 
 causes Spring to load the properties in `application-remote.yml` that are used for testing with a 
@@ -53,5 +57,3 @@ spring:
 To use this at runtime create a file called `application-remote.yml` (or properties) and set the properties in there.  Then set the 
 remote profile as in the example above.  See the Spring Boot and Spring AMQP documentation for more information on setting application 
 properties and AMQP properties specifically.
-
-[1]: https://www.rabbitmq.com/getstarted.html

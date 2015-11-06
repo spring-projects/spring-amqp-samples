@@ -20,7 +20,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * @author Gary Russell
+ * @author Gary Russell, Scott Deeg
  *
  */
 public class Tut5Sender implements Runnable {

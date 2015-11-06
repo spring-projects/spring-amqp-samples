@@ -27,7 +27,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 /**
- * @author Gary Russell
+ * @author Gary Russell, Scott Deeg
  *
  */
 @Profile({"tut4","routing"})

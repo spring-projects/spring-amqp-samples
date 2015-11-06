@@ -24,7 +24,6 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author Gary Russell, Scott Deeg
  *
  */
-
 public class Tut1Sender implements Runnable {
 
 	private static Logger logger = Logger.getLogger(Tut1Sender.class);
