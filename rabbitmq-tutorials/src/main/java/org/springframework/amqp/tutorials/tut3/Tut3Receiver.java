@@ -20,10 +20,11 @@ import org.springframework.util.StopWatch;
 
 /**
  *
- * @author Gary Russell
+ * @author Gary Russell, Scott Deeg
  *
  */
 public class Tut3Receiver {
+	
 	@RabbitListener(queues="#{autoDeleteQueue1.name}")
 	public void receive1(String in) throws InterruptedException {
 		receive(in, 1);

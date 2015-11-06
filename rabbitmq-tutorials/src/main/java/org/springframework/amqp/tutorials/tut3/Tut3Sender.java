@@ -20,7 +20,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * @author Gary Russell
+ * @author Gary Russell, Scott Deeg
  *
  */
 public class Tut3Sender implements Runnable {
@@ -31,21 +31,21 @@ public class Tut3Sender implements Runnable {
 	@Autowired
 	private FanoutExchange fanout;
 
-	int dots;
-
-	int count;
-
 	@Override
 	public void run() {
+
+		int dots=0;
+		int count=0;
+
 		while (true) {
 			StringBuilder builder = new StringBuilder("Hello");
-			if (this.dots++ == 3) {
-				this.dots = 1;
+			if (dots++ == 3) {
+				dots = 1;
 			}
-			for (int i = 0; i < this.dots; i++) {
+			for (int i = 0; i < dots; i++) {
 				builder.append('.');
 			}
-			builder.append(Integer.toString(++this.count));
+			builder.append(Integer.toString(++count));
 			String message = builder.toString();
 			template.convertAndSend(fanout.getName(), "", message);
 			System.out.println(" [x] Sent '" + message + "'");

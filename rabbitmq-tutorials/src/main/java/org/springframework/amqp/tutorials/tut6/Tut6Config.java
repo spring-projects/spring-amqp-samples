@@ -66,8 +66,8 @@ public class Tut6Config {
 		}
 
 		@Bean
-		public Binding binding() {
-			return BindingBuilder.bind(queue()).to(exchange()).with("rpc");
+		public Binding binding(DirectExchange exchange, Queue queue) {
+			return BindingBuilder.bind(queue).to(exchange).with("rpc");
 		}
 
 		@Bean

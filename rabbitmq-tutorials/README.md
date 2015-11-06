@@ -43,9 +43,11 @@ command line when you run it.
 To use to a remote RabbitMQ installation set the following properties:
 
 ```
-spring.rabbitmq.host=<your-rabbit-server>
-spring.rabbitmq.username=<tutorial-user>
-spring.rabbitmq.password=<tutorial-password>
+spring:
+  rabbitmq:
+    host: <rabbitmq-server>
+    username: <tutorial-user>
+    password: <tutorial-user>
 ```
 
 To use this at runtime create a file called `application-remote.yml` (or properties) and set the properties in there.  Then set the 

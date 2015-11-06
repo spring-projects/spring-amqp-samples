@@ -21,7 +21,6 @@ import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.tutorials.util.SpringAwareExecutorWrapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.Lifecycle;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -57,22 +56,19 @@ public class Tut5Config {
 			return new AnonymousQueue();
 		}
 
-		@Autowired
-		private TopicExchange topic;
-
 		@Bean
-		public Binding binding1a() {
-			return BindingBuilder.bind(autoDeleteQueue1()).to(topic).with("*.orange.*");
+		public Binding binding1a(TopicExchange topic, Queue autoDeleteQueue1) {
+			return BindingBuilder.bind(autoDeleteQueue1).to(topic).with("*.orange.*");
 		}
 
 		@Bean
-		public Binding binding1b() {
-			return BindingBuilder.bind(autoDeleteQueue1()).to(topic).with("*.*.rabbit");
+		public Binding binding1b(TopicExchange topic, Queue autoDeleteQueue1) {
+			return BindingBuilder.bind(autoDeleteQueue1).to(topic).with("*.*.rabbit");
 		}
 
 		@Bean
-		public Binding binding2a() {
-			return BindingBuilder.bind(autoDeleteQueue2()).to(topic).with("lazy.#");
+		public Binding binding2a(TopicExchange topic, Queue autoDeleteQueue2) {
+			return BindingBuilder.bind(autoDeleteQueue2).to(topic).with("lazy.#");
 		}
 	}
 

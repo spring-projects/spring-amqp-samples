@@ -27,7 +27,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 /**
- * @author Gary Russell
+ * @author Gary Russell, Scott Deeg
  *
  */
 @Profile({"tut3","pub-sub","publish-subscribe"})
@@ -39,31 +39,27 @@ public class Tut3Config {
 		return new FanoutExchange("tut.fanout");
 	}
 
-
 	@Profile("receiver")
 	private static class ReceiverConfig {
 		
-		@Bean(name="autoDeleteQueue1")
+		@Bean
 		public Queue autoDeleteQueue1() {
 			return new AnonymousQueue();
 		}
 
-		@Bean(name="autoDeleteQueue2")
+		@Bean
 		public Queue autoDeleteQueue2() {
 			return new AnonymousQueue();
 		}
 
-//		@Autowired
-//		private FanoutExchange fanout;
-
 		@Bean
-		public Binding binding1(FanoutExchange fanout) {
-			return BindingBuilder.bind(autoDeleteQueue1()).to(fanout);
+		public Binding binding1(FanoutExchange fanout, Queue autoDeleteQueue1) {
+			return BindingBuilder.bind(autoDeleteQueue1).to(fanout);
 		}
 
 		@Bean
-		public Binding binding2(FanoutExchange fanout) {
-			return BindingBuilder.bind(autoDeleteQueue2()).to(fanout);
+		public Binding binding2(FanoutExchange fanout, Queue autoDeleteQueue2) {
+			return BindingBuilder.bind(autoDeleteQueue2).to(fanout);
 		}
 
 		@Bean
