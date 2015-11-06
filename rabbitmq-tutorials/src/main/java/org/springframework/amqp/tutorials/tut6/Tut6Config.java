@@ -29,7 +29,7 @@ import org.springframework.context.annotation.Profile;
  * @author Gary Russell
  *
  */
-@Profile("tut6,rpc")
+@Profile({"tut6","rpc"})
 @Configuration
 public class Tut6Config {
 

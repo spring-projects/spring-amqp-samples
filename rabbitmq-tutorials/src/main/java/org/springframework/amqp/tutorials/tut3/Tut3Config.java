@@ -30,7 +30,7 @@ import org.springframework.context.annotation.Profile;
  * @author Gary Russell
  *
  */
-@Profile("tut3,pub-sub,publish-subscribe")
+@Profile({"tut3","pub-sub","publish-subscribe"})
 @Configuration
 public class Tut3Config {
 

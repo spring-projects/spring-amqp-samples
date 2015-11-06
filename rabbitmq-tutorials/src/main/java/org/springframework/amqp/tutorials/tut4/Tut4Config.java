@@ -31,7 +31,7 @@ import org.springframework.context.annotation.Profile;
  * @author Gary Russell
  *
  */
-@Profile("tut4,routing")
+@Profile({"tut4","routing"})
 @Configuration
 public class Tut4Config {
 

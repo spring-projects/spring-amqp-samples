@@ -31,7 +31,7 @@ import org.springframework.context.annotation.Profile;
  * @author Gary Russell
  *
  */
-@Profile("tut5,topics")
+@Profile({"tut5","topics"})
 @Configuration
 public class Tut5Config {
 
