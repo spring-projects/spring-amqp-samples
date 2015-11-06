@@ -15,7 +15,6 @@
  */
 package org.springframework.amqp.tutorials.tut1;
 
-import org.apache.log4j.Logger;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +24,6 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  */
 public class Tut1Sender implements Runnable {
-
-	private static Logger logger = Logger.getLogger(Tut1Sender.class);
 
 	@Autowired
 	private RabbitTemplate template;
@@ -39,7 +36,7 @@ public class Tut1Sender implements Runnable {
 		while (true) {
 			String message = "Hello World!";
 			template.convertAndSend(queue.getName(), message);
-			logger.error(" [x] Sent '" + message + "'");
+			System.out.println(" [x] Sent '" + message + "'");
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {

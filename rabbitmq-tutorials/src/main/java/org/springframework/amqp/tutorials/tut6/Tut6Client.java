@@ -35,8 +35,8 @@ public class Tut6Client implements Runnable {
 	public void run() {
 		int start = 0;
 		while (true) {
-			System.out.println(" [x] Requesting fib(" + start++ + ")");
-			Integer response = (Integer) template.convertSendAndReceive(exchange.getName(), "rpc", start);
+			System.out.println(" [x] Requesting fib(" + start + ")");
+			Integer response = (Integer) template.convertSendAndReceive(exchange.getName(), "rpc", start++);
 			System.out.println(" [.] Got '" + response + "'");
 			try {
 				Thread.sleep(1000);

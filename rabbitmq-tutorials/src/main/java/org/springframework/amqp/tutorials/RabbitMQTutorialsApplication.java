@@ -35,7 +35,7 @@ public class RabbitMQTutorialsApplication {
 			@Override
 			public void run(String... arg0) throws Exception {
 				System.out.println("This app uses Spring Profiles to control its behavior.\n");
-				System.out.println("Sample usage: java -jar rabbit-tutorials.jar --spring.profiles.active=tut{1-2}{sender|receiver}");
+				System.out.println("Sample usage: java -jar rabbit-tutorials.jar --spring.profiles.active=tut1,sender");
 			}
 		};
 	}

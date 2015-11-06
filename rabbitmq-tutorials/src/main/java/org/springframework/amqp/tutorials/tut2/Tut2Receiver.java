@@ -15,7 +15,6 @@
  */
 package org.springframework.amqp.tutorials.tut2;
 
-import org.apache.log4j.Logger;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.util.StopWatch;
@@ -28,8 +27,6 @@ import org.springframework.util.StopWatch;
 @RabbitListener(queues = "tut.hello")
 public class Tut2Receiver {
 
-	private static Logger logger = Logger.getLogger(Tut2Receiver.class);
-
 	private final int instance;
 
 	public Tut2Receiver(int i) {
@@ -40,10 +37,10 @@ public class Tut2Receiver {
 	public void receive(String in) throws InterruptedException {
 		StopWatch watch = new StopWatch();
 		watch.start();
-		logger.error("instance " + this.instance + " [x] Received '" + in + "'");
+		System.out.println("instance " + this.instance + " [x] Received '" + in + "'");
 		dowork(in);
 		watch.stop();
-		logger.error("instance " + this.instance + " [x] Done in " + watch.getTotalTimeSeconds() + "s");
+		System.out.println("instance " + this.instance + " [x] Done in " + watch.getTotalTimeSeconds() + "s");
 	}
 
 	private void dowork(String in) throws InterruptedException {

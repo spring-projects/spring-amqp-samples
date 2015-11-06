@@ -35,6 +35,7 @@ public class RabbitMQTutorialsRunner implements CommandLineRunner {
 	@Override
 	public void run(String... arg0) throws Exception {
 		ctx.start();
+		System.out.println("Ready ... running for "+duration+"ms");
 		Thread.sleep(duration);
 		ctx.close();
 	}

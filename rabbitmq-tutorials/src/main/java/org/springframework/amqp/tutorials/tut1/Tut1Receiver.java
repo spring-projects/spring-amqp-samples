@@ -15,7 +15,6 @@
  */
 package org.springframework.amqp.tutorials.tut1;
 
-import org.apache.log4j.Logger;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 
@@ -26,10 +25,9 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
  */
 @RabbitListener(queues="tut.hello")
 public class Tut1Receiver {
-	private static Logger logger = Logger.getLogger(Tut1Receiver.class);
 
 	@RabbitHandler
 	public void receive(String in) {
-		logger.error(" [x] Received '" + in + "'");
+		System.out.println(" [x] Received '" + in + "'");
 	}
 }
