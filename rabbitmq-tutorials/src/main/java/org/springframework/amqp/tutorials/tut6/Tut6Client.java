@@ -3,7 +3,6 @@ package org.springframework.amqp.tutorials.tut6;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 
 public class Tut6Client implements Runnable {
 

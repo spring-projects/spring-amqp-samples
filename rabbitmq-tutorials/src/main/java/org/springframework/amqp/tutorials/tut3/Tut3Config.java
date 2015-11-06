@@ -21,7 +21,6 @@ import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.tutorials.util.SpringAwareExecutorWrapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.Lifecycle;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,7 +30,7 @@ import org.springframework.context.annotation.Profile;
  * @author Gary Russell
  *
  */
-@Profile("tut3")
+@Profile("tut3,pub-sub,publish-subscribe")
 @Configuration
 public class Tut3Config {
 
@@ -44,26 +43,26 @@ public class Tut3Config {
 	@Profile("receiver")
 	private static class ReceiverConfig {
 		
-		@Bean
+		@Bean(name="autoDeleteQueue1")
 		public Queue autoDeleteQueue1() {
 			return new AnonymousQueue();
 		}
 
-		@Bean
+		@Bean(name="autoDeleteQueue2")
 		public Queue autoDeleteQueue2() {
 			return new AnonymousQueue();
 		}
 
-		@Autowired
-		private FanoutExchange fanout;
+//		@Autowired
+//		private FanoutExchange fanout;
 
 		@Bean
-		public Binding binding1() {
+		public Binding binding1(FanoutExchange fanout) {
 			return BindingBuilder.bind(autoDeleteQueue1()).to(fanout);
 		}
 
 		@Bean
-		public Binding binding2() {
+		public Binding binding2(FanoutExchange fanout) {
 			return BindingBuilder.bind(autoDeleteQueue2()).to(fanout);
 		}
 

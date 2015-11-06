@@ -9,17 +9,22 @@ sender, receiver, and configuration.
 
 The following tutorials are available:
 
-- tut1,{sender|receiver}   Hello World
-- tut2,{sender|receiver}   Work Queues
-- tut3,{sender|receiver}   Publish/Subscribe
-- tut4,{sender|receiver}   Routing
-- tut5,{sender|receiver}   Topics
-- tut6,{client|server}     RPC
+- tut1|hello-world,{sender|receiver}
+- tut2|work-queues,{sender|receiver}
+- tut3|pub-sub|publish-subscribe,{sender|receiver}
+- tut4|routing,{sender|receiver}
+- tut5|topics,{sender|receiver}
+- tut6|rpc,{client|server}
 
 The app uses Spring Profiles to control what tutorial it's running, and if it's a
 Sender or Receiver.  Run the app however you like to run boot apps.  I frequently build
 the app with maven, and then run it like:
 
+
+```
+java -jar rabbitmq-tutorials.jar --spring.profiles.active=work-queues,sender
+```
+or
 ```
 java -jar rabbitmq-tutorials.jar --spring.profiles.active=tut2,receiver,remote
 ```

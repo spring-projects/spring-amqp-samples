@@ -26,7 +26,7 @@ import org.springframework.context.annotation.Profile;
  * @author Gary Russell, Scott Deeg
  *
  */
-@Profile("tut2")
+@Profile("tut2,work-queues")
 @Configuration
 public class Tut2Config {
 	

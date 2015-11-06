@@ -26,7 +26,7 @@ import org.springframework.context.annotation.Profile;
  * @author Gary Russell, Scott Deeg
  *
  */
-@Profile("tut1")
+@Profile("tut1,hello-world")
 @Configuration
 public class Tut1Config {
 
