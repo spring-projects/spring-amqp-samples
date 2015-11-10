@@ -20,17 +20,15 @@ import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.tutorials.util.SpringAwareExecutorWrapper;
-import org.springframework.context.Lifecycle;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 /**
- * @author Gary Russell, Scott Deeg
- *
+ * @author Gary Russell
+ * @author Scott Deeg
  */
-@Profile({"tut3","pub-sub","publish-subscribe"})
+@Profile({"tut3", "pub-sub", "publish-subscribe"})
 @Configuration
 public class Tut3Config {
 
@@ -41,7 +39,7 @@ public class Tut3Config {
 
 	@Profile("receiver")
 	private static class ReceiverConfig {
-		
+
 		@Bean
 		public Queue autoDeleteQueue1() {
 			return new AnonymousQueue();
@@ -64,21 +62,15 @@ public class Tut3Config {
 
 		@Bean
 		public Tut3Receiver receiver() {
-	 	 	return new Tut3Receiver();
+			return new Tut3Receiver();
 		}
+
 	}
 
 	@Profile("sender")
-	private static class SenderConfig
-	{
-		@Bean
-		public Lifecycle wrappedSender(Tut3Sender sender) {
-			return new SpringAwareExecutorWrapper(sender);
-		}
-		
-		@Bean
-		public Tut3Sender sender() {
-			return new Tut3Sender();
-		}
+	@Bean
+	public Tut3Sender sender() {
+		return new Tut3Sender();
 	}
+
 }

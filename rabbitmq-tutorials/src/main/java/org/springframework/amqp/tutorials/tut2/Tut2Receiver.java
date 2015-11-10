@@ -20,9 +20,8 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.util.StopWatch;
 
 /**
- *
- * @author Gary Russell, Scott Deeg
- *
+ * @author Gary Russell
+ * @author Scott Deeg
  */
 @RabbitListener(queues = "tut.hello")
 public class Tut2Receiver {
@@ -38,16 +37,17 @@ public class Tut2Receiver {
 		StopWatch watch = new StopWatch();
 		watch.start();
 		System.out.println("instance " + this.instance + " [x] Received '" + in + "'");
-		dowork(in);
+		doWork(in);
 		watch.stop();
 		System.out.println("instance " + this.instance + " [x] Done in " + watch.getTotalTimeSeconds() + "s");
 	}
 
-	private void dowork(String in) throws InterruptedException {
+	private void doWork(String in) throws InterruptedException {
 		for (char ch : in.toCharArray()) {
 			if (ch == '.') {
 				Thread.sleep(1000);
 			}
 		}
 	}
+
 }

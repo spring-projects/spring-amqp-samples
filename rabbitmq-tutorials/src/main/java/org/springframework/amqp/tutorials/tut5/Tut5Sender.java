@@ -20,8 +20,8 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * @author Gary Russell, Scott Deeg
- *
+ * @author Gary Russell
+ * @author Scott Deeg
  */
 public class Tut5Sender implements Runnable {
 
@@ -41,25 +41,16 @@ public class Tut5Sender implements Runnable {
 
 	@Override
 	public void run() {
-		while (true) {
-			StringBuilder builder = new StringBuilder("Hello to ");
-			if (++this.index == keys.length) {
-				this.index = 0;
-			}
-			String key = keys[this.index];
-			builder.append(key).append(' ');
-			builder.append(Integer.toString(++this.count));
-			String message = builder.toString();
-			template.convertAndSend(topic.getName(), key, message);
-			System.out.println(" [x] Sent '" + message + "'");
-			try {
-				Thread.sleep(1000);
-			}
-			catch (InterruptedException e) {
-				Thread.currentThread().interrupt();
-				break;
-			}
+		StringBuilder builder = new StringBuilder("Hello to ");
+		if (++this.index == keys.length) {
+			this.index = 0;
 		}
+		String key = keys[this.index];
+		builder.append(key).append(' ');
+		builder.append(Integer.toString(++this.count));
+		String message = builder.toString();
+		template.convertAndSend(topic.getName(), key, message);
+		System.out.println(" [x] Sent '" + message + "'");
 	}
 
 }

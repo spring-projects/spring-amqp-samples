@@ -19,15 +19,15 @@ import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 
 /**
- *
- * @author Gary Russell, Scott Deeg
- *
+ * @author Gary Russell
+ * @author Scott Deeg
  */
-@RabbitListener(queues="tut.hello")
+@RabbitListener(queues = "tut.hello")
 public class Tut1Receiver {
 
 	@RabbitHandler
 	public void receive(String in) {
 		System.out.println(" [x] Received '" + in + "'");
 	}
+
 }

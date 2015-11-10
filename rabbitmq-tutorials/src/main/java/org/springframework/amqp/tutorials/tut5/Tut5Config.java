@@ -20,14 +20,13 @@ import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
-import org.springframework.amqp.tutorials.util.SpringAwareExecutorWrapper;
-import org.springframework.context.Lifecycle;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 /**
- * @author Gary Russell, Scott Deeg
+ * @author Gary Russell
+ * @author Scott Deeg
  */
 @Profile({"tut5","topics"})
 @Configuration
@@ -40,6 +39,7 @@ public class Tut5Config {
 
 	@Profile("receiver")
 	private static class ReceiverConfig {
+
 		@Bean
 		public Tut5Receiver receiver() {
 	 	 	return new Tut5Receiver();
@@ -69,20 +69,13 @@ public class Tut5Config {
 		public Binding binding2a(TopicExchange topic, Queue autoDeleteQueue2) {
 			return BindingBuilder.bind(autoDeleteQueue2).to(topic).with("lazy.#");
 		}
+
 	}
 
 	@Profile("sender")
-	private static class SenderConfig
-	{
-		@Bean
-		public Lifecycle wrappedSender(Tut5Sender sender) {
-			return new SpringAwareExecutorWrapper(sender);
-		}
-		
-		@Bean
-		public Tut5Sender sender() {
-			return new Tut5Sender();
-		}
+	@Bean
+	public Tut5Sender sender() {
+		return new Tut5Sender();
 	}
 
 }

@@ -21,8 +21,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.ConfigurableApplicationContext;
 
 /**
- * @author Gary Russell, Scott Deeg
- *
+ * @author Gary Russell
+ * @author Scott Deeg
  */
 public class RabbitMQTutorialsRunner implements CommandLineRunner {
 
@@ -34,9 +34,9 @@ public class RabbitMQTutorialsRunner implements CommandLineRunner {
 
 	@Override
 	public void run(String... arg0) throws Exception {
-		ctx.start();
-		System.out.println("Ready ... running for "+duration+"ms");
+		System.out.println("Ready ... running for " + duration + "ms");
 		Thread.sleep(duration);
 		ctx.close();
 	}
+
 }

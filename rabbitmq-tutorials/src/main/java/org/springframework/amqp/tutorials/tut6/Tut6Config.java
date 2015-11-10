@@ -19,14 +19,13 @@ import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.tutorials.util.SpringAwareExecutorWrapper;
-import org.springframework.context.Lifecycle;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 /**
- * @author Gary Russell, Scott Deeg
+ * @author Gary Russell
+ * @author Scott Deeg
  *
  */
 @Profile({"tut6","rpc"})
@@ -42,19 +41,15 @@ public class Tut6Config {
 		}
 
 		@Bean
-		public Lifecycle wrappedSender(Tut6Client client) {
-			return new SpringAwareExecutorWrapper(client);
-		}
-		
-		@Bean
 		public Tut6Client client() {
 	 	 	return new Tut6Client();
 		}
+
 	}
 
 	@Profile("server")
-	private static class ServerConfig
-	{
+	private static class ServerConfig {
+
 		@Bean
 		public Queue queue() {
 			return new Queue("tut.rpc.requests");
@@ -74,6 +69,7 @@ public class Tut6Config {
 		public Tut6Server server() {
 			return new Tut6Server();
 		}
+
 	}
 
 }

@@ -22,24 +22,27 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 
 /**
- * @author Gary Russell, Scott Deeg
+ * @author Gary Russell
+ * @author Scott Deeg
  *
  */
 @SpringBootApplication
 public class RabbitMQTutorialsApplication {
-	
+
 	@Profile("usage_message")
 	@Bean
 	public CommandLineRunner usage() {
 		return new CommandLineRunner() {
+
 			@Override
 			public void run(String... arg0) throws Exception {
 				System.out.println("This app uses Spring Profiles to control its behavior.\n");
 				System.out.println("Sample usage: java -jar rabbit-tutorials.jar --spring.profiles.active=tut1,sender");
 			}
+
 		};
 	}
-	
+
 	@Profile("!usage_message")
 	@Bean
 	public CommandLineRunner tutorial() {
@@ -49,4 +52,5 @@ public class RabbitMQTutorialsApplication {
     public static void main(String[] args) throws Exception {
         SpringApplication.run(RabbitMQTutorialsApplication.class, args);
     }
+
 }

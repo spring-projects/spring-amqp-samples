@@ -16,14 +16,13 @@
 package org.springframework.amqp.tutorials.tut1;
 
 import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.tutorials.util.SpringAwareExecutorWrapper;
-import org.springframework.context.Lifecycle;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 /**
- * @author Gary Russell, Scott Deeg
+ * @author Gary Russell
+ * @author Scott Deeg
  *
  */
 @Profile({"tut1","hello-world"})
@@ -34,7 +33,7 @@ public class Tut1Config {
 	public Queue hello() {
 		return new Queue("tut.hello");
 	}
-	
+
 	@Profile("receiver")
 	@Bean
 	public Tut1Receiver receiver() {
@@ -42,17 +41,9 @@ public class Tut1Config {
 	}
 
 	@Profile("sender")
-	private static class SenderConfig
-	{
-		@Bean
-		public Lifecycle wrappedSender(Tut1Sender sender) {
-			return new SpringAwareExecutorWrapper(sender);
-		}
-		
-		@Bean
-		public Tut1Sender sender()
-		{
-			return new Tut1Sender();
-		}
+	@Bean
+	public Tut1Sender sender() {
+		return new Tut1Sender();
 	}
+
 }

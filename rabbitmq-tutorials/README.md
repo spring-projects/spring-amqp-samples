@@ -21,7 +21,7 @@ Sender or Receiver.  Choose which tutorial to run by using these profiles:
 
 After building with maven, run the app however you like to run boot apps.
 
-EG:
+For example:
 ```
 java -jar rabbitmq-tutorials.jar --spring.profiles.active=work-queues,sender
 ```
@@ -39,8 +39,8 @@ the `tutorial.client.duration` property.
 java -jar rabbitmq-tutorials.jar --spring.profiles.active=tut2,receiver,remote --tutorial.client.duration=60000
 ```
 
-By default, Spring AMQP uses localhost to connect to RabbitMQ.  In the sample, the `remote` profile 
-causes Spring to load the properties in `application-remote.yml` that are used for testing with a 
+By default, Spring AMQP uses localhost to connect to RabbitMQ.  In the sample, the `remote` profile
+causes Spring to load the properties in `application-remote.yml` that are used for testing with a
 non-local server.  Set your own properties in the one in the project, or provide your own on the
 command line when you run it.
 
@@ -54,6 +54,6 @@ spring:
     password: <tutorial-user>
 ```
 
-To use this at runtime create a file called `application-remote.yml` (or properties) and set the properties in there.  Then set the 
-remote profile as in the example above.  See the Spring Boot and Spring AMQP documentation for more information on setting application 
+To use this at runtime create a file called `application-remote.yml` (or properties) and set the properties in there.  Then set the
+remote profile as in the example above.  See the Spring Boot and Spring AMQP documentation for more information on setting application
 properties and AMQP properties specifically.

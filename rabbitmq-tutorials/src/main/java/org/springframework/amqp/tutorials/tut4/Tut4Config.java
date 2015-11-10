@@ -20,14 +20,13 @@ import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.tutorials.util.SpringAwareExecutorWrapper;
-import org.springframework.context.Lifecycle;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 /**
- * @author Gary Russell, Scott Deeg
+ * @author Gary Russell
+ * @author Scott Deeg
  *
  */
 @Profile({"tut4","routing"})
@@ -38,9 +37,10 @@ public class Tut4Config {
 	public DirectExchange direct() {
 		return new DirectExchange("tut.direct");
 	}
-	
+
 	@Profile("receiver")
 	private static class ReceiverConfig {
+
 		@Bean
 		public Queue autoDeleteQueue1() {
 			return new AnonymousQueue();
@@ -75,18 +75,13 @@ public class Tut4Config {
 		public Tut4Receiver receiver() {
 	 	 	return new Tut4Receiver();
 		}
+
 	}
 
 	@Profile("sender")
-	private static class SenderConfig {
-		@Bean
-		public Lifecycle wrappedSender(Tut4Sender sender) {
-			return new SpringAwareExecutorWrapper(sender);
-		}
-		
-		@Bean
-		public Tut4Sender sender() {
-			return new Tut4Sender();
-		}
+	@Bean
+	public Tut4Sender sender() {
+		return new Tut4Sender();
 	}
+
 }
