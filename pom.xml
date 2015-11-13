@@ -4,12 +4,13 @@
 	<groupId>org.springframework.amqp</groupId>
 	<artifactId>spring-amqp-samples</artifactId>
 	<name>Spring AMQP Samples</name>
-	<version>1.5.2.RELEASE</version>
+	<version>1.5.3.RELEASE</version>
 	<packaging>pom</packaging>
 	<modules>
 		<module>helloworld</module>
 		<module>stocks</module>
 		<module>log4j</module>
+		<module>rabbitmq-tutorials</module>
 	</modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -71,14 +72,9 @@
 	</build>
 	<repositories>
 		<repository>
-			<id>repository.springframework.maven.release</id>
-			<name>Spring Framework Maven Release Repository</name>
-			<url>http://repo.spring.io/libs-release</url>
-		</repository>
-		<repository>
 			<id>repository.springframework.maven.milestone</id>
-			<name>Spring Framework Maven Milestone Repository</name>
-			<url>http://repo.spring.io/libs-milestone</url>
+			<name>Spring Framework Repository Including Stagingi</name>
+			<url>http://repo.spring.io/repo</url>
 		</repository>
 		<repository>
 			<!-- necessary for org.springframework.build.aws.maven dependency -->

@@ -4,8 +4,8 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.springframework.amqp</groupId>
-	<artifactId>rabbitmq-tutorials</artifactId>
-	<version>1.0.0.BUILD-SNAPSHOT</version>
+	<artifactId>rabbit-tutorials</artifactId>
+	<version>1.5.3.RELEASE</version>
 	<packaging>jar</packaging>
 
 	<name>rabbitmq-tutorials</name>
@@ -14,7 +14,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.3.0.RELEASE</version>
+		<version>1.3.1.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
@@ -40,6 +40,15 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jersey</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.amqp</groupId>
+			<artifactId>spring-rabbit</artifactId>
+			<version>1.5.3.RELEASE</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -57,20 +66,9 @@
 
 	<repositories>
 		<repository>
-			<id>spring-snapshots</id>
+			<id>spring-all</id>
 			<name>Spring Snapshots</name>
-			<url>https://repo.spring.io/snapshot</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>spring-milestones</id>
-			<name>Spring Milestones</name>
-			<url>https://repo.spring.io/milestone</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
+			<url>https://repo.spring.io/repo</url>
 		</repository>
 	</repositories>
 	<pluginRepositories>
