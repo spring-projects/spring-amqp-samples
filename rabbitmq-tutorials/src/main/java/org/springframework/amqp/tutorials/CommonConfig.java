@@ -13,22 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.amqp.tutorials.tut5;
+package org.springframework.amqp.tutorials;
 
-import org.springframework.amqp.core.TopicExchange;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
- * @author Gary Russell
+ * @author Scott Deeg
  *
  */
 @Configuration
+@EnableScheduling
 public class CommonConfig {
-
-	@Bean
-	public TopicExchange topic() {
-		return new TopicExchange("tut.topic");
-	}
 
 }

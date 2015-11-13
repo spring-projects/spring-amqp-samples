@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.springframework.amqp</groupId>
-	<artifactId>rabbit-tutorials</artifactId>
+	<artifactId>rabbitmq-tutorials</artifactId>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
@@ -26,25 +26,13 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-amqp</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-jersey</artifactId>
 		</dependency>
 	</dependencies>
 	
@@ -54,7 +42,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<mainClass>org.springframework.amqp.tutorials.Main</mainClass>
+					<mainClass>org.springframework.amqp.tutorials.RabbitMQTutorialsApplication</mainClass>
 					<layout>ZIP</layout>
 				</configuration>
 			</plugin>
