@@ -18,12 +18,13 @@ package org.springframework.amqp.tutorials.tut6;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 
 /**
  * @author Gary Russell
  * @author Scott Deeg
  */
-public class Tut6Client implements Runnable {
+public class Tut6Client {
 
 	@Autowired
 	private RabbitTemplate template;
@@ -33,8 +34,8 @@ public class Tut6Client implements Runnable {
 
 	int start = 0;
 
-	@Override
-	public void run() {
+	@Scheduled(fixedDelay = 1000, initialDelay = 500)
+	public void send() {
 		System.out.println(" [x] Requesting fib(" + start + ")");
 		Integer response = (Integer) template.convertSendAndReceive(exchange.getName(), "rpc", start++);
 		System.out.println(" [.] Got '" + response + "'");

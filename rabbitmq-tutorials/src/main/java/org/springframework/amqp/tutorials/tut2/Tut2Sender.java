@@ -18,12 +18,13 @@ package org.springframework.amqp.tutorials.tut2;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 
 /**
  * @author Gary Russell
  * @author Scott Deeg
  */
-public class Tut2Sender implements Runnable {
+public class Tut2Sender {
 
 	@Autowired
 	private RabbitTemplate template;
@@ -35,8 +36,8 @@ public class Tut2Sender implements Runnable {
 
 	int count = 0;
 
-	@Override
-	public void run() {
+	@Scheduled(fixedDelay = 1000, initialDelay = 500)
+	public void send() {
 		StringBuilder builder = new StringBuilder("Hello");
 		if (dots++ == 3) {
 			dots = 1;

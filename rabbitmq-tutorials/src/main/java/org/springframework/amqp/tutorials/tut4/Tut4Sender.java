@@ -18,12 +18,13 @@ package org.springframework.amqp.tutorials.tut4;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 
 /**
  * @author Gary Russell
  * @author Scott Deeg
  */
-public class Tut4Sender implements Runnable {
+public class Tut4Sender {
 
 	@Autowired
 	private RabbitTemplate template;
@@ -37,8 +38,8 @@ public class Tut4Sender implements Runnable {
 
 	private final String[] keys = {"orange", "black", "green"};
 
-	@Override
-	public void run() {
+	@Scheduled(fixedDelay = 1000, initialDelay = 500)
+	public void send() {
 		StringBuilder builder = new StringBuilder("Hello to ");
 		if (++this.index == 3) {
 			this.index = 0;

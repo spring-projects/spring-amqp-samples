@@ -18,12 +18,13 @@ package org.springframework.amqp.tutorials.tut5;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 
 /**
  * @author Gary Russell
  * @author Scott Deeg
  */
-public class Tut5Sender implements Runnable {
+public class Tut5Sender {
 
 	@Autowired
 	private RabbitTemplate template;
@@ -39,8 +40,8 @@ public class Tut5Sender implements Runnable {
 	private final String[] keys = {"quick.orange.rabbit", "lazy.orange.elephant", "quick.orange.fox",
 			"lazy.brown.fox", "lazy.pink.rabbit", "quick.brown.fox"};
 
-	@Override
-	public void run() {
+	@Scheduled(fixedDelay = 1000, initialDelay = 500)
+	public void send() {
 		StringBuilder builder = new StringBuilder("Hello to ");
 		if (++this.index == keys.length) {
 			this.index = 0;
