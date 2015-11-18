@@ -4,8 +4,8 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.springframework.amqp</groupId>
-	<artifactId>rabbit-tutorials</artifactId>
-	<version>1.0.0-BUILD-SNAPSHOT</version>
+	<artifactId>rabbitmq-tutorials</artifactId>
+	<version>1.0.0.BUILD-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>rabbitmq-tutorials</name>
@@ -14,7 +14,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.3.0.RC1</version>
+		<version>1.3.0.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
@@ -26,41 +26,35 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-amqp</artifactId>
 		</dependency>
+
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
+			<groupId>org.springframework.amqp</groupId>
+			<artifactId>spring-rabbit</artifactId>
+			<version>1.5.3.BUILD-SNAPSHOT</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-jersey</artifactId>
-		</dependency>
 	</dependencies>
-	
+
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<mainClass>org.springframework.amqp.tutorials.Main</mainClass>
+					<mainClass>org.springframework.amqp.tutorials.RabbitMQTutorialsApplication</mainClass>
 					<layout>ZIP</layout>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
-	
+
 	<repositories>
 		<repository>
 			<id>spring-snapshots</id>

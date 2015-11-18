@@ -15,20 +15,19 @@
  */
 package org.springframework.amqp.tutorials.tut1;
 
-import org.springframework.amqp.core.Queue;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.amqp.rabbit.annotation.RabbitHandler;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 
 /**
  * @author Gary Russell
- *
+ * @author Scott Deeg
  */
-@Configuration
-public class CommonConfig {
+@RabbitListener(queues = "tut.hello")
+public class Tut1Receiver {
 
-	@Bean
-	public Queue hello() {
-		return new Queue("tut.hello");
+	@RabbitHandler
+	public void receive(String in) {
+		System.out.println(" [x] Received '" + in + "'");
 	}
 
 }
