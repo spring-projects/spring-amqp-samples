@@ -5,7 +5,7 @@
 
 	<groupId>org.springframework.amqp</groupId>
 	<artifactId>rabbit-tutorials</artifactId>
-	<version>1.5.3.RELEASE</version>
+	<version>1.5.5.RELEASE</version>
 	<packaging>jar</packaging>
 
 	<name>rabbitmq-tutorials</name>
@@ -47,7 +47,7 @@
 		<dependency>
 			<groupId>org.springframework.amqp</groupId>
 			<artifactId>spring-rabbit</artifactId>
-			<version>1.5.3.RELEASE</version>
+			<version>1.5.5.RELEASE</version>
 		</dependency>
 	</dependencies>
 
