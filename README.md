@@ -50,7 +50,7 @@ Here are some ways for you to get involved in the community:
 * Github is for social coding: if you want to write code, we encourage contributions through pull requests from [forks of this repository](http://help.github.com/forking/).  If you want to contribute code this way, please reference a JIRA ticket as well covering the specific issue you are addressing.
 * Watch for upcoming articles on Spring by [subscribing](http://www.springsource.org/node/feed) to springframework.org
 
-Before we accept a non-trivial patch or pull request we will need you to sign the [contributor's agreement](https://support.springsource.com/spring_committer_signup).  Signing the contributor's agreement does not grant anyone commit rights to the main repository, but it does mean that we can accept your contributions, and you will get an author credit if we do.  Active contributors might be asked to join the core team, and given the ability to merge pull requests.
+Refer to the spring-amqp [Contributor's Guidelines](https://github.com/spring-projects/spring-amqp/blob/master/CONTRIBUTING.adoc) for complete information about the necessary steps.
 
 ## Code Conventions and Housekeeping
 None of these is essential for a pull request, but they will all help.  They can also be added after the original pull request but before a merge.
