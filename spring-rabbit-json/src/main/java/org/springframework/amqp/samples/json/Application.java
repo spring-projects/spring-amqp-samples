@@ -110,7 +110,7 @@ public class Application {
 
 			@SuppressWarnings("unused")
 			public void handleMessage(Object object) {
-				System.out.println("Got a " + object.getClass().getSimpleName());
+				System.out.println("Got a " + object);
 				Application.this.latch.countDown();
 			}
 
