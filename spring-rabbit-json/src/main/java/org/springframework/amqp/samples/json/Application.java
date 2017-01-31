@@ -73,10 +73,10 @@ public class Application {
 
 		Foo foo = this.jsonRabbitTemplate.receiveAndConvert(RECEIVE_AND_CONVERT_QUEUE, 10_000,
 				new ParameterizedTypeReference<Foo>() { });
-		System.out.println("Expected a Foo, got a " + foo.getClass().getSimpleName());
+		System.out.println("Expected a Foo, got a " + foo);
 		Bar bar = this.jsonRabbitTemplate.receiveAndConvert(RECEIVE_AND_CONVERT_QUEUE, 10_000,
 				new ParameterizedTypeReference<Bar>() { });
-		System.out.println("Expected a Bar, got a " + bar.getClass().getSimpleName());
+		System.out.println("Expected a Bar, got a " + bar);
 
 		// Mapped type information with legacy POJO listener
 
@@ -92,13 +92,13 @@ public class Application {
 
 	@RabbitListener(queues = INFERRED_FOO_QUEUE)
 	public void listenForAFoo(Foo foo) {
-		System.out.println("Expected a Foo, got a " + foo.getClass().getSimpleName());
+		System.out.println("Expected a Foo, got a " + foo);
 		this.latch.countDown();
 	}
 
 	@RabbitListener(queues = INFERRED_BAR_QUEUE)
 	public void listenForAFoo(Bar bar) {
-		System.out.println("Expected a Bar, got a " + bar.getClass().getSimpleName());
+		System.out.println("Expected a Bar, got a " + bar);
 		this.latch.countDown();
 	}
 
