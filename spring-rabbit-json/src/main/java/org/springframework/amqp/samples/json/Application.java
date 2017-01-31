@@ -116,15 +116,20 @@ public class Application {
 
 		});
 		Jackson2JsonMessageConverter jsonConverter = new Jackson2JsonMessageConverter();
+		jsonConverter.setClassMapper(classMapper());
+		messageListener.setMessageConverter(jsonConverter);
+		container.setMessageListener(messageListener);
+		return container;
+	}
+
+	@Bean
+	public DefaultClassMapper classMapper() {
 		DefaultClassMapper classMapper = new DefaultClassMapper();
 		Map<String, Class<?>> idClassMapping = new HashMap<>();
 		idClassMapping.put("foo", Foo.class);
 		idClassMapping.put("bar", Bar.class);
 		classMapper.setIdClassMapping(idClassMapping);
-		jsonConverter.setClassMapper(classMapper);
-		messageListener.setMessageConverter(jsonConverter);
-		container.setMessageListener(messageListener);
-		return container;
+		return classMapper;
 	}
 
 	@Bean
