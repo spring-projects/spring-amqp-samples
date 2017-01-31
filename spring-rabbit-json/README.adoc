@@ -1,0 +1,11 @@
+# Receiving JSON From a Non-Spring Application
+
+Spring AMQP applications communicating over AMQP using JSON add type information to message headers to enable the receiving application to convert the JSON to a class instance.
+
+This sample demonstrates techniques to use for such conversion when the sending application is not a Spring app or if you wish to convert to a different type when receiving messages.
+
+- Inferred type from `@RabbitListener` methods
+- Parameterized types in template `receiveAndConvert()` methods
+- `ClassMapper` id mapping configuration with a legacy POJO listener.
+
+It is a Spring Boot application and can be run with normal boot run methods, e.g.: `./mvnw spring-boot:run`
