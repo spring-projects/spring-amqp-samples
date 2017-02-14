@@ -1,0 +1,16 @@
+# Configuring a Global Error Handler for @RabbitListener s
+
+This sample demonstrates how to add a global error handler to `@RabbitListener` methods.
+
+It uses an auto-delete queue that will be removed after the demo completes.
+
+The error handler is the same as the default (`ConditionalRejectingErrorHandler`) but with a custom `FatalExceptionStrategy`
+that extends the default and logs the failed message.
+
+NOTE: Such a simple handler is not generally needed since the framework will log the failed message itself; for a real
+application, some additional action might be taken, for example write the bad message to a database.
+
+A JSON message converter is used; the sample sends one "good" message, and one bad one, which fails message conversion.
+Message conversion is considered fatal and the message is not requeued.
+
+It is a Spring Boot application and can be run with normal boot run methods, e.g.: `./mvnw spring-boot:run`
