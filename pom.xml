@@ -13,6 +13,7 @@
 		<module>log4j2</module>
 		<module>rabbitmq-tutorials</module>
 		<module>spring-rabbit-json</module>
+		<module>spring-rabbit-global-errorhandler</module>
 	</modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
