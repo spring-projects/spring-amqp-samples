@@ -24,7 +24,7 @@ the command line you can use the Maven exec plugin:
 
     $ mvn exec:java -Dexec.classpathScope=test -Dexec.mainClass=org.springframework.amqp.rabbit.stocks.Server &
     $ mvn exec:java -Dexec.classpathScope=test -Dexec.mainClass=org.springframework.amqp.rabbit.stocks.Client
-    
+
 In the example above we backgrounded the server process, or you could
 run it in a different window to make things clearer in the console
 logs.
@@ -34,12 +34,21 @@ logs.
 The Stocks sample is also a web application.  You should be able to run it in your IDE, e.g. if you imported the project into STS (or Eclipse with Maven support) you can drag it onto a server, or use `Run As...->On Server`.  From the command line you can use
 
     $ mvn jetty:run
-    
+
 The web UI is designed like the swing client - it has a ticker table
 that updates every second (if there is any new data), and an order
 entry form. The `QuoteController` manages the interaction between the
 browser and the application and between the application and the AMQP
 broker.
+
+## RabbitMQ Tutorials
+
+Spring Boot versions of the [6 standard RabbitMQ tutorials](http://www.rabbitmq.com/getstarted.html) are provided in `rabbitmq-tutorials`.
+
+## Spring Boot Applications
+
+Several Spring Boot applications are also provided, with names `spring-rabbit-...`.
+Explore their individual READMEs for more information.
 
 # Contributing to Spring AMQP Samples
 
