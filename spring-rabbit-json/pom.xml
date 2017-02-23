@@ -42,8 +42,18 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>1.0.2.RELEASE</version>
 			</plugin>
 		</plugins>
 	</build>
-
+        <repositories>
+                <repository>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+                        <id>repository.springframework.maven.all</id>
+                        <name>Spring Framework Repository Including Staging</name>
+                        <url>http://repo.spring.io/repo</url>
+                </repository>
+	</repositories>
 </project>
