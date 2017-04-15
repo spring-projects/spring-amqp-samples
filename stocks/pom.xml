@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.springframework.samples.spring</groupId>
 	<artifactId>spring-rabbit-stocks</artifactId>
-	<version>1.0.0.BUILD-SNAPSHOT</version>
+	<version>1.0.1.BUILD-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>Spring Rabbit Stocks</name>
 	<url>http://www.springframework.org</url>
@@ -15,7 +15,7 @@
 	</description>
 	<properties>
 		<maven.test.failure.ignore>true</maven.test.failure.ignore>
-		<spring.framework.version>3.2.0.BUILD-SNAPSHOT</spring.framework.version>
+		<spring.framework.version>4.2.5.RELEASE</spring.framework.version>
 		<spring.amqp.version>1.0.0.RELEASE</spring.amqp.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
