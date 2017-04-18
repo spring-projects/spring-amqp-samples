@@ -5,7 +5,7 @@
 
 	<groupId>org.springframework.amqp</groupId>
 	<artifactId>rabbit-tutorials</artifactId>
-	<version>1.7.1.RELEASE</version>
+	<version>1.7.2.RELEASE</version>
 	<packaging>jar</packaging>
 
 	<name>rabbitmq-tutorials</name>

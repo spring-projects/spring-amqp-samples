@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.springframework.samples.spring</groupId>
 	<artifactId>spring-rabbit-helloworld</artifactId>
-	<version>1.7.1.RELEASE</version>
+	<version>1.7.2.RELEASE</version>
 	<packaging>jar</packaging>
 	<name>Spring AMQP Hello World</name>
 	<url>http://www.spring.io</url>
@@ -17,7 +17,7 @@
 	<properties>
 		<maven.test.failure.ignore>true</maven.test.failure.ignore>
 		<spring.framework.version>4.2.5.RELEASE</spring.framework.version>
-		<spring.amqp.version>1.7.1.RELEASE</spring.amqp.version>
+		<spring.amqp.version>1.7.2.RELEASE</spring.amqp.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<profiles>
@@ -117,18 +117,18 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.7.12</version>
+			<version>1.7.22</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
-			<version>1.7.12</version>
+			<version>1.7.22</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.7.12</version>
+			<version>1.7.22</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
