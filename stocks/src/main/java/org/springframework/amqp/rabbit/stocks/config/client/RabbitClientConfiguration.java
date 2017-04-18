@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2010 the original author or authors.
+ * Copyright 2002-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,7 +38,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * Configures RabbitTemplate and creates the Trader queue and binding for the client.
- * 
+ *
  * @author Mark Pollack
  * @author Mark Fisher
  */
@@ -47,12 +47,12 @@ public class RabbitClientConfiguration extends AbstractStockAppRabbitConfigurati
 
 	@Value("${stocks.quote.pattern}")
 	private String marketDataRoutingKey;
-	
+
 	@Autowired
 	private ClientHandler clientHandler;
-	
+
 	/**
-	 * The client's template will by default send to the exchange defined 
+	 * The client's template will by default send to the exchange defined
 	 * in {@link org.springframework.amqp.rabbit.config.AbstractRabbitConfiguration#rabbitTemplate()}
 	 * with the routing key {@link AbstractStockAppRabbitConfiguration#STOCK_REQUEST_QUEUE_NAME}
 	 * <p>
@@ -60,20 +60,20 @@ public class RabbitClientConfiguration extends AbstractStockAppRabbitConfigurati
 	 */
 	@Override
 	public void configureRabbitTemplate(RabbitTemplate rabbitTemplate) {
-		rabbitTemplate.setRoutingKey(STOCK_REQUEST_QUEUE_NAME);		
+		rabbitTemplate.setRoutingKey(STOCK_REQUEST_QUEUE_NAME);
 	}
-	
+
 	@Bean
 	public StockServiceGateway stockServiceGateway() {
 		RabbitStockServiceGateway gateway = new RabbitStockServiceGateway();
-		gateway.setRabbitTemplate(rabbitTemplate());
+		gateway.setRabbitOperations(rabbitTemplate());
 		gateway.setDefaultReplyTo(traderJoeQueue().getName());
 		return gateway;
 	}
 
-	@Bean 
+	@Bean
 	public SimpleMessageListenerContainer messageListenerContainer() {
-		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer(connectionFactory());		
+		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer(connectionFactory());
 		container.setQueues(marketDataQueue(), traderJoeQueue());
 		container.setMessageListener(messageListenerAdapter());
 		container.setAcknowledgeMode(AcknowledgeMode.AUTO);
@@ -81,46 +81,46 @@ public class RabbitClientConfiguration extends AbstractStockAppRabbitConfigurati
 
 		//container(using(connectionFactory()).listenToQueues(marketDataQueue(), traderJoeQueue()).withListener(messageListenerAdapter()).
 	}
-	
-	@Bean 
+
+	@Bean
 	public MessageListenerAdapter messageListenerAdapter() {
-		return new MessageListenerAdapter(clientHandler, jsonMessageConverter());		
+		return new MessageListenerAdapter(clientHandler, jsonMessageConverter());
 	}
-		
-	
+
+
 	// Broker Configuration
-	
+
 //	@PostContruct
 //	public void declareClientBrokerConfiguration() {
 //		declare(marketDataQueue);
 //		declare(new Binding(marketDataQueue, MARKET_DATA_EXCHANGE, marketDataRoutingKey));
 //		declare(traderJoeQueue);
 //		// no need to bind traderJoeQueue as it is automatically bound to the default direct exchanage, which is what we will use
-//				
+//
 //		//add as many declare statements as needed like a script.
 //	}
-	
+
 	@Bean
-	public Queue marketDataQueue() {		
+	public Queue marketDataQueue() {
 		return new AnonymousQueue();
 	}
-	
+
 	/**
 	 * Binds to the market data exchange. Interested in any stock quotes.
-	 */	
+	 */
 	@Bean
-	public Binding marketDataBinding() {		
+	public Binding marketDataBinding() {
 		return BindingBuilder.bind(marketDataQueue()).to(marketDataExchange()).with(marketDataRoutingKey);
 	}
 
 	/**
 	 * This queue does not need a binding, since it relies on the default exchange.
-	 */	
+	 */
 	@Bean
-	public Queue traderJoeQueue() {	
+	public Queue traderJoeQueue() {
 		return new AnonymousQueue();
 	}
-	
+
 	@Bean
 	public AmqpAdmin rabbitAdmin() {
 		return new RabbitAdmin(connectionFactory());

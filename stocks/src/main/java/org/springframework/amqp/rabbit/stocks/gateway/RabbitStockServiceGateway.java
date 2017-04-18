@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2015 the original author or authors.
+ * Copyright 2002-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@
 
 package org.springframework.amqp.rabbit.stocks.gateway;
 
-import java.io.UnsupportedEncodingException;
 import java.util.UUID;
 
 import org.springframework.amqp.AmqpException;
@@ -40,15 +39,10 @@ public class RabbitStockServiceGateway extends RabbitGatewaySupport implements S
 	}
 
 	public void send(TradeRequest tradeRequest) {
-		getRabbitTemplate().convertAndSend(tradeRequest, new MessagePostProcessor() {
+		getRabbitOperations().convertAndSend(tradeRequest, new MessagePostProcessor() {
 			public Message postProcessMessage(Message message) throws AmqpException {
 				message.getMessageProperties().setReplyTo(defaultReplyTo);
-				try {
-					message.getMessageProperties().setCorrelationId(UUID.randomUUID().toString().getBytes("UTF-8"));
-				}
-				catch (UnsupportedEncodingException e) {
-					throw new AmqpException(e);
-				}
+				message.getMessageProperties().setCorrelationId(UUID.randomUUID().toString());
 				return message;
 			}
 		});

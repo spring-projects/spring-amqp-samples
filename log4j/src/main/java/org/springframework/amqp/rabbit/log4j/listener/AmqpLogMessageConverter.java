@@ -1,11 +1,11 @@
 /*
- * Copyright 2002-2010 the original author or authors.
- * 
+ * Copyright 2002-2017 the original author or authors.
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
@@ -17,23 +17,24 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
-import org.springframework.amqp.rabbit.log4j.AmqpAppender;
+import org.springframework.amqp.rabbit.log4j2.AmqpAppender;
 import org.springframework.amqp.support.converter.AbstractMessageConverter;
 import org.springframework.amqp.support.converter.MessageConversionException;
 import org.springframework.util.CollectionUtils;
 
 /**
  * @author tomas.lukosius@opencredo.com
- * 
+ *
  */
 public class AmqpLogMessageConverter extends AbstractMessageConverter {
 	private static Log log = LogFactory.getLog(AmqpLogMessageConverter.class);
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.springframework.amqp.support.converter.AbstractMessageConverter#createMessage(java.lang.Object,
 	 * org.springframework.amqp.core.MessageProperties)
 	 */
@@ -44,7 +45,7 @@ public class AmqpLogMessageConverter extends AbstractMessageConverter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.springframework.amqp.support.converter.AbstractMessageConverter#fromMessage(org.springframework.amqp.core
 	 * .Message)
