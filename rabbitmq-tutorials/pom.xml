@@ -14,7 +14,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.4.0.RELEASE</version>
+		<version>1.5.3.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
@@ -51,9 +51,12 @@
 
 	<repositories>
 		<repository>
-			<id>spring-all</id>
-			<name>Spring Snapshots</name>
-			<url>https://repo.spring.io/repo</url>
+			<id>repository.springframework.maven.snapshots</id>
+			<name>Spring Framework Repository Including Snapshots</name>
+			<url>https://repo.spring.io/libs-snapshot</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
 		</repository>
 	</repositories>
 	<pluginRepositories>
