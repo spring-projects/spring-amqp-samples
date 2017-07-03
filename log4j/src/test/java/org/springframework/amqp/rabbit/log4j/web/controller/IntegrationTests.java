@@ -39,7 +39,7 @@ import org.springframework.util.CollectionUtils;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "org.springframework.amqp.rabbit.log4j.config.server" }, loader = AnnotationConfigContextLoader.class)
-public class IntegrationTest {
+public class IntegrationTests {
 	protected Log logger = LogFactory.getLog(this.getClass());
 
 	@Autowired
