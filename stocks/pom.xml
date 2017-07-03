@@ -15,7 +15,7 @@
 	</description>
 	<properties>
 		<maven.test.failure.ignore>true</maven.test.failure.ignore>
-		<spring.framework.version>4.2.9.RELEASE</spring.framework.version>
+		<spring.framework.version>4.3.9.RELEASE</spring.framework.version>
 		<spring.amqp.version>1.7.2.RELEASE</spring.amqp.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
@@ -61,6 +61,10 @@
 				<exclusion>
 					<groupId>org.springframework</groupId>
 					<artifactId>spring-context</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-web</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
