@@ -5,7 +5,7 @@
 
 	<groupId>org.springframework.amqp.samples</groupId>
 	<artifactId>spring-rabbit-confirms-returns</artifactId>
-	<version>2.0.5.RELEASE</version>
+	<version>2.0.6.RELEASE</version>
 	<packaging>jar</packaging>
 
 	<name>spring-rabbit-confirms-returns</name>
