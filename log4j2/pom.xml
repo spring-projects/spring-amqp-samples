@@ -5,7 +5,7 @@
 
 	<groupId>org.springframework.amqp.samples</groupId>
 	<artifactId>log4j2</artifactId>
-	<version>1.7.9.RELEASE</version>
+	<version>1.7.10.RELEASE</version>
 	<packaging>jar</packaging>
 
 	<name>log4j2</name>
