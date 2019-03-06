@@ -40,28 +40,10 @@
 		</profile>
 	</profiles>
 	<scm>
-		<url>http://github.com/SpringSource/spring-amqp-samples</url>
+		<url>https://github.com/SpringSource/spring-amqp-samples</url>
 		<connection>scm:git:git://github.com/SpringSource/spring-amqp-samples.git</connection>
 		<developerConnection>scm:git:git://github.com/SpringSource/spring-amqp-samples.git</developerConnection>
 	</scm>
-	<distributionManagement>
-		<!-- see 'staging' profile for dry-run deployment settings -->
-		<downloadUrl>http://github.com/SpringSource/spring-amqp-samples</downloadUrl>
-		<site>
-			<id>spring-site</id>
-			<url>scp://static.springframework.org/var/www/domains/springframework.org/static/htdocs/spring-amqp/docs/${project.version}</url>
-		</site>
-		<repository>
-			<id>spring-milestone</id>
-			<name>Spring Milestone Repository</name>
-			<url>s3://maven.springframework.org/milestone</url>
-		</repository>
-		<snapshotRepository>
-			<id>spring-snapshot</id>
-			<name>Spring Snapshot Repository</name>
-			<url>s3://maven.springframework.org/snapshot</url>
-		</snapshotRepository>
-	</distributionManagement>
 	<build>
 		<extensions>
 			<extension>

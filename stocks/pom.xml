@@ -7,7 +7,7 @@
 	<version>2.1.3.RELEASE</version>
 	<packaging>war</packaging>
 	<name>Spring Rabbit Stocks</name>
-	<url>http://www.spring.io</url>
+	<url>https://www.spring.io</url>
 	<description>
 		<![CDATA[
       This project shows the usage of Spring Rabbit integration classes.
@@ -214,32 +214,5 @@
 			</plugin>
 		</plugins>
 	</build>
-
-	<pluginRepositories>
-		<pluginRepository>
-			<id>Codehaus</id>
-			<url>http://repository.codehaus.org/</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</pluginRepository>
-	</pluginRepositories>
-	<distributionManagement>
-		<downloadUrl>http://www.springframework.org/download</downloadUrl>
-		<site>
-			<id>staging</id>
-			<url>file:///${user.dir}/target/staging/org.springframework.batch.archetype/${project.artifactId}</url>
-		</site>
-		<repository>
-			<id>spring-release</id>
-			<name>Spring Release Repository</name>
-			<url>file:///${user.dir}/target/staging/release</url>
-		</repository>
-		<snapshotRepository>
-			<id>spring-snapshot</id>
-			<name>Spring Snapshot Repository</name>
-			<url>file:///${user.dir}/target/staging/snapshot</url>
-		</snapshotRepository>
-	</distributionManagement>
 
 </project>
