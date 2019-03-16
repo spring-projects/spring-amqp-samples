@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.springframework.samples.spring</groupId>
@@ -8,7 +8,7 @@
 	<version>2.0.2.RELEASE</version>
 	<packaging>war</packaging>
 	<name>Spring AMQP log4j</name>
-	<url>http://www.spring.io</url>
+	<url>https://www.spring.io</url>
 	<description>
 		<![CDATA[
       This project shows the usage of Spring AMQP integration with 'log4j'.
@@ -220,14 +220,14 @@
 	<pluginRepositories>
 		<pluginRepository>
 			<id>Codehaus</id>
-			<url>http://repository.codehaus.org/</url>
+			<url>https://repository.codehaus.org/</url>
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>
 		</pluginRepository>
 	</pluginRepositories>
 	<distributionManagement>
-		<downloadUrl>http://www.springframework.org/download</downloadUrl>
+		<downloadUrl>https://www.springframework.org/download</downloadUrl>
 		<site>
 			<id>staging</id>
 			<url>file:///${user.dir}/target/staging/org.springframework.batch.archetype/${project.artifactId}</url>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.springframework.amqp</groupId>
 	<artifactId>spring-amqp-samples</artifactId>
@@ -42,13 +42,13 @@
 		</profile>
 	</profiles>
 	<scm>
-		<url>http://github.com/SpringSource/spring-amqp-samples</url>
+		<url>https://github.com/SpringSource/spring-amqp-samples</url>
 		<connection>scm:git:git://github.com/SpringSource/spring-amqp-samples.git</connection>
 		<developerConnection>scm:git:git://github.com/SpringSource/spring-amqp-samples.git</developerConnection>
 	</scm>
 	<distributionManagement>
 		<!-- see 'staging' profile for dry-run deployment settings -->
-		<downloadUrl>http://github.com/SpringSource/spring-amqp-samples</downloadUrl>
+		<downloadUrl>https://github.com/SpringSource/spring-amqp-samples</downloadUrl>
 		<site>
 			<id>spring-site</id>
 			<url>scp://static.springframework.org/var/www/domains/springframework.org/static/htdocs/spring-amqp/docs/${project.version}</url>
@@ -78,19 +78,19 @@
 		<repository>
 			<id>repository.springframework.maven.milestone</id>
 			<name>Spring Framework Repository Including Stagingi</name>
-			<url>http://repo.spring.io/repo</url>
+			<url>https://repo.spring.io/repo</url>
 		</repository>
 		<repository>
 			<!-- necessary for org.springframework.build.aws.maven dependency -->
 			<id>repository.source.maven.release</id>
 			<name>SpringSource Maven Release Repository</name>
-			<url>http://repo.spring.io/maven/bundles/release</url>
+			<url>https://repo.spring.io/maven/bundles/release</url>
 		</repository>
 		<repository>
 			<!-- necessary for org.springframework.build.aws.maven dependency -->
 			<id>libs-staging-local</id>
 			<name>libs-staging-local</name>
-			<url>http://repo.spring.io/libs-staging-local</url>
+			<url>https://repo.spring.io/libs-staging-local</url>
 		</repository>
 	</repositories>
 </project>
