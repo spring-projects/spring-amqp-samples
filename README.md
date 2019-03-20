@@ -1,8 +1,8 @@
-This project hosts some samples that complement [Spring AMQP](http://github.com/SpringSource/spring-amqp), showing you how to get started with Spring and AMQP.
+This project hosts some samples that complement [Spring AMQP](https://github.com/SpringSource/spring-amqp), showing you how to get started with Spring and AMQP.
 
 # Build Instructions #
 
-Install the [RabbitMQ](http://www.rabbitmq.com) broker first (version
+Install the [RabbitMQ](https://www.rabbitmq.com) broker first (version
 2.3.1 or better).  Then clone from GIT and then use Maven (2.1.*):
 
     $ git clone ...
@@ -43,7 +43,7 @@ broker.
 
 ## RabbitMQ Tutorials
 
-Spring Boot versions of the [6 standard RabbitMQ tutorials](http://www.rabbitmq.com/getstarted.html) are provided in `rabbitmq-tutorials`.
+Spring Boot versions of the [6 standard RabbitMQ tutorials](https://www.rabbitmq.com/getstarted.html) are provided in `rabbitmq-tutorials`.
 
 ## Spring Boot Applications
 
@@ -54,10 +54,10 @@ Explore their individual READMEs for more information.
 
 Here are some ways for you to get involved in the community:
 
-* Get involved with the Spring community on the Spring Community Forums.  Please help out on the [forum](http://forum.springsource.org/forumdisplay.php?f=74) by responding to questions and joining the debate.
+* Get involved with the Spring community on the Spring Community Forums.  Please help out on the [forum](https://forum.spring.io/) by responding to questions and joining the debate.
 * Create [JIRA](https://jira.springsource.org/browse/AMQP) tickets for bugs and new features and comment and vote on the ones that you are interested in.  
-* Github is for social coding: if you want to write code, we encourage contributions through pull requests from [forks of this repository](http://help.github.com/forking/).  If you want to contribute code this way, please reference a JIRA ticket as well covering the specific issue you are addressing.
-* Watch for upcoming articles on Spring by [subscribing](http://www.springsource.org/node/feed) to springframework.org
+* Github is for social coding: if you want to write code, we encourage contributions through pull requests from [forks of this repository](https://help.github.com/forking/).  If you want to contribute code this way, please reference a JIRA ticket as well covering the specific issue you are addressing.
+* Watch for upcoming articles on Spring by [subscribing](https://www.springsource.org/node/feed) to springframework.org
 
 Refer to the spring-amqp [Contributor's Guidelines](https://github.com/spring-projects/spring-amqp/blob/master/CONTRIBUTING.adoc) for complete information about the necessary steps.
 
