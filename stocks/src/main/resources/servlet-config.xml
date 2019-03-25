@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context" xmlns:mvc="http://www.springframework.org/schema/mvc"
-	xmlns:rabbit="http://www.springframework.org/schema/rabbit"
-	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
-		http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit.xsd
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+<beans xmlns="https://www.springframework.org/schema/beans" xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="https://www.springframework.org/schema/context" xmlns:mvc="https://www.springframework.org/schema/mvc"
+	xmlns:rabbit="https://www.springframework.org/schema/rabbit"
+	xsi:schemaLocation="https://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		https://www.springframework.org/schema/rabbit https://www.springframework.org/schema/rabbit/spring-rabbit.xsd
+		https://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		https://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
 	<bean id="stockServiceGateway" class="org.springframework.amqp.rabbit.stocks.gateway.RabbitStockServiceGateway">
 		<property name="rabbitOperations">
@@ -19,14 +19,14 @@
 
 	<rabbit:queue id="marketDataQueue" />
 
-	<fanout-exchange name="broadcast.responses" xmlns="http://www.springframework.org/schema/rabbit">
+	<fanout-exchange name="broadcast.responses" xmlns="https://www.springframework.org/schema/rabbit">
 		<bindings>
 			<!-- Bind a fanout to an anonymous queue unique for this node, then all nodes in a cluster get the same response -->
 			<binding queue="tradeQueue" />
 		</bindings>
 	</fanout-exchange>
 
-	<topic-exchange name="app.stock.marketdata" xmlns="http://www.springframework.org/schema/rabbit">
+	<topic-exchange name="app.stock.marketdata" xmlns="https://www.springframework.org/schema/rabbit">
 		<bindings>
 			<!-- Bind to anonymous queue for market data so all nodes configured this way get all quotes -->
 			<binding queue="marketDataQueue" pattern="${stocks.quote.pattern}" />
@@ -34,7 +34,7 @@
 	</topic-exchange>
 
 	<listener-container connection-factory="connectionFactory" message-converter="jsonMessageConverter"
-		xmlns="http://www.springframework.org/schema/rabbit">
+		xmlns="https://www.springframework.org/schema/rabbit">
 		<listener ref="quoteController" method="handleQuote" queues="marketDataQueue" />
 		<listener ref="quoteController" method="handleTrade" queues="tradeQueue" />
 	</listener-container>
