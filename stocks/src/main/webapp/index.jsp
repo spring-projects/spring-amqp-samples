@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>Spring AMQP Stocks Demo</title>
@@ -131,7 +131,7 @@
 						Demo</a>
 				</div>
 				<div id='company-name'>
-					<a href="http://www.springsource.org/spring-amqp"
+					<a href="https://www.springsource.org/spring-amqp"
 						title="Spring AMQP"> Spring AMQP Home</a>
 				</div>
 			</div>
@@ -141,9 +141,9 @@
 		<div id="container">
 			<div id="content" class="no-side-nav">
 				This application is a the "stocks" sample from <a
-					href="http://github.com/SpringSource/spring-amqp">Spring AMQP</a>.
+					href="https://github.com/SpringSource/spring-amqp">Spring AMQP</a>.
 				You can get the source code from the <a
-					href="http://github.com/SpringSource/spring-amqp-samples">Spring
+					href="https://github.com/SpringSource/spring-amqp-samples">Spring
 					AMQP Samples</a> project on Github.
 				<h1>Deal</h1>
 				<c:choose>
