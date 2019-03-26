@@ -2,7 +2,7 @@
 Shameless port of a shameless port
 @defunkt => @janl => @aq
  
-See http://github.com/defunkt/mustache for more info.
+See https://github.com/defunkt/mustache for more info.
 */
  
 ;(function($) {
@@ -10,7 +10,7 @@ See http://github.com/defunkt/mustache for more info.
 /*
   mustache.js — Logic-less templates in JavaScript
 
-  See http://mustache.github.com/ for more info.
+  See https://mustache.github.com/ for more info.
 */
 
 var Mustache = function() {

@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>Spring AMQP Log4J Demo</title>
@@ -173,7 +173,7 @@
 					<a href="" title="Site Name" rel="home"> Spring AMQP Log4J Demo</a>
 				</div>
 				<div id='company-name'>
-					<a href="http://www.springsource.org/spring-amqp"
+					<a href="https://www.springsource.org/spring-amqp"
 						title="Spring AMQP"> Spring AMQP Home</a>
 				</div>
 			</div>
@@ -210,9 +210,9 @@
 
 			<div id="content" class="no-side-nav">
 				This application is a the "log4j" sample from <a
-					href="http://github.com/SpringSource/spring-amqp">Spring AMQP</a>.
+					href="https://github.com/SpringSource/spring-amqp">Spring AMQP</a>.
 				You can get the source code from the <a
-					href="http://github.com/SpringSource/spring-amqp-samples">Spring
+					href="https://github.com/SpringSource/spring-amqp-samples">Spring
 					AMQP Samples</a> project on Github.
 
 				<h1 id="routingHeader">Routing Key</h1>
