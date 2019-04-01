@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.springframework.samples.spring</groupId>
 	<artifactId>spring-rabbit-helloworld</artifactId>
-	<version>1.7.12.RELEASE</version>
+	<version>1.7.13.RELEASE</version>
 	<packaging>jar</packaging>
 	<name>Spring AMQP Hello World</name>
 	<url>https://www.spring.io</url>
@@ -16,8 +16,8 @@
 	</description>
 	<properties>
 		<maven.test.failure.ignore>true</maven.test.failure.ignore>
-		<spring.framework.version>4.3.9.RELEASE</spring.framework.version>
-		<spring.amqp.version>1.7.12.RELEASE</spring.amqp.version>
+		<spring.framework.version>4.3.23.RELEASE</spring.framework.version>
+		<spring.amqp.version>1.7.13.RELEASE</spring.amqp.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<profiles>
