@@ -5,3 +5,5 @@ This sample demonstrates how to use publisher confirms and returns.
 It uses an auto-delete queue that will be removed after the demo completes.
 
 It is a Spring Boot application and can be run with normal boot run methods, e.g.: `./mvnw spring-boot:run`
+
+It shows how to use the `Future<Confirm>` to wait for a delivery confirmation or returned message.
