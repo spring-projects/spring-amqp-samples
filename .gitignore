@@ -16,3 +16,4 @@ jredis.log
 *.iml
 *.ipr
 *.iws
+.sts4-cache
