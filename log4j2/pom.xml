@@ -5,7 +5,7 @@
 
 	<groupId>org.springframework.amqp.samples</groupId>
 	<artifactId>log4j2</artifactId>
-	<version>2.2.5.RELEASE</version>
+	<version>2.2.7.RELEASE</version>
 	<packaging>jar</packaging>
 
 	<name>log4j2</name>
@@ -14,14 +14,15 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.2.4.RELEASE</version>
+		<version>2.2.7.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
-		<spring.amqp.version>2.2.5.RELEASE</spring.amqp.version>
+		<spring.framework.version>5.2.6.RELEASE</spring.framework.version>
+		<spring.amqp.version>2.2.7.RELEASE</spring.amqp.version>
 	</properties>
 
 	<dependencies>
@@ -56,7 +57,7 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jcl</artifactId>
-			<version>5.2.4.BUILD-SNAPSHOT</version>
+			<version>${spring.framework.version}</version>
 		</dependency>
 
 		<dependency>
