@@ -31,10 +31,6 @@
 			<artifactId>spring-boot-starter-amqp</artifactId>
 			<exclusions>
 				<exclusion>
-				    <groupId>jakarta.annotation</groupId>
-				    <artifactId>jakarta.annotation-api</artifactId>
-				</exclusion>
-				<exclusion>
 				    <groupId>org.springframework.boot</groupId>
 				    <artifactId>spring-boot-starter-logging</artifactId>
 				</exclusion>
