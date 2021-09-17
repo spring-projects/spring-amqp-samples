@@ -39,22 +39,17 @@ public class Application {
 
 	public static void main(String[] args) throws Exception {
 		ConfigurableApplicationContext ctx = SpringApplication.run(Application.class, args);
-		ctx.getBean(Application.class).runDemo();
+		ctx.getBean(Application.class).runDemo(ctx.getBean("rabbitTemplate", RabbitTemplate.class),
+				ctx.getBean("jsonRabbitTemplate", RabbitTemplate.class));
 		ctx.close();
 	}
-
-	@Autowired
-	private RabbitTemplate rabbitTemplate;
-
-	@Autowired
-	private RabbitTemplate jsonRabbitTemplate;
 
 	@Autowired
 	private AmqpAdmin rabbitAdmin;
 
 	private volatile CountDownLatch latch = new CountDownLatch(2);
 
-	public void runDemo() throws Exception {
+	public void runDemo(RabbitTemplate rabbitTemplate, RabbitTemplate jsonRabbitTemplate) throws Exception {
 		String json = "{\"foo\" : \"value\" }";
 		Message jsonMessage = MessageBuilder.withBody(json.getBytes())
 				.andProperties(MessagePropertiesBuilder.newInstance().setContentType("application/json")
@@ -62,19 +57,19 @@ public class Application {
 
 		// inferred type
 
-		this.rabbitTemplate.send(INFERRED_FOO_QUEUE, jsonMessage);
-		this.rabbitTemplate.send(INFERRED_BAR_QUEUE, jsonMessage);
+		rabbitTemplate.send(INFERRED_FOO_QUEUE, jsonMessage);
+		rabbitTemplate.send(INFERRED_BAR_QUEUE, jsonMessage);
 		this.latch.await(10, TimeUnit.SECONDS);
 
 		// convertAndReceive with type
 
-		this.rabbitTemplate.send(RECEIVE_AND_CONVERT_QUEUE, jsonMessage);
-		this.rabbitTemplate.send(RECEIVE_AND_CONVERT_QUEUE, jsonMessage);
+		rabbitTemplate.send(RECEIVE_AND_CONVERT_QUEUE, jsonMessage);
+		rabbitTemplate.send(RECEIVE_AND_CONVERT_QUEUE, jsonMessage);
 
-		Foo foo = this.jsonRabbitTemplate.receiveAndConvert(RECEIVE_AND_CONVERT_QUEUE, 10_000,
+		Foo foo = jsonRabbitTemplate.receiveAndConvert(RECEIVE_AND_CONVERT_QUEUE, 10_000,
 				new ParameterizedTypeReference<Foo>() { });
 		System.out.println("Expected a Foo, got a " + foo);
-		Bar bar = this.jsonRabbitTemplate.receiveAndConvert(RECEIVE_AND_CONVERT_QUEUE, 10_000,
+		Bar bar = jsonRabbitTemplate.receiveAndConvert(RECEIVE_AND_CONVERT_QUEUE, 10_000,
 				new ParameterizedTypeReference<Bar>() { });
 		System.out.println("Expected a Bar, got a " + bar);
 
@@ -82,9 +77,9 @@ public class Application {
 
 		this.latch = new CountDownLatch(2);
 		jsonMessage.getMessageProperties().setHeader("__TypeId__", "foo");
-		this.rabbitTemplate.send(MAPPED_QUEUE, jsonMessage);
+		rabbitTemplate.send(MAPPED_QUEUE, jsonMessage);
 		jsonMessage.getMessageProperties().setHeader("__TypeId__", "bar");
-		this.rabbitTemplate.send(MAPPED_QUEUE, jsonMessage);
+		rabbitTemplate.send(MAPPED_QUEUE, jsonMessage);
 		this.latch.await(10, TimeUnit.SECONDS);
 
 		this.rabbitAdmin.deleteQueue(RECEIVE_AND_CONVERT_QUEUE);

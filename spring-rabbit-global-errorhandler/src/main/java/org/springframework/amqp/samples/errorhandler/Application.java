@@ -12,7 +12,6 @@ import org.springframework.amqp.rabbit.listener.ConditionalRejectingErrorHandler
 import org.springframework.amqp.rabbit.support.ListenerExecutionFailedException;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.amqp.SimpleRabbitListenerContainerFactoryConfigurer;
@@ -29,16 +28,13 @@ public class Application {
 
 	public static void main(String[] args) throws Exception {
 		ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);
-		context.getBean(Application.class).runDemo();
+		context.getBean(Application.class).runDemo(context.getBean(RabbitTemplate.class));
 		context.close();
 	}
 
-	@Autowired
-	private RabbitTemplate template;
-
-	private void runDemo() throws Exception {
-		this.template.convertAndSend(TEST_QUEUE, new Foo("bar"));
-		this.template.convertAndSend(TEST_QUEUE, new Foo("bar"), m -> {
+	private void runDemo(RabbitTemplate template) throws Exception {
+		template.convertAndSend(TEST_QUEUE, new Foo("bar"));
+		template.convertAndSend(TEST_QUEUE, new Foo("bar"), m -> {
 			return new Message("some bad json".getBytes(), m.getMessageProperties());
 		});
 		Thread.sleep(5000);
