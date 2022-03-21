@@ -8,12 +8,12 @@
 
     <context:mbean-export/>
 
-    <bean id="registry" class="org.springframework.remoting.rmi.RmiRegistryFactoryBean"
-          p:port="1099" />
+<!--     <bean id="registry" class="org.springframework.remoting.rmi.RmiRegistryFactoryBean" -->
+<!--           p:port="1099" /> -->
 
     <!-- Expose JMX over RMI -->
-    <bean id="serverConnector" class="org.springframework.jmx.support.ConnectorServerFactoryBean" depends-on="registry"
-          p:objectName="connector:name=rmi"
-          p:serviceUrl="service:jmx:rmi://localhost/jndi/rmi://localhost:1099/myconnector" />
+<!--     <bean id="serverConnector" class="org.springframework.jmx.support.ConnectorServerFactoryBean" depends-on="registry" -->
+<!--           p:objectName="connector:name=rmi" -->
+<!--           p:serviceUrl="service:jmx:rmi://localhost/jndi/rmi://localhost:1099/myconnector" /> -->
 
 </beans>
