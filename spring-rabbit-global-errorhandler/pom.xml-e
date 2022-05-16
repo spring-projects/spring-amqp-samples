@@ -4,17 +4,17 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.example</groupId>
-	<artifactId>spring-rabbit-json</artifactId>
+	<artifactId>spring-rabbit-global-errorhandler</artifactId>
 	<version>3.0.0-M3</version>
 	<packaging>jar</packaging>
 
-	<name>spring-rabbit-json</name>
-	<description>Receiving JSON from non-Spring Applications</description>
+	<name>spring-rabbit-global-errorhandler</name>
+	<description>Shows how to configure a custom error handler applied to listener beans</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.0.0-M2</version>
+		<version>3.0.0-M1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
@@ -63,14 +63,6 @@
 			</plugin>
 		</plugins>
 	</build>
-	<repositories>
-		<repository>
-			<id>repository.springframework.maven.snapshots</id>
-			<name>Spring Framework Repository Including Snapshots</name>
-			<url>https://repo.spring.io/libs-snapshot</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
+
+
 </project>
