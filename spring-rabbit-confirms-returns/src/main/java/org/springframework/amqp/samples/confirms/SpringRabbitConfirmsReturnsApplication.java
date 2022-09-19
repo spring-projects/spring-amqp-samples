@@ -67,7 +67,7 @@ public class SpringRabbitConfirmsReturnsApplication {
 			return message;
 		}, correlationData);
 		correlationData.getFuture().get(10, TimeUnit.SECONDS);
-		System.out.println("Return received:"  + correlationData.getReturnedMessage());
+		System.out.println("Return received:"  + correlationData.getReturned());
 	}
 
 	private void setupCallbacks() {
@@ -79,9 +79,10 @@ public class SpringRabbitConfirmsReturnsApplication {
 				System.out.println("Received " + (ack ? " ack " : " nack ") + "for correlation: " + correlation);
 			}
 		});
-		this.rabbitTemplate.setReturnCallback((message, replyCode, replyText, exchange, routingKey) -> {
-			System.out.println("Returned: " + message + "\nreplyCode: " + replyCode
-					+ "\nreplyText: " + replyText + "\nexchange/rk: " + exchange + "/" + routingKey);
+		this.rabbitTemplate.setReturnsCallback(returned -> {
+			System.out.println("Returned: " + returned.getMessage() + "\nreplyCode: " + returned.getReplyCode()
+					+ "\nreplyText: " + returned.getReplyText() + "\nexchange/rk: "
+					+ returned.getExchange() + "/" + returned.getRoutingKey());
 		});
 	}
 
