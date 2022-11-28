@@ -71,7 +71,7 @@ public class SpringRabbitConfirmsReturnsApplication {
 		System.out.println("Confirm received for send to missing queue, ack = " + confirm.isAck());
 		System.out.println("Return received:"  + correlationData.getReturned());
 		correlationData = new CorrelationData("Correlation for message 3");
-		// send to non-existent exhange - expect nack
+		// send to non-existent exchange - expect nack
 		this.rabbitTemplate.convertAndSend(UUID.randomUUID().toString(), QUEUE, "baz", correlationData);
 		confirm = correlationData.getFuture().get(10, TimeUnit.SECONDS);
 		System.out.println("Confirm received for send to missing exchange, ack = " + confirm.isAck());
