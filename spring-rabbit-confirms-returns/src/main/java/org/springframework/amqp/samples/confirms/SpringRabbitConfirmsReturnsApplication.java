@@ -16,6 +16,7 @@
 
 package org.springframework.amqp.samples.confirms;
 
+import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -53,7 +54,7 @@ public class SpringRabbitConfirmsReturnsApplication {
 		CorrelationData correlationData = new CorrelationData("Correlation for message 1");
 		this.rabbitTemplate.convertAndSend("", QUEUE, "foo", correlationData);
 		Confirm confirm = correlationData.getFuture().get(10, TimeUnit.SECONDS);
-		System.out.println("Confirm received, ack = " + confirm.isAck());
+		System.out.println("Confirm received for good delivery, ack = " + confirm.isAck());
 		if (this.listenLatch.await(10, TimeUnit.SECONDS)) {
 			System.out.println("Message received by listener");
 		}
@@ -66,8 +67,14 @@ public class SpringRabbitConfirmsReturnsApplication {
 			System.out.println("Message after conversion: " + message);
 			return message;
 		}, correlationData);
-		correlationData.getFuture().get(10, TimeUnit.SECONDS);
+		confirm = correlationData.getFuture().get(10, TimeUnit.SECONDS);
+		System.out.println("Confirm received for send to missing queue, ack = " + confirm.isAck());
 		System.out.println("Return received:"  + correlationData.getReturned());
+		correlationData = new CorrelationData("Correlation for message 3");
+		// send to non-existent exhange - expect nack
+		this.rabbitTemplate.convertAndSend(UUID.randomUUID().toString(), QUEUE, "baz", correlationData);
+		confirm = correlationData.getFuture().get(10, TimeUnit.SECONDS);
+		System.out.println("Confirm received for send to missing exchange, ack = " + confirm.isAck());
 	}
 
 	private void setupCallbacks() {
