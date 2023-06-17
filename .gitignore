@@ -18,3 +18,5 @@ jredis.log
 *.iws
 .sts4-cache
 .factorypath
+.DS_Store
+
