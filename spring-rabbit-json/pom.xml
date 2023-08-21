@@ -5,7 +5,7 @@
 
 	<groupId>com.example</groupId>
 	<artifactId>spring-rabbit-json</artifactId>
-	<version>3.0.7</version>
+	<version>3.0.8</version>
 	<packaging>jar</packaging>
 
 	<name>spring-rabbit-json</name>
@@ -22,7 +22,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>17</java.version>
-		<spring.amqp.version>3.0.7</spring.amqp.version>
+		<spring.amqp.version>3.0.8</spring.amqp.version>
 	</properties>
 
 	<dependencies>
