@@ -5,7 +5,7 @@
 
 	<groupId>com.example</groupId>
 	<artifactId>spring-rabbit-global-errorhandler</artifactId>
-	<version>3.0.9</version>
+	<version>3.0.10</version>
 	<packaging>jar</packaging>
 
 	<name>spring-rabbit-global-errorhandler</name>
@@ -14,7 +14,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.0.10</version>
+		<version>3.0.11</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
@@ -22,7 +22,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>17</java.version>
-		<spring.amqp.version>3.0.9</spring.amqp.version>
+		<spring.amqp.version>3.0.10</spring.amqp.version>
 	</properties>
 
 	<dependencies>
