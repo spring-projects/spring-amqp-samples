@@ -67,7 +67,7 @@
 		<repository>
 			<id>repository.springframework.maven.snapshots</id>
 			<name>Spring Framework Repository Including Snapshots</name>
-			<url>https://repo.spring.io/libs-snapshot</url>
+			<url>https://repo.spring.io/snapshot</url>
 			<snapshots>
 				<enabled>true</enabled>
 			</snapshots>

@@ -21,7 +21,6 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>17</java.version>
-		<spring.framework.version>5.3.24</spring.framework.version>
 		<spring.amqp.version>3.0.10</spring.amqp.version>
 	</properties>
 
@@ -57,7 +56,6 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jcl</artifactId>
-			<version>${spring.framework.version}</version>
 		</dependency>
 
 		<dependency>
@@ -80,7 +78,7 @@
 		<repository>
 			<id>spring-snapshots</id>
 			<name>Spring Snapshots</name>
-			<url>https://repo.spring.io/libs-snapshot</url>
+			<url>https://repo.spring.io/snapshot</url>
 			<snapshots>
 				<enabled>true</enabled>
 			</snapshots>
