@@ -14,7 +14,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.0-RC2</version>
+		<version>3.2.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
@@ -67,7 +67,7 @@
 		<repository>
 			<id>repository.springframework.maven.snapshots</id>
 			<name>Spring Framework Repository Including Snapshots</name>
-			<url>https://repo.spring.io/libs-snapshot</url>
+			<url>https://repo.spring.io/snapshot</url>
 			<snapshots>
 				<enabled>true</enabled>
 			</snapshots>
