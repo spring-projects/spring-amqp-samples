@@ -21,6 +21,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>17</java.version>
+		<spring.amqp.version>3.1.0</spring.amqp.version>
 	</properties>
 
 	<dependencies>
@@ -43,13 +44,13 @@
 		<dependency>
 			<groupId>org.springframework.amqp</groupId>
 			<artifactId>spring-rabbit</artifactId>
-			<version>${project.version}</version>
+			<version>${spring.amqp.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.amqp</groupId>
 			<artifactId>spring-amqp</artifactId>
-			<version>${project.version}</version>
+			<version>${spring.amqp.version}</version>
 		</dependency>
 
 		<dependency>

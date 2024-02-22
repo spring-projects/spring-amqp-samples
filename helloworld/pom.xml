@@ -16,6 +16,7 @@
 	</description>
 	<properties>
 		<maven.test.failure.ignore>true</maven.test.failure.ignore>
+		<spring.amqp.version>3.1.0</spring.amqp.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>17</java.version>
 		<maven.test.failure.ignore>false</maven.test.failure.ignore>
@@ -25,7 +26,7 @@
 		<dependency>
 			<groupId>org.springframework.amqp</groupId>
 			<artifactId>spring-rabbit</artifactId>
-			<version>${project.version}</version>
+			<version>${spring.amqp.version}</version>
 		</dependency>
 
 		<dependency>
