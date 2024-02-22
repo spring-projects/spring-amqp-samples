@@ -15,7 +15,7 @@
 	<description>spring-rabbit-streams</description>
 	<properties>
 		<java.version>17</java.version>
-		<spring-amqp.version>3.1.2</spring-amqp.version>
+		<spring-amqp.version>${project.version}</spring-amqp.version>
 	</properties>
 	<dependencies>
 		<dependency>
