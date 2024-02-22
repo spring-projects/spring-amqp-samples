@@ -21,7 +21,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>17</java.version>
-		<spring-amqp.version>3.0.10</spring-amqp.version>
+		<spring-amqp.version>${project.version}</spring-amqp.version>
 	</properties>
 
 	<dependencies>
