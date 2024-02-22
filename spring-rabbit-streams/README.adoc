@@ -1,0 +1,13 @@
+= Interaction with RabbitMQ Streams
+
+The `spring-rabbit-stream` provides Spring-friendly API over https://www.rabbitmq.com/docs/streams[RabbitMQ Streams] Java client.
+
+The https://www.rabbitmq.com/docs/stream[`rabbitmq_stream` plugin] must be enabled on RabbitMQ broker.
+
+Together with Spring Boot auto-configuration for https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#messaging.amqp[Spring AMQP], this sample demonstrates a simple production of 100 messages to `sample-spring-amqp-stream` RabbitMQ queue of type `stream`.
+This queue is created automatically by the application using `StreamAdmin` API.
+Then this sample registers 10 `@RabbitListener` instances dynamically (which are `spring.rabbitmq.listener.type=stream`) to demonstrate fan-out capability of RabbitMQ Streams.
+
+The `SpringRabbitStreamsApplicationTests` ensures that all the listeners in the application report their consumption from the `spring-rabbit-stream`  into logs for the last `Value #99` data.
+
+See more information in the https://docs.spring.io/spring-amqp/reference/stream.html[Reference Manual].
