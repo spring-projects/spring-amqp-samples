@@ -29,6 +29,12 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-amqp</artifactId>
+			<exclusions>
+				<exclusion>
+				    <groupId>org.springframework.boot</groupId>
+				    <artifactId>spring-boot-starter-logging</artifactId>
+				</exclusion>
+		    	</exclusions>
 		</dependency>
 
 		<dependency>
@@ -51,6 +57,5 @@
 			</plugin>
 		</plugins>
 	</build>
-
 
 </project>
