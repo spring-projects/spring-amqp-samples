@@ -4,11 +4,11 @@
 	<groupId>org.springframework.amqp</groupId>
 	<artifactId>spring-amqp-samples</artifactId>
 	<name>Spring AMQP Samples</name>
-	<version>3.1.0</version>
+	<version>3.2.0</version>
 	<packaging>pom</packaging>
 	<modules>
 		<module>helloworld</module>
-		<!--module>stocks</module-->
+		<module>stocks</module>
 		<module>log4j2</module>
 		<module>spring-rabbit-confirms-returns</module>
 		<module>spring-rabbit-json</module>
