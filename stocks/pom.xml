@@ -15,7 +15,7 @@
 	</description>
 	<properties>
 		<maven.test.failure.ignore>true</maven.test.failure.ignore>
-		<spring.framework.version>6.2.1</spring.framework.version>
+		<spring.framework.version>6.2.10</spring.framework.version>
 		<spring.amqp.version>3.2.1</spring.amqp.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>17</java.version>
